@@ -1,0 +1,21 @@
+{
+  "name": "issuetracker",
+  "version": "1.0.0",
+  "description": "project issue tracker",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "issue",
+    "tracker"
+  ],
+  "author": "Erik Oja",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1"
+  }
+}

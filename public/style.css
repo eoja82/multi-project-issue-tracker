@@ -1,0 +1,31 @@
+body, html {
+  box-sizing: border-box;
+}
+#pageContainer {
+  display: flex;
+  flex-direction: row;
+}
+#projectsListContainer {
+  background-color: gray;
+  width: 20%;
+  min-height: 100vh;
+}
+#projectsIssuesContainer {
+  background-color: teal;
+  width: 80%;
+  min-height: 100vh;
+}
+#projectsTitle, #issuesTitle {
+  text-align: center;
+}
+#issues {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 95%;
+  margin: 0 auto;
+  justify-content: space-evenly;
+}
+.issue {
+  background-color: whitesmoke;
+}
