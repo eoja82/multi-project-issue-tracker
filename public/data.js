@@ -4,11 +4,19 @@
     issues: [
       {
         issue: "one1",
-        createdBy: "Jim"
+        createdBy: "Jim",
+        assignedTo: "Jim",
+        date: "6/3/2020",
+        lastUpdated: "6/3/2020",
+        open: true
       },
       {
         issue: "one2",
-        createdBy: "Bob"
+        createdBy: "Bob",
+        assignedTo: "Bob",
+        date: "6/3/2020",
+        lastUpdated: "6/3/2020",
+        open: false
       }
     ]
   },
@@ -17,11 +25,19 @@
     issues: [
       {
         issue: "two1",
-        createdBy: "Bob"
+        createdBy: "Bob",
+        assignedTo: "Bob",
+        date: "6/3/2020",
+        lastUpdated: "6/3/2020",
+        open: true
       },
       {
         issue: "two2",
-        createdBy: "Jim"
+        createdBy: "Jim",
+        assignedTo: "Jim",
+        date: "6/3/2020",
+        lastUpdated: "6/3/2020",
+        open: true
       }
     ]
   }
