@@ -33,6 +33,7 @@ function loadProjectList() {
 }
 
 function loadIssues() {
+  const sortIndex = document.getElementById("sort").options.selectedIndex
   const issues = document.getElementById("issues")
   let xhttp = new XMLHttpRequest()
   return new Promise( (resolve, reject) => {
@@ -45,6 +46,8 @@ function loadIssues() {
         let res = JSON.parse(this.response)
         let allIssues = createIssuesHTML(res)
         issues.innerHTML = allIssues
+        // if previously sorted by date sort by date again
+        if (sortIndex > 0) sortIssues(sortIndex)
         resolve()
       }
     }
@@ -70,7 +73,10 @@ function pageLoaded() {
 
 // filters project issues by project
 function filterByProjectName(e) {
+  const sortIndex = document.getElementById("sort").options.selectedIndex
+  //sort.options.selectedIndex = 0
   const issues = document.getElementById("issues")
+
   let xhttp = new XMLHttpRequest()
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status >= 400) {
@@ -80,6 +86,8 @@ function filterByProjectName(e) {
       let res = JSON.parse(this.response)
       let allIssues = createIssuesHTML(res)
       issues.innerHTML = allIssues
+      // if previously sorted by date sort by date again
+      if (sortIndex > 0) sortIssues(sortIndex)
     }
   }
   xhttp.open("GET", `/projects/${e.target.innerHTML}`, true)
@@ -119,31 +127,35 @@ const sort = document.getElementById("sort")
 sort.addEventListener("change", sortIssues)
 
 function sortIssues(e) {
-  console.log(e.target.value)
-  if (e.target.value == "newest") {
+  //console.log(typeof e)
+  let selected = typeof e == "number" ? e : e.target.value
+  console.log(selected)
+  if (selected == "newest" || selected == 2) {
     const issues = document.getElementById("issues")
-    const issuesToSort = Array.from(document.querySelectorAll(".issue"))
-    //let elements = Array.from(issues)
-    console.log(issues)
+    const issuesToSort = document.querySelectorAll(".issue")
     let dates = []
     let sortedIssues = []
     issuesToSort.forEach( x => {
-      //console.log(x.childNodes[17].innerHTML)
       dates.push(x.childNodes[17].innerHTML)
     })
     dates.sort( (a, b) => b - a)
-    console.log(dates)
+    //console.log(dates)
     dates = Array.from(new Set(dates))
-    console.log(dates)
+    //console.log(dates)
     for (let i = 0; i < dates.length; i++) {
       issuesToSort.forEach( x => {
+        //console.log(x)
         if (x.childNodes[17].innerHTML == dates[i]) {
-          let html = createIssuesHTML(x)
-          sortIssues.push(Array.from(html))
+          sortedIssues.push(x)
         }
       })
     }
-    console.log(sortedIssues)
-    issues.innerHTML = sortedIssues
+    //console.log(sortedIssues)
+    while (issues.firstElementChild) {
+      issues.firstElementChild.remove()
+    }
+    sortedIssues.forEach( x => {
+      issues.appendChild(x)
+    })
   }
 }
