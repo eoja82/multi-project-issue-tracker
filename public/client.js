@@ -61,7 +61,6 @@ function pageLoaded() {
    // filter issues by project name
   const projects = document.querySelectorAll(".projectName")
   projects.forEach( x => {
-    //console.log(x.innerHTML)
     // display all project's issues
     if (x.innerHTML == "All") x.addEventListener("click", loadIssues)
     // display issues by project
@@ -74,7 +73,6 @@ function pageLoaded() {
 // filters project issues by project
 function filterByProjectName(e) {
   const sortIndex = document.getElementById("sort").options.selectedIndex
-  //sort.options.selectedIndex = 0
   const issues = document.getElementById("issues")
 
   let xhttp = new XMLHttpRequest()
@@ -127,35 +125,34 @@ const sort = document.getElementById("sort")
 sort.addEventListener("change", sortIssues)
 
 function sortIssues(e) {
-  //console.log(typeof e)
+  let issues = document.getElementById("issues")
+  const issuesToSort = document.querySelectorAll(".issue")
   let selected = typeof e == "number" ? e : e.target.value
-  console.log(selected)
-  if (selected == "newest" || selected == 2) {
-    const issues = document.getElementById("issues")
-    const issuesToSort = document.querySelectorAll(".issue")
-    let dates = []
-    let sortedIssues = []
+  let dates = []
+  let sortedIssues = []
+
+  issuesToSort.forEach( x => {
+    // if the schema of the issue is changed this line needs to change also
+    dates.push(x.childNodes[17].innerHTML)
+  })
+ 
+  if (selected == "oldest" || selected == 1) dates.sort( (a, b) => new Date(a) - new Date(b))
+  if (selected == "newest" || selected == 2) dates.sort( (a, b) => new Date(b) - new Date(a))
+  
+  // remove duplicate dates
+  dates = Array.from(new Set(dates))
+  
+  // populate sortedIssues with dates sorted
+  for (let i = 0; i < dates.length; i++) {
     issuesToSort.forEach( x => {
-      dates.push(x.childNodes[17].innerHTML)
-    })
-    dates.sort( (a, b) => b - a)
-    //console.log(dates)
-    dates = Array.from(new Set(dates))
-    //console.log(dates)
-    for (let i = 0; i < dates.length; i++) {
-      issuesToSort.forEach( x => {
-        //console.log(x)
-        if (x.childNodes[17].innerHTML == dates[i]) {
-          sortedIssues.push(x)
-        }
-      })
-    }
-    //console.log(sortedIssues)
-    while (issues.firstElementChild) {
-      issues.firstElementChild.remove()
-    }
-    sortedIssues.forEach( x => {
-      issues.appendChild(x)
-    })
+      if (x.childNodes[17].innerHTML == dates[i]) {
+        sortedIssues.push(x)
+      }
+    }) 
   }
+
+  sortedIssues.forEach( x => {
+    issues.appendChild(x)
+  })
+  
 }
