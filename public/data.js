@@ -6,8 +6,8 @@
         issue: "one1",
         createdBy: "Jim",
         assignedTo: "Jim",
-        date: "6/3/2020",
-        lastUpdated: "6/3/2020",
+        date: "6/1/2020",
+        lastUpdated: "6/1/2020",
         open: true
       },
       {
@@ -35,8 +35,8 @@
         issue: "two2",
         createdBy: "Jim",
         assignedTo: "Jim",
-        date: "6/3/2020",
-        lastUpdated: "6/3/2020",
+        date: "6/4/2020",
+        lastUpdated: "6/4/2020",
         open: true
       }
     ]
