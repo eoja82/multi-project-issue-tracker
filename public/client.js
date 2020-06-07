@@ -1,10 +1,12 @@
 // get data from database and make sure page is fully loaded before further actions
-(async () => {
+document.addEventListener("DOMContentLoaded", loadData)
+
+async function loadData() {
   await loadProjectList()
   await loadIssues()
   //console.log(projects)
   pageLoaded()
-})();
+}
 
 function loadProjectList() {
   const projectsList = document.getElementById("projectsList")
@@ -69,6 +71,38 @@ function pageLoaded() {
 
   
 }
+
+// create a new issue
+const newIssueForm = document.getElementById("newIssueForm")
+newIssueForm.addEventListener("submit", addNewIssue)
+
+function addNewIssue(e) {
+  console.log(e.target.children[0].value)
+  const data = e.target.children
+  const sortIndex = document.getElementById("sort").options.selectedIndex
+  const issues = document.getElementById("issues")
+
+  let xhttp = new XMLHttpRequest()
+  xhttp.onreadystatechange = function() {
+    //console.log(this.readyState + " " + this.status)
+    if (this.readyState == 4 && this.status >= 400) {
+      console.log("error creating new issue")
+    } 
+    if (this.readyState == 4 && this.status == 200) {
+      //console.log("4 and 200")
+      //console.log(this.response)
+      newIssueModal.style.display = "none"
+      alert(this.response)
+      loadData()
+      newIssueForm.reset()
+    }
+  }
+  xhttp.open("POST", "/create-or-modify-issue", true)
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send(`project=${data[0].value}&issue=${data[1].value}&createdBy=${data[2].value}&assignedTo=${data[3].value}`)
+  e.preventDefault()
+}
+
 
 // filters project issues by project
 function filterByProjectName(e) {

@@ -7,6 +7,9 @@
   <link rel="stylesheet" href="./public/style.css">
 </head>
 <body>
+  <nav>
+    <button id="createNewIssue" class="navButton">Create A new Issue</button>
+  </nav>
   <div id="pageContainer">
     <div id="projectsListContainer">
       <h2 id="projectsTitle">Projects</h2>
@@ -26,6 +29,24 @@
     </div>
   </div>
 
+  <!-- create a new issue modal -->
+  <div id="newIssueModal">
+    <div id="newIssueModalContent">
+      <span class="close">&times</span>
+      <div id="newIssueHeader">
+        <h3>Create A New Issue</h3>
+      </div>
+      <form id="newIssueForm">
+          <input type="text" name="project" placeholder="Project" required>
+          <input type="text" name="issue" placeholder="Issue" required>
+          <input type="text" name="createdBy" placeholder="Created By" required>
+          <input type="text" name="assignedTo" placeholder="Assigned To">
+          <input id="createNewIssue" type="submit" value="Create Issue">
+      </form>
+    </div>
+  </div>
+
   <script src="./public/client.js"></script>
+  <script src="./public/newIssue.js"></script>
 </body>
 </html>

@@ -18,6 +18,12 @@ body, html {
 #projectsTitle, #issuesTitle {
   text-align: center;
 }
+#sortContainer {
+  display: flex;
+  margin: 0 auto 1.5rem;
+  max-width: 100%;
+  justify-content: center;
+}
 #issues {
   display: flex;
   flex-direction: row;
@@ -28,4 +34,91 @@ body, html {
 }
 .issue {
   background-color: whitesmoke;
+  padding: 1.5rem;
+}
+.closed {
+  background-color: rgb(169, 229, 157);
+}
+
+/* create new issue modal styling */
+#newIssueModal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  padding-top: 100px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto; /* scroll if needed */
+  background-color: rgb(0, 0, 0, .4);
+  color: rgb(190, 190, 190);
+}
+#newIssueModalContent {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: rgb(40, 40, 40);
+  text-align: center;
+  margin: auto;
+  padding: 0;
+  width: 80%;
+  border: 1px solid black;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+  animation-name: animatetop;
+  animation-duration: .4s;
+}
+@keyframes animatetop {
+  from {top: -300px; opacity: 0}
+  to {top: 0; opacity: 1}
+}
+#newIssueForm {
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+  margin: 0 auto;
+}
+.close {
+  position: absolute;
+  top: 0;
+  right: .5rem;
+  color: rgb(190, 190, 190);
+  font-size: 28px;
+  font-weight: bold;
+}
+.close:hover {
+  cursor: pointer;
+}
+#newIssueHeader {
+  font-size: 1.6rem;
+}
+input[type=text] {
+  width: 250px;
+  height: 2rem;
+  font-size: 1rem;
+  color: whitesmoke;
+  background-color: rgb(40, 40, 40);
+  border: none;
+  border-bottom: 1px solid rgb(31, 201, 88);
+  margin-top: .7rem;
+  padding-left: .4rem;
+}
+input[type=text]:focus {
+  border-bottom: 1px solid rgb(0, 193, 252);
+}
+input[type=submit] {
+  width: 250px;
+  height: 30px;
+  margin: 1rem 0 1.1rem;
+  font-size: 1.2rem;
+  background-color: rgb(31, 201, 88);
+  border: 2px solid rgb(31, 201, 88);
+  border-radius: 15px;
+  transition: .3s;
+}
+input[type=submit]:hover, input[type=submit]:focus {
+  cursor: pointer;
+  background-color: rgb(0, 193, 252);
+  border: 2px solid rgb(0, 193, 252);
 }
