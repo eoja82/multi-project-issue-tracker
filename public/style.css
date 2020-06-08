@@ -41,7 +41,7 @@ body, html {
 }
 
 /* create new issue modal styling */
-#newIssueModal {
+#newIssueModal, #modifyModal {
   display: none;
   position: fixed;
   z-index: 1;
@@ -54,7 +54,7 @@ body, html {
   background-color: rgb(0, 0, 0, .4);
   color: rgb(190, 190, 190);
 }
-#newIssueModalContent {
+#newIssueModalContent, #modifyModalContent {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -73,7 +73,7 @@ body, html {
   from {top: -300px; opacity: 0}
   to {top: 0; opacity: 1}
 }
-#newIssueForm {
+#newIssueForm, #modifyIssueForm {
   display: flex;
   flex-direction: column;
   max-width: 100%;
@@ -90,7 +90,7 @@ body, html {
 .close:hover {
   cursor: pointer;
 }
-#newIssueHeader {
+.modalHeader {
   font-size: 1.6rem;
 }
 input[type=text] {
@@ -121,4 +121,14 @@ input[type=submit]:hover, input[type=submit]:focus {
   cursor: pointer;
   background-color: rgb(0, 193, 252);
   border: 2px solid rgb(0, 193, 252);
+}
+#deleteIssue {
+  color: rgb(220, 53, 69);
+  background-color: transparent;
+  border: 2px solid rgb(220, 53, 69);
+}
+#deleteIssue:hover {
+  color: rgb(190, 190, 190);
+  background-color: rgb(220, 53, 69);
+  /* border: 2px solid rgb(220, 53, 69); */
 }

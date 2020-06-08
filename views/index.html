@@ -8,7 +8,7 @@
 </head>
 <body>
   <nav>
-    <button id="createNewIssue" class="navButton">Create A new Issue</button>
+    <button id="createNewIssue" class="navButton">Create A New Issue</button>
   </nav>
   <div id="pageContainer">
     <div id="projectsListContainer">
@@ -33,7 +33,7 @@
   <div id="newIssueModal">
     <div id="newIssueModalContent">
       <span class="close">&times</span>
-      <div id="newIssueHeader">
+      <div class="modalHeader">
         <h3>Create A New Issue</h3>
       </div>
       <form id="newIssueForm">
@@ -46,7 +46,31 @@
     </div>
   </div>
 
+  <!-- update or delete modal -->
+  <div id="modifyModal">
+    <div id="modifyModalContent">
+      <span class="close">&times</span>
+      <div class="modalHeader">
+        <h3>Update Or Delete An Issue</h3>
+      </div>
+      <form id="modifyIssueForm">
+        <input type="text" name="project" placeholder="Project">
+          <input type="text" name="issue" placeholder="Issue">
+          <input type="text" name="createdBy" placeholder="Created By">
+          <input type="text" name="assignedTo" placeholder="Assigned To">
+          <label for="close">Close Issue 
+            <input type="checkbox" name="close" id="closeIssue">
+          </label>
+          <!-- <label for="delete">Delete Issue 
+            <input type="checkbox" name="delete" id="deleteIssue">
+          </label> -->
+          <input id="modifyIssue" type="submit" value="Update Issue">
+          <input id="deleteIssue" type="submit" value="Delete Issue">
+      </form>
+    </div>
+  </div>
+
   <script src="./public/client.js"></script>
-  <script src="./public/newIssue.js"></script>
+  <script src="./public/modals.js"></script>
 </body>
 </html>

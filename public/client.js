@@ -1,5 +1,5 @@
 // get data from database and make sure page is fully loaded before further actions
-document.addEventListener("DOMContentLoaded", loadData)
+addEventListener("DOMContentLoaded", loadData)
 
 async function loadData() {
   await loadProjectList()
@@ -68,8 +68,10 @@ function pageLoaded() {
     // display issues by project
     else x.addEventListener("click", filterByProjectName)
   })
-
   
+  // add event listener to update / delete button
+  const updateDelete = document.querySelectorAll(".updateDelete")
+  updateDelete.forEach( x => x.addEventListener("click", displayModal))
 }
 
 // create a new issue
@@ -86,6 +88,7 @@ function addNewIssue(e) {
   xhttp.onreadystatechange = function() {
     //console.log(this.readyState + " " + this.status)
     if (this.readyState == 4 && this.status >= 400) {
+      alert("Error: the issue was not created")
       console.log("error creating new issue")
     } 
     if (this.readyState == 4 && this.status == 200) {
@@ -147,6 +150,7 @@ function createIssuesHTML(res) {
                     <h5>Last Updated</h5>
                     <p>${y.lastUpdated}</p>
                     <h5>${status}</h5>
+                    <button class="updateDelete">Update / Delete</button>
                   </div>`)
     })
     allIssues.push(issues.join(""))
