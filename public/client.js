@@ -64,7 +64,7 @@ function pageLoaded() {
   const projects = document.querySelectorAll(".projectName")
   projects.forEach( x => {
     // display all project's issues
-    if (x.innerHTML == "All") x.addEventListener("click", loadIssues)
+    if (x.innerHTML == "All") x.addEventListener("click", loadData)
     // display issues by project
     else x.addEventListener("click", filterByProjectName)
   })
@@ -123,6 +123,7 @@ function filterByProjectName(e) {
       issues.innerHTML = allIssues
       // if previously sorted by date sort by date again
       if (sortIndex > 0) sortIssues(sortIndex)
+      pageLoaded()
     }
   }
   xhttp.open("GET", `/projects/${e.target.innerHTML}`, true)
