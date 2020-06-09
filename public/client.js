@@ -19,10 +19,11 @@ function loadProjectList() {
       } 
       if (this.readyState == 4 && this.status == 200) {
         let res = JSON.parse(this.response)
+        //console.log(res)
         let list = []
         list.push(`<li class="projectName">All</li>`)
-        res.forEach( x => {
-          list.push(`<li class="projectName">${x}</li>`)
+        res.forEach( ({ project }) => {
+          list.push(`<li class="projectName">${project}</li>`)
         })
         projectsList.innerHTML = list.join("")
         resolve()
@@ -46,6 +47,7 @@ function loadIssues() {
       } 
       if (this.readyState == 4 && this.status == 200) {
         let res = JSON.parse(this.response)
+        console.log(res)
         let allIssues = createIssuesHTML(res)
         issues.innerHTML = allIssues
         // if previously sorted by date sort by date again
@@ -79,7 +81,7 @@ const newIssueForm = document.getElementById("newIssueForm")
 newIssueForm.addEventListener("submit", addNewIssue)
 
 function addNewIssue(e) {
-  console.log(e.target.children[0].value)
+  //console.log(e.target.children[0].value)
   const data = e.target.children
   const sortIndex = document.getElementById("sort").options.selectedIndex
   const issues = document.getElementById("issues")
@@ -88,11 +90,11 @@ function addNewIssue(e) {
   xhttp.onreadystatechange = function() {
     //console.log(this.readyState + " " + this.status)
     if (this.readyState == 4 && this.status >= 400) {
-      alert("Error: the issue was not created")
+      alert(this.response)
+      //alert("Error: the issue was not created")
       console.log("error creating new issue")
     } 
     if (this.readyState == 4 && this.status == 200) {
-      //console.log("4 and 200")
       //console.log(this.response)
       newIssueModal.style.display = "none"
       alert(this.response)

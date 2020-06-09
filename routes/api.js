@@ -27,11 +27,22 @@ let issueNumber = 0
   // display list of project names
   app.route("/projects")
     .get(function (req, res) {
-      let projectsList = []
+      Project.find({}).
+        select("project").
+        exec(function(err, data) {
+          if (err) console.log(err)
+          else {
+            //console.log(data)
+            res.send(data)
+          }
+        })
+
+      // was used for testing with data.js
+      /* let projectsList = []
       projects.forEach( x => {
         projectsList.push(x.project)
       })
-      res.send(projectsList)
+      res.send(projectsList) */
     })
 
   // filters issues by project name
@@ -52,7 +63,17 @@ let issueNumber = 0
   // sends all issues  
   app.route("/issues")
     .get(function (req, res) {
-      res.send(projects)
+      Project.find({}, function(err, data) {
+        if (err) console.log(err)
+        else {
+          //console.log(data)
+          res.send(data)
+        }
+      })
+
+
+      // was for testing data.js
+      //res.send(projects)
     })
 
   // modify, create, or delete issues
@@ -118,7 +139,7 @@ let issueNumber = 0
           }
         })
       }
-      
+
       // testing with data.js data
       /* projects.push({project: req.body.project, issues: [{issue: req.body.issue, createdBy: req.body.createdBy, assignedTo: req.body.assignedTo, date: "6/7/20", lastUpdated: "6/7/20", open: true}]})
       console.log(projects)

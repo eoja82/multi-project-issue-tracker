@@ -1,12 +1,19 @@
 require('dotenv').config()
 const express = require("express")
 const bodyParser = require("body-parser")
+const mongoose = require("mongoose")
 const apiRoutes = require("./routes/api.js")
 
 const app = express()
 app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use("/public", express.static(process.cwd() + "/public"))
+
+mongoose.connect(process.env.DATABASE, { useNewUrlParser: true, useUnifiedTopology: true }, 
+  (err) => {
+    if (err) console.log(err)
+    else console.log("Connected to database!")
+  })
 
 app.route('/')
   .get(function (req, res) {
