@@ -10,9 +10,26 @@ close.forEach( x => x.addEventListener("click", closeModal))
 
 
 function displayModal(e) {
-  console.log(e.target.className)
+  //console.log(e.target.className)
   if (e.target.id == "createNewIssue") newIssueModal.style.display = "block"
-  if (e.target.className == "updateDelete") modifyModal.style.display = "block"
+  if (e.target.className == "updateDelete") {
+    modifyModal.style.display = "block"
+
+    // populate the input values from the data from the issue the button was clicked on
+    // the below indexes will need to be changed if issue data displayed is changed
+    const nodes = e.target.parentElement.childNodes
+    let project = nodes[1].textContent
+    let issue = nodes[5].textContent
+    let createdBy = nodes[9].textContent
+    let assignedTo = nodes[13].textContent
+
+    const modifyInput = document.querySelectorAll(".modifyInput")
+    console.log(modifyInput)
+    modifyInput[0].value = project
+    modifyInput[1].value = issue
+    modifyInput[2].value = createdBy
+    modifyInput[3].value = assignedTo
+  }
 }
 
 function closeModal(e) {
