@@ -48,16 +48,25 @@ let issueNumber = 0
   // filters issues by project name
   app.route("/projects/:project")
     .get(function (req, res) {
-      //console.log("param: " + req.params.project)
-      let projectIssues = []
+      const project = req.params.project
+      Project.findOne({project: project}, function(err, data) {
+        if (err) {
+          console.log(err)
+          res.send("Error: could not filter by project name.")
+        } else {
+          res.send(data)
+        }
+      })
+
+
+      // for testing with data.js
+      /* let projectIssues = []
       projects.forEach( x => {
         if (req.params.project == x.project) {
-          //console.log("pushing project")
           projectIssues.push(x)
         }
       })
-      //console.log(projectIssues)
-      res.send(projectIssues)
+      res.send(projectIssues) */
     })
 
   // sends all issues  

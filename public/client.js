@@ -47,7 +47,7 @@ function loadIssues() {
       } 
       if (this.readyState == 4 && this.status == 200) {
         let res = JSON.parse(this.response)
-        console.log(res)
+        //console.log(res)
         let allIssues = createIssuesHTML(res)
         issues.innerHTML = allIssues
         // if previously sorted by date sort by date again
@@ -83,6 +83,7 @@ newIssueForm.addEventListener("submit", addNewIssue)
 function addNewIssue(e) {
   //console.log(e.target.children[0].value)
   const data = e.target.children
+  console.log(data)
   const sortIndex = document.getElementById("sort").options.selectedIndex
   const issues = document.getElementById("issues")
 
@@ -104,7 +105,7 @@ function addNewIssue(e) {
   }
   xhttp.open("POST", "/create-or-modify-issue", true)
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xhttp.send(`project=${data[0].value}&issue=${data[1].value}&createdBy=${data[2].value}&assignedTo=${data[3].value}`)
+  xhttp.send(`project=${data[0].issues.value}&issue=${data[1].value}&createdBy=${data[2].value}&assignedTo=${data[3].value}`)
   e.preventDefault()
 }
 
@@ -117,11 +118,12 @@ function filterByProjectName(e) {
   let xhttp = new XMLHttpRequest()
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status >= 400) {
-      console.log("error loading issues")
+      alert(this.response)
     } 
     if (this.readyState == 4 && this.status == 200) {
       let res = JSON.parse(this.response)
-      let allIssues = createIssuesHTML(res)
+      //console.log(res)
+      let allIssues = createIssuesHTML([res])
       issues.innerHTML = allIssues
       // if previously sorted by date sort by date again
       if (sortIndex > 0) sortIssues(sortIndex)
