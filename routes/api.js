@@ -29,6 +29,7 @@ let issueNumber = 0
     .get(function (req, res) {
       Project.find({}).
         select("project").
+        sort("project").
         exec(function(err, data) {
           if (err) console.log(err)
           else {
