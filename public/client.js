@@ -83,7 +83,7 @@ newIssueForm.addEventListener("submit", addNewIssue)
 function addNewIssue(e) {
   //console.log(e.target.children[0].value)
   const data = e.target.children
-  console.log(data)
+  //console.log(data)
   const sortIndex = document.getElementById("sort").options.selectedIndex
   const issues = document.getElementById("issues")
 
@@ -105,7 +105,7 @@ function addNewIssue(e) {
   }
   xhttp.open("POST", "/create-or-modify-issue", true)
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xhttp.send(`project=${data[0].issues.value}&issue=${data[1].value}&createdBy=${data[2].value}&assignedTo=${data[3].value}`)
+  xhttp.send(`project=${data[0].value}&issue=${data[1].value}&createdBy=${data[2].value}&assignedTo=${data[3].value}`)
   e.preventDefault()
 }
 
