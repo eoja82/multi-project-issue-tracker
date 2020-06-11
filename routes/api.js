@@ -92,9 +92,9 @@ let issueNumber = 0
     .post(function (req, res) {
       console.log(req.body)
       // check if project name already exists
-      Project.findOne({project: req.body.project}, function(err, doc) {
+      Project.findOne({project: req.body.project}, function(err, data) {
         if (err) console.log(err)
-        if (!doc) {
+        if (!data) {
           console.log("project name does not already exist")
           addNewProject()
         }
@@ -114,13 +114,13 @@ let issueNumber = 0
             }
           }},
           {new: true},
-          function(err, doc) {
+          function(err, data) {
             if (err) {
               console.log(err)
               res.send("Error: the new issue was not created!")
             } else {
               console.log("new project created")
-              console.log(doc)
+              console.log(data)
               res.send(`New issue for ${req.body.project} was created`)
             }
         })
@@ -138,13 +138,13 @@ let issueNumber = 0
             open: true
           }]
         })
-        newProject.save(function(err, doc) {
+        newProject.save(function(err, data) {
           if (err) {
             console.log(err)
             res.send("Error: the project and issue was not created!")
           } else {
             console.log("new project created")
-            console.log(doc)
+            console.log(data)
             res.send(`New project and issue successfully created for ${req.body.project}!`)
           }
         })
@@ -154,6 +154,37 @@ let issueNumber = 0
       /* projects.push({project: req.body.project, issues: [{issue: req.body.issue, createdBy: req.body.createdBy, assignedTo: req.body.assignedTo, date: "6/7/20", lastUpdated: "6/7/20", open: true}]})
       console.log(projects)
       res.send(`New issue for ${req.body.project} was created`) */
+    })
+
+    // update an issue
+    .put(function(req, res) {
+      let issue = req.body
+      let updates = {
+        "issues.$.issue": issue.issue,
+        "issues.$.createdBy": issue.createdBy,
+        "issues.$.assignedTo": issue.assignedTo,
+        "issues.$.open": false
+      }
+      if (!issue.issue) delete updates["issues.$.issue"]
+      if (!issue.createdBy) delete updates["issues.$.createdBy"]
+      if (!issue.assignedTo) delete updates["issues.$.assignedTo"]
+      if (issue.close == "false") delete updates["issues.$.open"]
+
+      // do if no inputs and update modified
+      if (Object.keys(updates).length === 0) res.send("No input fields entered.")
+      else {
+        updates["issues.$.lastUpdated"] = new Date()
+        console.log(updates)
+        Project.updateOne({"issues._id": req.body.id},
+          {$set: updates}, function(err, data) {
+            if (err) console.log(err)
+            else {
+              //console.log(data)
+              res.send(`Issue with id: ${issue.id} succesfully updated!`)
+            }
+          }
+        )
+      }
     })
 
 }

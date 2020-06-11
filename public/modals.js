@@ -22,13 +22,15 @@ function displayModal(e) {
     let issue = nodes[5].textContent
     let createdBy = nodes[9].textContent
     let assignedTo = nodes[13].textContent
+    let id = nodes[29].textContent
 
     const modifyInput = document.querySelectorAll(".modifyInput")
-    console.log(modifyInput)
+    //console.log(modifyInput)
     modifyInput[0].value = project
     modifyInput[1].value = issue
     modifyInput[2].value = createdBy
     modifyInput[3].value = assignedTo
+    modifyInput[4].value = id
   }
 }
 

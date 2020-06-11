@@ -109,6 +109,38 @@ function addNewIssue(e) {
   e.preventDefault()
 }
 
+// update an issue
+const modifyIssueForm = document.getElementById("modifyIssueForm")
+//console.log(modifyIssueForm)
+modifyIssueForm.addEventListener("submit", updateIssue)
+/* const modifyIssue = document.getElementById("modifyIssue")
+console.log(modifyIssue)
+modifyIssue.addEventListener("click", updateIssue) */
+
+function updateIssue(e) {
+  const data = e.target.children
+  console.log(data)
+
+  let xhttp = new XMLHttpRequest()
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status >= 400) {
+      alert(this.response)
+      console.log("error updating issue")
+    } 
+    if (this.readyState == 4 && this.status == 200) {
+      //console.log(this.response)
+      modifyModal.style.display = "none"
+      alert(this.response)
+      loadData()
+      //modifyIssueForm.reset()
+    }
+  }
+  xhttp.open("PUT", "/create-or-modify-issue", true)
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send(`project=${data[0].value}&issue=${data[1].value}&createdBy=${data[2].value}&assignedTo=${data[3].value}&id=${data[4].value}&close=${data[5].firstElementChild.checked}`)
+  e.preventDefault()
+}
+
 
 // filters project issues by project
 function filterByProjectName(e) {
@@ -152,9 +184,12 @@ function createIssuesHTML(res) {
                     <p>${y.assignedTo}</p>
                     <h5>Date Created:</h5>
                     <p>${y.date}</p>
-                    <h5>Last Updated</h5>
+                    <h5>Last Updated:</h5>
                     <p>${y.lastUpdated}</p>
-                    <h5>${status}</h5>
+                    <h5>Status:</h5>
+                    <p>${status}</p>
+                    <h5>Issue Id:</h5>
+                    <p>${y._id}</p>
                     <button class="updateDelete">Update / Delete</button>
                   </div>`)
     })
