@@ -111,15 +111,11 @@ function addNewIssue(e) {
 
 // update an issue
 const modifyIssueForm = document.getElementById("modifyIssueForm")
-//console.log(modifyIssueForm)
-modifyIssueForm.addEventListener("submit", updateIssue)
-/* const modifyIssue = document.getElementById("modifyIssue")
-console.log(modifyIssue)
-modifyIssue.addEventListener("click", updateIssue) */
+modifyIssueForm.addEventListener("submit", modifyIssue)
 
-function updateIssue(e) {
+function modifyIssue(e) {
   const data = e.target.children
-  console.log(data)
+  //console.log(data)
 
   let xhttp = new XMLHttpRequest()
   xhttp.onreadystatechange = function() {
@@ -141,6 +137,31 @@ function updateIssue(e) {
   e.preventDefault()
 }
 
+// delete an issue
+const deleteIssueForm = document.getElementById("deleteIssueForm")
+deleteIssueForm.addEventListener("submit", deleteIssue)
+
+function deleteIssue(e) {
+  const data = e.target.children
+  //console.log(data[0].value)
+
+  let xhttp = new XMLHttpRequest()
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status >= 400) {
+      alert(this.response)
+      console.log("error updating issue")
+    } 
+    if (this.readyState == 4 && this.status == 200) {
+      modifyModal.style.display = "none"
+      alert(this.response)
+      loadData()
+    }
+  }
+  xhttp.open("DELETE", "/create-or-modify-issue", true)
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send(`project=${data[0].value}&id=${data[1].value}`)
+  e.preventDefault()
+}
 
 // filters project issues by project
 function filterByProjectName(e) {

@@ -1,3 +1,5 @@
+//const projects = require("./data")
+
 const newIssueModal = document.getElementById("newIssueModal")
 const createNewIssue = document.getElementById("createNewIssue")
 const close = document.querySelectorAll(".close")
@@ -15,7 +17,7 @@ function displayModal(e) {
   if (e.target.className == "updateDelete") {
     modifyModal.style.display = "block"
 
-    // populate the input values from the data from the issue the button was clicked on
+    // populate the form input values with data from the issue on which the button was clicked
     // the below indexes will need to be changed if issue data displayed is changed
     const nodes = e.target.parentElement.childNodes
     let project = nodes[1].textContent
@@ -31,6 +33,10 @@ function displayModal(e) {
     modifyInput[2].value = createdBy
     modifyInput[3].value = assignedTo
     modifyInput[4].value = id
+
+    const deleteInput = document.querySelectorAll(".deleteInput")
+    deleteInput[0].value = project
+    deleteInput[1].value = id
   }
 }
 

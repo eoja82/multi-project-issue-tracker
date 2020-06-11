@@ -62,11 +62,12 @@
         <label for="close">Close Issue 
           <input type="checkbox" name="close" id="closeIssue">
         </label>
-        <!-- <label for="delete">Delete Issue 
-          <input type="checkbox" name="delete" id="deleteIssue">
-        </label> -->
-        <input id="modifyIssue" type="submit" value="Update Issue">
-        <input id="deleteIssue" type="submit" value="Delete Issue">
+        <input id="modifyIssue" name="update" type="submit" value="Update Issue">
+      </form>
+      <form id="deleteIssueForm">
+        <input type="text" hidden class="deleteInput" name="project">
+        <input type="text" hidden class="deleteInput" name="id">
+        <input type="submit" name="delete" value="Delete Issue">
       </form>
     </div>
   </div>

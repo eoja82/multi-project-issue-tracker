@@ -37,13 +37,6 @@ let issueNumber = 0
             res.send(data)
           }
         })
-
-      // was used for testing with data.js
-      /* let projectsList = []
-      projects.forEach( x => {
-        projectsList.push(x.project)
-      })
-      res.send(projectsList) */
     })
 
   // filters issues by project name
@@ -58,16 +51,6 @@ let issueNumber = 0
           res.send(data)
         }
       })
-
-
-      // for testing with data.js
-      /* let projectIssues = []
-      projects.forEach( x => {
-        if (req.params.project == x.project) {
-          projectIssues.push(x)
-        }
-      })
-      res.send(projectIssues) */
     })
 
   // sends all issues  
@@ -80,17 +63,12 @@ let issueNumber = 0
           res.send(data)
         }
       })
-
-
-      // was for testing data.js
-      //res.send(projects)
     })
 
   // modify, create, or delete issues
   app.route("/create-or-modify-issue")
     // create a new issue
     .post(function (req, res) {
-      console.log(req.body)
       // check if project name already exists
       Project.findOne({project: req.body.project}, function(err, data) {
         if (err) console.log(err)
@@ -149,16 +127,12 @@ let issueNumber = 0
           }
         })
       }
-
-      // testing with data.js data
-      /* projects.push({project: req.body.project, issues: [{issue: req.body.issue, createdBy: req.body.createdBy, assignedTo: req.body.assignedTo, date: "6/7/20", lastUpdated: "6/7/20", open: true}]})
-      console.log(projects)
-      res.send(`New issue for ${req.body.project} was created`) */
     })
 
     // update an issue
     .put(function(req, res) {
       let issue = req.body
+      console.log(issue)
       let updates = {
         "issues.$.issue": issue.issue,
         "issues.$.createdBy": issue.createdBy,
@@ -185,6 +159,36 @@ let issueNumber = 0
           }
         )
       }
+    })
+
+    // delete an issue and delete project if it has no issues
+    .delete(function(req, res) {
+      let project = req.body.project
+      let issueId = req.body.id
+      
+      // delete issue
+      Project.findOneAndUpdate({project: project},
+          {$pull: {issues: {_id: issueId}}}, {new: true}, function(err, data) {
+          if (err) {
+            console.log(err)
+            res.send(`Error: could not delete issue ${issueId}`)
+          } else {
+            console.log(data)
+            if (data.issues.length == 0) {   // delete project if no issues
+              Project.findOneAndDelete({project: project}, function(err, data) {
+                if (err) {
+                  console.log(err)
+                  res.send(`Error: project ${project} has no issues but could not be deleted.`)
+                } else {
+                  res.send(`Issue ${issueId} and project ${data.project} were successfully deleted!`)
+                }
+              })
+            } else {
+              res.send(`Issue with id: ${issueId} succesfully deleted!`)
+            }
+          }
+        }
+      )
     })
 
 }
