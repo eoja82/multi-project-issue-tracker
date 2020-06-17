@@ -53,6 +53,46 @@ let issueNumber = 0
       })
     })
 
+  // filter by user created, user assigned to, and status
+  app.route("/issues/filter")
+    .post(function(req, res) {
+      let project = req.body.project == "All" ? {} : {project: req.body.project}
+      let createdBy = req.body.createdBy
+      let assignedTo = req.body.assignedTo
+      let open 
+      switch (req.body.status) {
+        case "All": open = "All"
+          break
+        case "Open": open = true
+          break
+        case "Closed": open = false
+          break
+      }
+
+      Project.find(project , function(err, data) {
+        if (err) {
+          console.log(err)
+          res.send("Error: could not filter projects.")
+        } else {
+          //console.log(data)
+          data.forEach( x => {
+            let issues = []
+            x.issues.forEach( y => {
+              if ((y.createdBy == createdBy || createdBy == "All") &&
+                (y.assignedTo == assignedTo || assignedTo == "All") &&
+                (y.open == open || open == "All")) {
+                issues.push(y)
+              }
+            })
+            x.issues = issues
+            //console.log(issues)
+          })
+          //console.log(data)
+          res.send(data)
+        }
+      })
+    })
+
   // sends all issues  
   app.route("/issues")
     .get(function (req, res) {

@@ -10,7 +10,7 @@
   <nav>
     <button id="createNewIssue" class="navButton">Create A New Issue</button>
   </nav>
-  <div id="pageContainer">
+ <!--  <div id="pageContainer"> -->
     <div id="projectsListContainer">
       <h2 id="projectsTitle">Projects</h2>
       <ul id="projectsList"></ul>
@@ -18,16 +18,39 @@
     <div id="projectsIssuesContainer">
       <h2 id="issuesTitle">Issues</h2>
       <div id="sortContainer">
-        <label for="sort">Sort</label>
-        <select name="sort" id="sort">
-          <option value="by date" selected disabled>By Date</option>
-          <option value="oldest">Oldest</option>
-          <option value="newest">Newest</option>
-        </select>
+        <form id=filterForm>
+          <label for="filterCreatedBy">Created By</label>
+          <select name="filterCreatedBy" id="filterCreatedBy" class="issueFilter">
+            <option value="All" selected>All</option>
+            <option value="Erik">Erik</option>
+            <option value="Test Employee">Test Employee</option>
+          </select>
+          <label for="filterAssignedTo">Assigned To</label>
+          <select name="filterAssignedTo" id="filterAssignedTo" class="issueFilter">
+            <option value="All" selected>All</option>
+            <option value="Erik">Erik</option>
+            <option value="Test Employee">Test Employee</option>
+          </select>
+          <label for="sortDateCreated">Date</label>
+          <select name="sortDateCreated" id="sortDateCreated">
+            <option value="by date" selected disabled>By Date</option>
+            <option value="createdOldest">Created Oldest</option>
+            <option value="createdNewest">Created Newest</option>
+            <option value="updatedOldest">Updated Oldest</option>
+            <option value="updayedNewest">Updated Newest</option>
+          </select>
+          <label for="filterStatus">Status</label>
+          <select name="filterStatus" id="filterStatus" class="issueFilter">
+            <option value="All" selected>All</option>
+            <option value="Open">Open</option>
+            <option value="Closed">Closed</option>
+          </select>
+          <button id="reset filterAndSort">Reset</button>
+        </form>
       </div>
       <div id="issues"></div>
     </div>
-  </div>
+ <!--  </div> -->
 
   <!-- create a new issue modal -->
   <div id="newIssueModal">

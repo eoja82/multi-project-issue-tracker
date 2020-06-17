@@ -6,6 +6,9 @@ async function loadData() {
   await loadIssues()
   //console.log(projects)
   pageLoaded()
+  document.getElementById("filterCreatedBy").selectedIndex = 0
+  document.getElementById("filterAssignedTo").selectedIndex = 0
+  document.getElementById("filterStatus").selectedIndex = 0
 }
 
 function loadProjectList() {
@@ -21,11 +24,17 @@ function loadProjectList() {
         let res = JSON.parse(this.response)
         //console.log(res)
         let list = []
-        list.push(`<li class="projectName">All</li>`)
+        list.push(`<li class="projectName projectActive">All</li>`)
         res.forEach( ({ project }) => {
           list.push(`<li class="projectName">${project}</li>`)
         })
+        /* test fixed sidebar */
+        for (let i = 0; i < 100; i++) {
+          list.push(`<li class="projectName">All long name here for test</li>`)
+        }
+        /* end test */
         projectsList.innerHTML = list.join("")
+        
         resolve()
       }
     }
@@ -36,7 +45,7 @@ function loadProjectList() {
 }
 
 function loadIssues() {
-  const sortIndex = document.getElementById("sort").options.selectedIndex
+  const sortIndex = document.getElementById("sortDateCreated").options.selectedIndex
   const issues = document.getElementById("issues")
   let xhttp = new XMLHttpRequest()
   return new Promise( (resolve, reject) => {
@@ -51,7 +60,7 @@ function loadIssues() {
         let allIssues = createIssuesHTML(res)
         issues.innerHTML = allIssues
         // if previously sorted by date sort by date again
-        if (sortIndex > 0) sortIssues(sortIndex)
+        if (sortIndex > 0) sortByDate(sortIndex)
         resolve()
       }
     }
@@ -64,6 +73,7 @@ function loadIssues() {
 function pageLoaded() {
    // filter issues by project name
   const projects = document.querySelectorAll(".projectName")
+  //console.log(projects[0])
   projects.forEach( x => {
     // display all project's issues
     if (x.innerHTML == "All") x.addEventListener("click", loadData)
@@ -84,7 +94,7 @@ function addNewIssue(e) {
   //console.log(e.target.children[0].value)
   const data = e.target.children
   //console.log(data)
-  const sortIndex = document.getElementById("sort").options.selectedIndex
+  const sortIndex = document.getElementById("sortDateCreated").options.selectedIndex
   const issues = document.getElementById("issues")
 
   let xhttp = new XMLHttpRequest()
@@ -158,14 +168,22 @@ function deleteIssue(e) {
     }
   }
   xhttp.open("DELETE", "/create-or-modify-issue", true)
-  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xhttp.send(`project=${data[0].value}&id=${data[1].value}`)
+  
   e.preventDefault()
 }
 
 // filters project issues by project
 function filterByProjectName(e) {
-  const sortIndex = document.getElementById("sort").options.selectedIndex
+  /* test adding active to project list */
+  const projectNames = document.querySelectorAll(".projectName")
+  //console.log(projectNames[0])
+  projectNames.forEach( x => {
+    x.classList.remove("projectActive")
+  })
+  e.target.classList.add("projectActive")
+  /* end test */
+
+  const sortIndex = document.getElementById("sortDateCreated").options.selectedIndex
   const issues = document.getElementById("issues")
 
   let xhttp = new XMLHttpRequest()
@@ -179,8 +197,11 @@ function filterByProjectName(e) {
       let allIssues = createIssuesHTML([res])
       issues.innerHTML = allIssues
       // if previously sorted by date sort by date again
-      if (sortIndex > 0) sortIssues(sortIndex)
+      if (sortIndex > 0) sortByDate(sortIndex)
       pageLoaded()
+      document.getElementById("filterCreatedBy").selectedIndex = 0
+      document.getElementById("filterAssignedTo").selectedIndex = 0
+      document.getElementById("filterStatus").selectedIndex = 0
     }
   }
   xhttp.open("GET", `/projects/${e.target.innerHTML}`, true)
@@ -220,23 +241,26 @@ function createIssuesHTML(res) {
 }
 
 // sort issues
-const sort = document.getElementById("sort")
-sort.addEventListener("change", sortIssues)
+const sortDateCreated = document.getElementById("sortDateCreated")
+sortDateCreated.addEventListener("change", sortByDate)
 
-function sortIssues(e) {
+function sortByDate(e) {
+  //console.log(e.target.options.selectedIndex)
   let issues = document.getElementById("issues")
   const issuesToSort = document.querySelectorAll(".issue")
-  let selected = typeof e == "number" ? e : e.target.value
+  let selected = typeof e == "number" ? e : e.target.options.selectedIndex
+  let sortBy = selected <= 2 ? "dateCreated" : "dateUpdated"
   let dates = []
   let sortedIssues = []
 
   issuesToSort.forEach( x => {
     // if the schema of the issue is changed this line needs to change also
-    dates.push(x.childNodes[17].innerHTML)
+    if (sortBy == "dateCreated") dates.push(x.childNodes[17].innerHTML)
+    if (sortBy == "dateUpdated") dates.push(x.childNodes[21].innerHTML)
   })
  
-  if (selected == "oldest" || selected == 1) dates.sort( (a, b) => new Date(a) - new Date(b))
-  if (selected == "newest" || selected == 2) dates.sort( (a, b) => new Date(b) - new Date(a))
+  if (selected == 1 || selected == 3) dates.sort( (a, b) => new Date(a) - new Date(b))
+  if (selected == 2 || selected == 4) dates.sort( (a, b) => new Date(b) - new Date(a))
   
   // remove duplicate dates
   dates = Array.from(new Set(dates))
@@ -244,8 +268,15 @@ function sortIssues(e) {
   // populate sortedIssues with dates sorted
   for (let i = 0; i < dates.length; i++) {
     issuesToSort.forEach( x => {
-      if (x.childNodes[17].innerHTML == dates[i]) {
-        sortedIssues.push(x)
+      if (sortBy == "dateCreated") {
+        if (x.childNodes[17].innerHTML == dates[i]) {
+          sortedIssues.push(x)
+        }
+      }
+      if (sortBy == "dateUpdated") {
+        if (x.childNodes[21].innerHTML == dates[i]) {
+          sortedIssues.push(x)
+        }
       }
     }) 
   }
@@ -253,5 +284,39 @@ function sortIssues(e) {
   sortedIssues.forEach( x => {
     issues.appendChild(x)
   })
-  
+}
+
+
+// filter by user created, user assigned to, and status
+const filterForm = document.getElementById("filterForm")
+filterForm.addEventListener("change", filterIssues)
+
+function filterIssues(e) {
+  const sortIndex = document.getElementById("sortDateCreated").options.selectedIndex
+  const issues = document.getElementById("issues")
+  const project = document.querySelector(".projectActive").innerHTML
+  const createdBy = document.getElementById("filterCreatedBy").selectedOptions[0].value
+  const assignedTo = document.getElementById("filterAssignedTo").selectedOptions[0].value
+  const status = document.getElementById("filterStatus").selectedOptions[0].value
+
+  let xhttp = new XMLHttpRequest()
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status >= 400) {
+      alert(this.response)
+      console.log("error updating issue")
+    } 
+    if (this.readyState == 4 && this.status == 200) {
+      let res = JSON.parse(this.response)
+      //console.log(res)
+      let allIssues = createIssuesHTML(res)
+      issues.innerHTML = allIssues
+      // if previously sorted by date sort by date again
+      if (sortIndex > 0) sortByDate(sortIndex)
+      pageLoaded()
+    }
+  }
+  xhttp.open("POST", "/issues/filter", true)
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send(`project=${project}&createdBy=${createdBy}&assignedTo=${assignedTo}&status=${status}`)
+  e.preventDefault()
 }
