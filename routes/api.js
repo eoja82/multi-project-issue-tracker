@@ -19,31 +19,25 @@ module.exports = function(app) {
     }],
   })
 
-let Project = mongoose.model("Project", projectSchema)
+  let Project = mongoose.model("Project", projectSchema)
 
-// used to assign number to issues
-let issueNumber = 0
-
-  // display list of project names
-  app.route("/projects")
+  // sends all issues data to render dynamicaly projects list and select tags options
+  app.route("/pageData")
     .get(function (req, res) {
-      Project.find({}).
-        select("project").
-        sort("project").
-        exec(function(err, data) {
-          if (err) console.log(err)
-          else {
-            //console.log(data)
-            res.send(data)
-          }
-        })
+      Project.find({}, function(err, data) {
+        if (err) console.log(err)
+        else {
+          //console.log(data)
+          res.send(data)
+        }
+      })
     })
 
   // filters issues by project name
   app.route("/projects/:project")
     .get(function (req, res) {
-      const project = req.params.project
-      Project.findOne({project: project}, function(err, data) {
+      const project = req.params.project == "All" ? {} : {project: req.params.project}
+      Project.find(project, function(err, data) {
         if (err) {
           console.log(err)
           res.send("Error: could not filter by project name.")
@@ -79,7 +73,7 @@ let issueNumber = 0
             let issues = []
             x.issues.forEach( y => {
               if ((y.createdBy == createdBy || createdBy == "All") &&
-                (y.assignedTo == assignedTo || assignedTo == "All") &&
+                (y.assignedTo == assignedTo || assignedTo == "All" || (y.assignedTo == "" && assignedTo == "Nobody")) &&
                 (y.open == open || open == "All")) {
                 issues.push(y)
               }
@@ -87,18 +81,6 @@ let issueNumber = 0
             x.issues = issues
             //console.log(issues)
           })
-          //console.log(data)
-          res.send(data)
-        }
-      })
-    })
-
-  // sends all issues  
-  app.route("/issues")
-    .get(function (req, res) {
-      Project.find({}, function(err, data) {
-        if (err) console.log(err)
-        else {
           //console.log(data)
           res.send(data)
         }
@@ -138,7 +120,7 @@ let issueNumber = 0
               res.send("Error: the new issue was not created!")
             } else {
               console.log("new project created")
-              console.log(data)
+              //console.log(data)
               res.send(`New issue for ${req.body.project} was created`)
             }
         })
@@ -162,7 +144,7 @@ let issueNumber = 0
             res.send("Error: the project and issue was not created!")
           } else {
             console.log("new project created")
-            console.log(data)
+            //console.log(data)
             res.send(`New project and issue successfully created for ${req.body.project}!`)
           }
         })
@@ -172,23 +154,22 @@ let issueNumber = 0
     // update an issue
     .put(function(req, res) {
       let issue = req.body
-      console.log(issue)
+      //console.log(typeof issue.close)
       let updates = {
         "issues.$.issue": issue.issue,
         "issues.$.createdBy": issue.createdBy,
         "issues.$.assignedTo": issue.assignedTo,
-        "issues.$.open": false
+        "issues.$.open": issue.close == "false" ? true : false
       }
       if (!issue.issue) delete updates["issues.$.issue"]
       if (!issue.createdBy) delete updates["issues.$.createdBy"]
       if (!issue.assignedTo) delete updates["issues.$.assignedTo"]
-      if (issue.close == "false") delete updates["issues.$.open"]
 
-      // do if no inputs and update modified
-      if (Object.keys(updates).length === 0) res.send("No input fields entered.")
+      // length will always be at least one due to close checkbox for Open/Closed
+      if (Object.keys(updates).length <= 1) res.send("No input fields entered.")
       else {
         updates["issues.$.lastUpdated"] = new Date()
-        console.log(updates)
+        //console.log(updates)
         Project.updateOne({"issues._id": req.body.id},
           {$set: updates}, function(err, data) {
             if (err) console.log(err)
@@ -213,7 +194,7 @@ let issueNumber = 0
             console.log(err)
             res.send(`Error: could not delete issue ${issueId}`)
           } else {
-            console.log(data)
+            //console.log(data)
             if (data.issues.length == 0) {   // delete project if no issues
               Project.findOneAndDelete({project: project}, function(err, data) {
                 if (err) {

@@ -4,6 +4,7 @@ const newIssueModal = document.getElementById("newIssueModal")
 const createNewIssue = document.getElementById("createNewIssue")
 const close = document.querySelectorAll(".close")
 const modifyModal = document.getElementById("modifyModal")
+const closeIssue = document.getElementById("closeIssue")
 
 createNewIssue.addEventListener("click", displayModal)
 addEventListener("click", closeModal)
@@ -20,10 +21,20 @@ function displayModal(e) {
     // populate the form input values with data from the issue on which the button was clicked
     // the below indexes will need to be changed if issue data displayed is changed
     const nodes = e.target.parentElement.childNodes
+    //console.log(nodes)
     let project = nodes[1].textContent
     let issue = nodes[5].textContent
     let createdBy = nodes[9].textContent
     let assignedTo = nodes[13].textContent
+    let status = nodes[25].textContent
+    let closeIssueChecked 
+    switch(status) {
+      case "Closed": closeIssueChecked = true
+        break
+      case "Open": closeIssueChecked = false
+        break
+      default: closeIssueChecked = false
+    }
     let id = nodes[29].textContent
 
     const modifyInput = document.querySelectorAll(".modifyInput")
@@ -33,6 +44,8 @@ function displayModal(e) {
     modifyInput[2].value = createdBy
     modifyInput[3].value = assignedTo
     modifyInput[4].value = id
+    closeIssue.checked = closeIssueChecked
+
 
     const deleteInput = document.querySelectorAll(".deleteInput")
     deleteInput[0].value = project

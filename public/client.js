@@ -2,51 +2,29 @@
 addEventListener("DOMContentLoaded", loadData)
 
 async function loadData() {
-  await loadProjectList()
-  await loadIssues()
-  //console.log(projects)
+  // need to remove element children if any so lists don't append onto existing element children
+  const filterCreatedBy = document.getElementById("filterCreatedBy")
+  const filterAssignedTo = document.getElementById("filterAssignedTo")
+  const projectsList = document.getElementById("projectsList")
+  const listsToReset = [filterCreatedBy, filterAssignedTo, projectsList]
+  listsToReset.forEach( x => {
+    while (x.firstElementChild) x.firstElementChild.remove()
+  })
+
+  await loadPageData()
   pageLoaded()
   document.getElementById("filterCreatedBy").selectedIndex = 0
   document.getElementById("filterAssignedTo").selectedIndex = 0
   document.getElementById("filterStatus").selectedIndex = 0
 }
 
-function loadProjectList() {
-  const projectsList = document.getElementById("projectsList")
-  let xhttp = new XMLHttpRequest()
-  return new Promise( (resolve, reject) => {
-    xhttp.onreadystatechange = function() {
-      if (this.readyState == 4 && this.status >= 400) {
-        console.log("error loading project names")
-        reject()
-      } 
-      if (this.readyState == 4 && this.status == 200) {
-        let res = JSON.parse(this.response)
-        //console.log(res)
-        let list = []
-        list.push(`<li class="projectName projectActive">All</li>`)
-        res.forEach( ({ project }) => {
-          list.push(`<li class="projectName">${project}</li>`)
-        })
-        /* test fixed sidebar */
-        for (let i = 0; i < 100; i++) {
-          list.push(`<li class="projectName">All long name here for test</li>`)
-        }
-        /* end test */
-        projectsList.innerHTML = list.join("")
-        
-        resolve()
-      }
-    }
-    xhttp.open("GET", "/projects", true)
-    xhttp.send()
-  })
-  
-}
-
-function loadIssues() {
+function loadPageData() {
   const sortIndex = document.getElementById("sortDateCreated").options.selectedIndex
   const issues = document.getElementById("issues")
+  const filterCreatedBy = document.getElementById("filterCreatedBy")
+  const filterAssignedTo = document.getElementById("filterAssignedTo")
+  const projectsList = document.getElementById("projectsList")
+  //console.log(projectsList)
   let xhttp = new XMLHttpRequest()
   return new Promise( (resolve, reject) => {
     xhttp.onreadystatechange = function() {
@@ -56,15 +34,55 @@ function loadIssues() {
       } 
       if (this.readyState == 4 && this.status == 200) {
         let res = JSON.parse(this.response)
-        //console.log(res)
+        // display issues
         let allIssues = createIssuesHTML(res)
         issues.innerHTML = allIssues
         // if previously sorted by date sort by date again
         if (sortIndex > 0) sortByDate(sortIndex)
+
+        // add element children to projects list and select tags for created by and assigned to
+        let createdBy = []
+        let assignedTo = []
+        let listOfProjects = []
+        res.forEach ( x => {
+          listOfProjects.push(x.project)
+          x.issues.forEach( y => {
+            if (createdBy.indexOf(y.createdBy) < 0) createdBy.push(y.createdBy)
+            if (assignedTo.indexOf(y.assignedTo) < 0) assignedTo.push(y.assignedTo)
+          })
+        })
+        listOfProjects.sort( (a, b) => a > b)
+        listOfProjects.unshift("All")
+        createdBy.unshift("All")
+        assignedTo.unshift("All")
+        //console.log(listOfProjects)
+        listOfProjects.forEach( x => {
+          let li = document.createElement("li")
+          li.textContent = x
+          li.className = "projectName"
+          if (x == "All") li.classList.add("projectActive")
+          projectsList.appendChild(li)
+        })
+        createdBy.forEach( x => {
+          let option = createOption(x)
+          filterCreatedBy.appendChild(option)
+        })
+        assignedTo.forEach( x => {
+          if (x == "") x = "Nobody"
+          let option = createOption(x)
+          filterAssignedTo.appendChild(option)
+        })
+
+        function createOption(user) {
+          const option = document.createElement("option")
+          option.value = user
+          option.textContent = user
+          return option
+        }
         resolve()
       }
     }
-    xhttp.open("GET", "/issues", true)
+    xhttp.open("GET", "/pageData", true)
     xhttp.send()
   })  
 }
@@ -73,12 +91,8 @@ function loadIssues() {
 function pageLoaded() {
    // filter issues by project name
   const projects = document.querySelectorAll(".projectName")
-  //console.log(projects[0])
   projects.forEach( x => {
-    // display all project's issues
-    if (x.innerHTML == "All") x.addEventListener("click", loadData)
-    // display issues by project
-    else x.addEventListener("click", filterByProjectName)
+    x.addEventListener("click", filterByProjectName)
   })
   
   // add event listener to update / delete button
@@ -115,7 +129,7 @@ function addNewIssue(e) {
   }
   xhttp.open("POST", "/create-or-modify-issue", true)
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xhttp.send(`project=${data[0].value}&issue=${data[1].value}&createdBy=${data[2].value}&assignedTo=${data[3].value}`)
+  xhttp.send(`project=${data[0].value.trim()}&issue=${data[1].value}&createdBy=${data[2].value.trim()}&assignedTo=${data[3].value.trim()}`)
   e.preventDefault()
 }
 
@@ -125,7 +139,7 @@ modifyIssueForm.addEventListener("submit", modifyIssue)
 
 function modifyIssue(e) {
   const data = e.target.children
-  //console.log(data)
+  //console.log(typeof data[3].value.trim())
 
   let xhttp = new XMLHttpRequest()
   xhttp.onreadystatechange = function() {
@@ -143,7 +157,7 @@ function modifyIssue(e) {
   }
   xhttp.open("PUT", "/create-or-modify-issue", true)
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xhttp.send(`project=${data[0].value}&issue=${data[1].value}&createdBy=${data[2].value}&assignedTo=${data[3].value}&id=${data[4].value}&close=${data[5].firstElementChild.checked}`)
+  xhttp.send(`project=${data[0].value.trim()}&issue=${data[1].value}&createdBy=${data[2].value.trim()}&assignedTo=${data[3].value.trim()}&id=${data[4].value}&close=${data[5].firstElementChild.checked}`)
   e.preventDefault()
 }
 
@@ -176,7 +190,7 @@ function deleteIssue(e) {
 function filterByProjectName(e) {
   /* test adding active to project list */
   const projectNames = document.querySelectorAll(".projectName")
-  //console.log(projectNames[0])
+  //console.log(e.target.innerHTML)
   projectNames.forEach( x => {
     x.classList.remove("projectActive")
   })
@@ -194,7 +208,7 @@ function filterByProjectName(e) {
     if (this.readyState == 4 && this.status == 200) {
       let res = JSON.parse(this.response)
       //console.log(res)
-      let allIssues = createIssuesHTML([res])
+      let allIssues = createIssuesHTML(res)
       issues.innerHTML = allIssues
       // if previously sorted by date sort by date again
       if (sortIndex > 0) sortByDate(sortIndex)
