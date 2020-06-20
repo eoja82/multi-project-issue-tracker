@@ -3,6 +3,7 @@ const express = require("express")
 const bodyParser = require("body-parser")
 const mongoose = require("mongoose")
 const apiRoutes = require("./routes/api.js")
+const auth = require("./routes/auth.js")
 
 const app = express()
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -13,15 +14,17 @@ mongoose.connect(process.env.DATABASE, { useNewUrlParser: true, useUnifiedTopolo
   (err) => {
     if (err) console.log(err)
     else console.log("Connected to database!")
-  })
+  }
+)
 
-app.route('/')
+/* app.route('/')
   .get(function (req, res) {
     res.sendFile(process.cwd() + '/views/index.html')
-  })
+  }) */
 
 //Routing for API 
 apiRoutes(app) 
+auth(app)
 
 //404 Not Found Middleware
 app.use(function(req, res) {

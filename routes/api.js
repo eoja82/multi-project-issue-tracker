@@ -1,4 +1,4 @@
-const projects = require("../public/data.js")
+//const projects = require("../public/data.js")
 const shortid = require('shortid')
 const mongoose = require("mongoose")
 const Schema = mongoose.Schema
@@ -20,6 +20,11 @@ module.exports = function(app) {
   })
 
   let Project = mongoose.model("Project", projectSchema)
+
+  app.route('/')
+    .get(function (req, res) {
+      res.sendFile(process.cwd() + '/views/index.html')
+    })
 
   // sends all issues data to render dynamicaly projects list and select tags options
   app.route("/pageData")
