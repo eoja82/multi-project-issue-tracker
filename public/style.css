@@ -1,28 +1,80 @@
-body, html {
+:root {
+  --nav-margin-top: 35px;
+}
+body {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+nav {
+  z-index: 1;
+  position: fixed;
+  top: 0;
+  background-color: black;
+  width: 100%;
+  height: 35px;
 }
 #pageContainer {
   display: flex;
   flex-direction: row;
 }
-#projectsListContainer {
-  background-color: gray;
-  width: 20%;
-  min-height: 100vh;
-}
-#projectsIssuesContainer {
-  background-color: teal;
-  width: 80%;
-  min-height: 100vh;
-}
 #projectsTitle, #issuesTitle {
   text-align: center;
+  font-size: 2rem;
+  margin-top: 1.2rem;
+}
+#projectsListContainer {
+  background-color: rgb(40, 40, 40);
+  color: rgb(190, 190, 190);
+  width: 200px;
+  height: calc(100% - 35px);
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  overflow-x: hidden;
+  margin-top: var(--nav-margin-top);
+}
+#projectsTitle {
+  color: rgb(31, 201, 88);
+}
+#projectsList {
+  padding: 0;
+  text-align: center;
+}
+.projectName {
+  list-style-type: none;
+  padding: .3rem 0;
+  margin: .25rem 1rem;
+  transition: .2s;
+  width: auto;
+}
+.projectName:hover {
+  cursor: pointer;
+  color: rgb(31, 201, 88);
+}
+.projectActive {
+  color: rgb(31, 201, 88);
+}
+#projectsIssuesContainer {
+  background-color: rgb(223, 223, 223);
+  /* width: 80%; */
+  min-height: 100vh;
+  margin-left: 200px;
+  margin-top: var(--nav-margin-top);
+}
+#projectsTitle {
+  color: rgb(31, 201, 88);
 }
 #sortContainer {
   display: flex;
   margin: 0 auto 1.5rem;
   max-width: 100%;
   justify-content: center;
+}
+#issuesTitle {
+  color: rgb(17, 110, 208);
+  padding-top: 1.2rem;
 }
 #issues {
   display: flex;
@@ -35,16 +87,24 @@ body, html {
 .issue {
   background-color: whitesmoke;
   padding: 1.5rem;
+  width: 200px;
+  margin-bottom: 1rem;
+}
+.issue h5 {
+  margin-bottom: .2rem;
+}
+.issue p {
+  margin-top: 0;
 }
 .closed {
   background-color: rgb(169, 229, 157);
 }
 
-/* create new issue modal styling */
-#newIssueModal, #modifyModal {
+/* modal styling */
+#newIssueModal, #modifyModal, #loginModal, #addUserModal {
   display: none;
   position: fixed;
-  z-index: 1;
+  z-index: 100;
   padding-top: 100px;
   left: 0;
   top: 0;
@@ -54,7 +114,7 @@ body, html {
   background-color: rgb(0, 0, 0, .4);
   color: rgb(190, 190, 190);
 }
-#newIssueModalContent, #modifyModalContent {
+.modalContent {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -73,7 +133,7 @@ body, html {
   from {top: -300px; opacity: 0}
   to {top: 0; opacity: 1}
 }
-#newIssueForm, #modifyIssueForm {
+#newIssueForm, #modifyIssueForm, #loginForm, #addUserForm {
   display: flex;
   flex-direction: column;
   max-width: 100%;
