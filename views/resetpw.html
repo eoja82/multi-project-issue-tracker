@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>change Issue Tracker Password</title>
+  <link rel="stylesheet" href="./public/style.css">
+</head>
+<body>
+  <div id="changePasswordContainer">
+    <h1 id="passwordHeader">Change your Issue Tracker password.</h1>
+    <form id="passwordChangeForm">
+      <input type="text" name="username" placeholder="Username">
+      <input type="password" name="oldPassword" placeholder="Old Password">
+      <input type="password" name="newPassword" placeholder="New Password">
+      <input type="password" name="newPasswordAgain" placeholder="Enter New Password Again">
+      <div id="noMatch"></div>
+      <input type="submit" id="changePassword" value="Change Password">
+    </form>
+  </div>
+  <script src="./public/resetpw.js"></script>
+</body>
+</html>
