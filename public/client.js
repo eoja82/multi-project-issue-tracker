@@ -89,7 +89,7 @@ function loadPageData() {
 
 // page should now be loaded and can query DOM elements
 function pageLoaded() {
-   // filter issues by project name
+  // filter issues by project name
   const projects = document.querySelectorAll(".projectName")
   projects.forEach( x => {
     x.addEventListener("click", filterByProjectName)
@@ -98,6 +98,37 @@ function pageLoaded() {
   // add event listener to update / delete button
   const updateDelete = document.querySelectorAll(".updateDelete")
   updateDelete.forEach( x => x.addEventListener("click", displayModal))
+}
+
+// login user
+const loginForm = document.getElementById("loginForm")
+loginForm.addEventListener("submit", loginUser)
+
+function loginUser(e) {
+  //console.log(e.originalTarget[0].value)
+  //console.log(e.originalTarget[1].value)
+  const username = e.originalTarget[0].value
+  const password = e.originalTarget[1].value
+  const xhttp = new XMLHttpRequest()
+  xhttp.onreadystatechange = function() {
+    console.log(this.readyState + " " + this.status)
+    if (this.readyState == 4 && this.status >= 400) {
+      alert(this.response)
+      console.log("error logging in")
+    } 
+    if (this.readyState == 4 && this.status == 200) {
+      console.log(this.getAllResponseHeaders())
+      alert(this.response)
+      //loginForm.reset()
+    }
+    if (this.readyState == 4 && this.status == 307) {
+      location.assign(`${this.response}`)
+    }
+  }
+  xhttp.open("POST", "/login", true)
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send(`username=${username}&password=${password}`)
+  e.preventDefault()
 }
 
 // create a new issue
