@@ -35,6 +35,8 @@ module.exports = function(app) {
         } else if (user.passwordIsHash) {
           console.log("checking hash")
           if (bcrypt.compareSync(password, user.hash)) {
+            req.session.loggedIn = true
+            console.log(req.session)
             res.status(307).send("/")
           } else {
             res.send("Incorrect Password.")
@@ -43,6 +45,19 @@ module.exports = function(app) {
       })
 
     })
+
+    app.route("/logout")
+      .get(function(req, res) {
+        req.session.destroy(function(err) {
+          if (err) {
+            console.log(err)
+            res.send("Error: could not log out.")
+          } else {
+            console.log("Logging out user.")
+            res.send("Log out successful!")
+          }
+        })
+      })
 
     app.route("/changepassword")
       .put(function(req, res) {

@@ -1,17 +1,16 @@
 //const projects = require("./data")
 
 const newIssueModal = document.getElementById("newIssueModal")
-const createNewIssue = document.getElementById("createNewIssue")
+const newIssue = document.getElementById("newIssue")
 const loginModal = document.getElementById("loginModal")
-const login = document.getElementById("login")
+//const login = document.getElementById("login")
 const addUserModal = document.getElementById("addUserModal")
 const addUser = document.getElementById("addUser")
 const close = document.querySelectorAll(".close")
 const modifyModal = document.getElementById("modifyModal")
 const closeIssue = document.getElementById("closeIssue")
 
-createNewIssue.addEventListener("click", displayModal)
-login.addEventListener("click", displayModal)
+newIssue.addEventListener("click", displayModal)
 addUser.addEventListener("click", displayModal)
 addEventListener("click", closeModal)
 close.forEach( x => x.addEventListener("click", closeModal))
@@ -20,7 +19,7 @@ close.forEach( x => x.addEventListener("click", closeModal))
 
 function displayModal(e) {
   //console.log(e.target.id)
-  if (e.target.id == "createNewIssue") newIssueModal.style.display = "block"
+  if (e.target.id == "newIssue") newIssueModal.style.display = "block"
   if (e.target.className == "updateDelete") {
     modifyModal.style.display = "block"
 
@@ -62,7 +61,7 @@ function displayModal(e) {
 }
 
 function closeModal(e) {
-  // could I use `` here to shorten this up
+  // could I use `` or switch here to shorten this up
   if (e.target.id == "newIssueModal" || 
       e.target.id == "modifyModal" ||  
       e.target.id == "loginModal" ||

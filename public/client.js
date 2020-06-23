@@ -1,3 +1,5 @@
+let loggedIn
+const login = document.getElementById("login")
 // get data from database and make sure page is fully loaded before further actions
 addEventListener("DOMContentLoaded", loadData)
 
@@ -33,9 +35,13 @@ function loadPageData() {
         reject()
       } 
       if (this.readyState == 4 && this.status == 200) {
-        let res = JSON.parse(this.response)
+        const res = JSON.parse(this.response)
+        //console.log(res.loggedIn)
+        //console.log(res.pageData)
+        loggedIn = res.loggedIn
+        const pageData = res.pageData
         // display issues
-        let allIssues = createIssuesHTML(res)
+        let allIssues = createIssuesHTML(pageData)
         issues.innerHTML = allIssues
         // if previously sorted by date sort by date again
         if (sortIndex > 0) sortByDate(sortIndex)
@@ -44,7 +50,7 @@ function loadPageData() {
         let createdBy = []
         let assignedTo = []
         let listOfProjects = []
-        res.forEach ( x => {
+        pageData.forEach ( x => {
           listOfProjects.push(x.project)
           x.issues.forEach( y => {
             if (createdBy.indexOf(y.createdBy) < 0) createdBy.push(y.createdBy)
@@ -98,6 +104,33 @@ function pageLoaded() {
   // add event listener to update / delete button
   const updateDelete = document.querySelectorAll(".updateDelete")
   updateDelete.forEach( x => x.addEventListener("click", displayModal))
+
+  
+  // add event listener to log in and log out, set button text
+  const newIssueForm = document.getElementById("newIssueForm")
+  const createNewIssueNotAllowed = document.getElementById("createNewIssue")
+  const modifyIssueForm = document.getElementById("modifyIssueForm")
+  const modifyIssueNotAllowed = document.getElementById("modifyIssue")
+  const deleteIssueForm = document.getElementById("deleteIssueForm")
+  const deleteIssueNotAllowed = document.getElementById("deleteIssue")
+  if (loggedIn) {
+    //console.log("loggedIn " + loggedIn)
+    login.innerHTML = "Log Out"
+    login.addEventListener("click", logoutUser)
+    newIssueForm.addEventListener("submit", addNewIssue)
+    modifyIssueForm.addEventListener("submit", modifyIssue)
+    deleteIssueForm.addEventListener("submit", deleteIssue)
+  } else {
+    login.innerHTML = "Log In"
+    login.addEventListener("click", displayModal)
+    createNewIssueNotAllowed.addEventListener("click", notAllowed)
+    modifyIssueNotAllowed.addEventListener("click", notAllowed)
+    deleteIssueNotAllowed.addEventListener("click", notAllowed)
+  }
+}
+
+function notAllowed() {
+  alert("You must be logged in to update/delele or create issues.")
 }
 
 // login user
@@ -131,9 +164,29 @@ function loginUser(e) {
   e.preventDefault()
 }
 
+// log out user
+function logoutUser(e) {
+  const xhttp = new XMLHttpRequest()
+  xhttp.onreadystatechange = function() {
+    //console.log(this.readyState + " " + this.status)
+    if (this.readyState == 4 && this.status >= 400) {
+      alert(this.response)
+      console.log("error logging out")
+    } 
+    if (this.readyState == 4 && this.status == 200) {
+      //console.log()
+      alert(this.response)
+      location.assign("/")
+    }
+  }
+  xhttp.open("GET", "/logout", true)
+  xhttp.send()
+  e.preventDefault()
+}
+
 // create a new issue
-const newIssueForm = document.getElementById("newIssueForm")
-newIssueForm.addEventListener("submit", addNewIssue)
+/* const newIssueForm = document.getElementById("newIssueForm")
+newIssueForm.addEventListener("submit", addNewIssue) */
 
 function addNewIssue(e) {
   //console.log(e.target.children[0].value)
@@ -165,8 +218,8 @@ function addNewIssue(e) {
 }
 
 // update an issue
-const modifyIssueForm = document.getElementById("modifyIssueForm")
-modifyIssueForm.addEventListener("submit", modifyIssue)
+/* const modifyIssueForm = document.getElementById("modifyIssueForm")
+modifyIssueForm.addEventListener("submit", modifyIssue) */
 
 function modifyIssue(e) {
   const data = e.target.children
@@ -193,12 +246,11 @@ function modifyIssue(e) {
 }
 
 // delete an issue
-const deleteIssueForm = document.getElementById("deleteIssueForm")
-deleteIssueForm.addEventListener("submit", deleteIssue)
+/* const deleteIssueForm = document.getElementById("deleteIssueForm")
+deleteIssueForm.addEventListener("submit", deleteIssue) */
 
 function deleteIssue(e) {
   const data = e.target.children
-  //console.log(data[0].value)
 
   let xhttp = new XMLHttpRequest()
   xhttp.onreadystatechange = function() {
@@ -213,7 +265,8 @@ function deleteIssue(e) {
     }
   }
   xhttp.open("DELETE", "/create-or-modify-issue", true)
-  
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send(`project=${data[0].value}&issueId=${data[1].value}`)
   e.preventDefault()
 }
 

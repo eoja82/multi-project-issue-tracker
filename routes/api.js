@@ -23,6 +23,7 @@ module.exports = function(app) {
 
   app.route('/')
     .get(function (req, res) {
+      //console.log(req.session.loggedIn)
       res.sendFile(process.cwd() + '/views/index.html')
     })
 
@@ -34,11 +35,13 @@ module.exports = function(app) {
   // sends all issues data to render dynamicaly projects list and select tags options
   app.route("/pageData")
     .get(function (req, res) {
+      console.log(req.session.loggedIn)
       Project.find({}, function(err, data) {
         if (err) console.log(err)
         else {
           //console.log(data)
-          res.send(data)
+          //res.send(data)
+          res.send({pageData: data, loggedIn: req.session.loggedIn})
         }
       })
     })
@@ -195,7 +198,7 @@ module.exports = function(app) {
     // delete an issue and delete project if it has no issues
     .delete(function(req, res) {
       let project = req.body.project
-      let issueId = req.body.id
+      let issueId = req.body.issueId
       
       // delete issue
       Project.findOneAndUpdate({project: project},
@@ -203,8 +206,10 @@ module.exports = function(app) {
           if (err) {
             console.log(err)
             res.send(`Error: could not delete issue ${issueId}`)
+          } else if (!data) {
+            console.log("Issue to delete not found")
           } else {
-            //console.log(data)
+            console.log(data)
             if (data.issues.length == 0) {   // delete project if no issues
               Project.findOneAndDelete({project: project}, function(err, data) {
                 if (err) {
