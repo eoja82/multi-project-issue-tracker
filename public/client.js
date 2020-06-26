@@ -1,5 +1,7 @@
 let loggedIn
 const login = document.getElementById("login")
+const projectsList = document.getElementById("projectsList")
+
 // get data from database and make sure page is fully loaded before further actions
 addEventListener("DOMContentLoaded", loadData)
 
@@ -7,7 +9,7 @@ async function loadData() {
   // need to remove element children if any so lists don't append onto existing element children
   const filterCreatedBy = document.getElementById("filterCreatedBy")
   const filterAssignedTo = document.getElementById("filterAssignedTo")
-  const projectsList = document.getElementById("projectsList")
+  //const projectsList = document.getElementById("projectsList")
   const listsToReset = [filterCreatedBy, filterAssignedTo, projectsList]
   listsToReset.forEach( x => {
     while (x.firstElementChild) x.firstElementChild.remove()
@@ -25,7 +27,7 @@ function loadPageData() {
   const issues = document.getElementById("issues")
   const filterCreatedBy = document.getElementById("filterCreatedBy")
   const filterAssignedTo = document.getElementById("filterAssignedTo")
-  const projectsList = document.getElementById("projectsList")
+  //const projectsList = document.getElementById("projectsList")
   //console.log(projectsList)
   let xhttp = new XMLHttpRequest()
   return new Promise( (resolve, reject) => {
@@ -69,6 +71,15 @@ function loadPageData() {
           if (x == "All") li.classList.add("projectActive")
           projectsList.appendChild(li)
         })
+        /* begin test more porjects */
+        for (let i = 0; i < 25; i++) {
+          let li = document.createElement("li")
+          li.textContent = "Another Project"
+          li.className = "projectName"
+          projectsList.appendChild(li)
+        }
+
+        /* end test more projects */
         createdBy.forEach( x => {
           let option = createOption(x)
           filterCreatedBy.appendChild(option)
@@ -116,12 +127,14 @@ function pageLoaded() {
   if (loggedIn) {
     //console.log("loggedIn " + loggedIn)
     login.innerHTML = "Log Out"
+    login.style.color = "rgb(190, 190, 190)"
     login.addEventListener("click", logoutUser)
     newIssueForm.addEventListener("submit", addNewIssue)
     modifyIssueForm.addEventListener("submit", modifyIssue)
     deleteIssueForm.addEventListener("submit", deleteIssue)
   } else {
     login.innerHTML = "Log In"
+    login.style.color = "rgb(31, 201, 88)"
     login.addEventListener("click", displayModal)
     createNewIssueNotAllowed.addEventListener("click", notAllowed)
     modifyIssueNotAllowed.addEventListener("click", notAllowed)
@@ -135,16 +148,17 @@ function notAllowed() {
 
 // login user
 const loginForm = document.getElementById("loginForm")
-loginForm.addEventListener("submit", loginUser)
+loginForm.addEventListener("submit", loginUser, true)
 
 function loginUser(e) {
-  //console.log(e.originalTarget[0].value)
+  //console.log("trying to log in")
+  //console.log(e.target.elements[0].value)
   //console.log(e.originalTarget[1].value)
-  const username = e.originalTarget[0].value
-  const password = e.originalTarget[1].value
+  const username = e.target.elements[0].value
+  const password = e.target.elements[1].value
   const xhttp = new XMLHttpRequest()
   xhttp.onreadystatechange = function() {
-    console.log(this.readyState + " " + this.status)
+    //console.log(this.readyState + " " + this.status)
     if (this.readyState == 4 && this.status >= 400) {
       alert(this.response)
       console.log("error logging in")
@@ -191,7 +205,7 @@ newIssueForm.addEventListener("submit", addNewIssue) */
 function addNewIssue(e) {
   //console.log(e.target.children[0].value)
   const data = e.target.children
-  //console.log(data)
+  console.log(data)
   const sortIndex = document.getElementById("sortDateCreated").options.selectedIndex
   const issues = document.getElementById("issues")
 
@@ -418,3 +432,50 @@ function filterIssues(e) {
   xhttp.send(`project=${project}&createdBy=${createdBy}&assignedTo=${assignedTo}&status=${status}`)
   e.preventDefault()
 }
+
+/* projects drop down list for small screen */
+const projectsArrow = document.querySelector(".projectsArrow")
+const projectsTitle = document.getElementById("projectsTitle")
+let width = window.innerWidth
+
+addEventListener("resize", resetWidth)
+
+function resetWidth() {
+  //console.log(width)
+  width = window.innerWidth
+  if (width <= 440) {
+    projectsArrow.style.display = "inline"
+    projectsTitle.addEventListener("click", displayProjectsList)
+  } else {
+    projectsArrow.style.display = "none"
+  } 
+}
+
+resetWidth()
+
+function displayProjectsList() {
+  const projectNames = document.querySelectorAll(".projectName")
+  //console.log("opening list")
+  projectsList.style.visibility = "visible"
+  projectsList.style.height = "300px"
+  projectsArrow.classList.replace("fa-chevron-down", "fa-chevron-up")
+  projectsTitle.removeEventListener("click", displayProjectsList)
+  projectsTitle.addEventListener("click", closeProjectsList)
+  projectNames.forEach( x => {
+    x.addEventListener("click", closeProjectsList)
+  })
+}
+
+function closeProjectsList() {
+  //console.log("closing list")
+  const projectNames = document.querySelectorAll(".projectName")
+  projectsList.style.visibility = "hidden"
+  projectsList.style.height = "0"
+  projectsArrow.classList.replace("fa-chevron-up", "fa-chevron-down")
+  projectsTitle.removeEventListener("click", closeProjectsList)
+  projectNames.forEach( x => {
+    x.removeEventListener("click", closeProjectsList)
+  })
+  projectsTitle.addEventListener("click", displayProjectsList)
+}
+
