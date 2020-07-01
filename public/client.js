@@ -1,15 +1,16 @@
 let loggedIn
 const login = document.getElementById("login")
 const projectsList = document.getElementById("projectsList")
+const filterCreatedBy = document.getElementById("filterCreatedBy")
+const filterAssignedTo = document.getElementById("filterAssignedTo")
+const issues = document.getElementById("issues")
+const filterStatus = document.getElementById("filterStatus")
 
 // get data from database and make sure page is fully loaded before further actions
 addEventListener("DOMContentLoaded", loadData)
 
 async function loadData() {
   // need to remove element children if any so lists don't append onto existing element children
-  const filterCreatedBy = document.getElementById("filterCreatedBy")
-  const filterAssignedTo = document.getElementById("filterAssignedTo")
-  //const projectsList = document.getElementById("projectsList")
   const listsToReset = [filterCreatedBy, filterAssignedTo, projectsList]
   listsToReset.forEach( x => {
     while (x.firstElementChild) x.firstElementChild.remove()
@@ -17,18 +18,14 @@ async function loadData() {
 
   await loadPageData()
   pageLoaded()
-  document.getElementById("filterCreatedBy").selectedIndex = 0
-  document.getElementById("filterAssignedTo").selectedIndex = 0
-  document.getElementById("filterStatus").selectedIndex = 0
+  filterCreatedBy.selectedIndex = 0
+  filterAssignedTo.selectedIndex = 0
+  filterStatus.selectedIndex = 0
 }
 
 function loadPageData() {
   const sortIndex = document.getElementById("sortDateCreated").options.selectedIndex
-  const issues = document.getElementById("issues")
-  const filterCreatedBy = document.getElementById("filterCreatedBy")
-  const filterAssignedTo = document.getElementById("filterAssignedTo")
-  //const projectsList = document.getElementById("projectsList")
-  //console.log(projectsList)
+  
   let xhttp = new XMLHttpRequest()
   return new Promise( (resolve, reject) => {
     xhttp.onreadystatechange = function() {
@@ -38,13 +35,13 @@ function loadPageData() {
       } 
       if (this.readyState == 4 && this.status == 200) {
         const res = JSON.parse(this.response)
-        //console.log(res.loggedIn)
-        //console.log(res.pageData)
         loggedIn = res.loggedIn
         const pageData = res.pageData
+
         // display issues
         let allIssues = createIssuesHTML(pageData)
         issues.innerHTML = allIssues
+
         // if previously sorted by date sort by date again
         if (sortIndex > 0) sortByDate(sortIndex)
 
@@ -63,7 +60,6 @@ function loadPageData() {
         listOfProjects.unshift("All")
         createdBy.unshift("All")
         assignedTo.unshift("All")
-        //console.log(listOfProjects)
         listOfProjects.forEach( x => {
           let li = document.createElement("li")
           li.textContent = x
@@ -71,19 +67,12 @@ function loadPageData() {
           if (x == "All") li.classList.add("projectActive")
           projectsList.appendChild(li)
         })
-        /* begin test more porjects */
-        for (let i = 0; i < 25; i++) {
-          let li = document.createElement("li")
-          li.textContent = "Another Project"
-          li.className = "projectName"
-          projectsList.appendChild(li)
-        }
-
-        /* end test more projects */
+        
         createdBy.forEach( x => {
           let option = createOption(x)
           filterCreatedBy.appendChild(option)
         })
+
         assignedTo.forEach( x => {
           if (x == "") x = "Nobody"
           let option = createOption(x)
@@ -116,7 +105,6 @@ function pageLoaded() {
   const updateDelete = document.querySelectorAll(".updateDelete")
   updateDelete.forEach( x => x.addEventListener("click", displayModal))
 
-  
   // add event listener to log in and log out, set button text
   const newIssueForm = document.getElementById("newIssueForm")
   const createNewIssueNotAllowed = document.getElementById("createNewIssue")
@@ -125,7 +113,6 @@ function pageLoaded() {
   const deleteIssueForm = document.getElementById("deleteIssueForm")
   const deleteIssueNotAllowed = document.getElementById("deleteIssue")
   if (loggedIn) {
-    //console.log("loggedIn " + loggedIn)
     login.innerHTML = "Log Out"
     login.style.color = "rgb(190, 190, 190)"
     login.addEventListener("click", logoutUser)
@@ -151,14 +138,10 @@ const loginForm = document.getElementById("loginForm")
 loginForm.addEventListener("submit", loginUser, true)
 
 function loginUser(e) {
-  //console.log("trying to log in")
-  //console.log(e.target.elements[0].value)
-  //console.log(e.originalTarget[1].value)
   const username = e.target.elements[0].value
   const password = e.target.elements[1].value
   const xhttp = new XMLHttpRequest()
   xhttp.onreadystatechange = function() {
-    //console.log(this.readyState + " " + this.status)
     if (this.readyState == 4 && this.status >= 400) {
       alert(this.response)
       console.log("error logging in")
@@ -166,14 +149,13 @@ function loginUser(e) {
     if (this.readyState == 4 && this.status == 200) {
       console.log(this.getAllResponseHeaders())
       alert(this.response)
-      //loginForm.reset()
     }
     if (this.readyState == 4 && this.status == 307) {
       location.assign(`${this.response}`)
     }
   }
   xhttp.open("POST", "/login", true)
-  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
   xhttp.send(`username=${username}&password=${password}`)
   e.preventDefault()
 }
@@ -182,13 +164,11 @@ function loginUser(e) {
 function logoutUser(e) {
   const xhttp = new XMLHttpRequest()
   xhttp.onreadystatechange = function() {
-    //console.log(this.readyState + " " + this.status)
     if (this.readyState == 4 && this.status >= 400) {
       alert(this.response)
       console.log("error logging out")
     } 
     if (this.readyState == 4 && this.status == 200) {
-      //console.log()
       alert(this.response)
       location.assign("/")
     }
@@ -199,26 +179,16 @@ function logoutUser(e) {
 }
 
 // create a new issue
-/* const newIssueForm = document.getElementById("newIssueForm")
-newIssueForm.addEventListener("submit", addNewIssue) */
-
 function addNewIssue(e) {
-  //console.log(e.target.children[0].value)
   const data = e.target.children
-  console.log(data)
-  const sortIndex = document.getElementById("sortDateCreated").options.selectedIndex
-  const issues = document.getElementById("issues")
 
   let xhttp = new XMLHttpRequest()
   xhttp.onreadystatechange = function() {
-    //console.log(this.readyState + " " + this.status)
     if (this.readyState == 4 && this.status >= 400) {
       alert(this.response)
-      //alert("Error: the issue was not created")
-      console.log("error creating new issue")
+      console.log("Error creating new issue.")
     } 
     if (this.readyState == 4 && this.status == 200) {
-      //console.log(this.response)
       newIssueModal.style.display = "none"
       alert(this.response)
       loadData()
@@ -232,25 +202,19 @@ function addNewIssue(e) {
 }
 
 // update an issue
-/* const modifyIssueForm = document.getElementById("modifyIssueForm")
-modifyIssueForm.addEventListener("submit", modifyIssue) */
-
 function modifyIssue(e) {
   const data = e.target.children
-  //console.log(typeof data[3].value.trim())
 
   let xhttp = new XMLHttpRequest()
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status >= 400) {
       alert(this.response)
-      console.log("error updating issue")
+      console.log("Error updating issue.")
     } 
     if (this.readyState == 4 && this.status == 200) {
-      //console.log(this.response)
       modifyModal.style.display = "none"
       alert(this.response)
       loadData()
-      //modifyIssueForm.reset()
     }
   }
   xhttp.open("PUT", "/create-or-modify-issue", true)
@@ -260,9 +224,6 @@ function modifyIssue(e) {
 }
 
 // delete an issue
-/* const deleteIssueForm = document.getElementById("deleteIssueForm")
-deleteIssueForm.addEventListener("submit", deleteIssue) */
-
 function deleteIssue(e) {
   const data = e.target.children
 
@@ -286,17 +247,13 @@ function deleteIssue(e) {
 
 // filters project issues by project
 function filterByProjectName(e) {
-  /* test adding active to project list */
   const projectNames = document.querySelectorAll(".projectName")
-  //console.log(e.target.innerHTML)
   projectNames.forEach( x => {
     x.classList.remove("projectActive")
   })
   e.target.classList.add("projectActive")
-  /* end test */
 
   const sortIndex = document.getElementById("sortDateCreated").options.selectedIndex
-  const issues = document.getElementById("issues")
 
   let xhttp = new XMLHttpRequest()
   xhttp.onreadystatechange = function() {
@@ -305,7 +262,6 @@ function filterByProjectName(e) {
     } 
     if (this.readyState == 4 && this.status == 200) {
       let res = JSON.parse(this.response)
-      //console.log(res)
       let allIssues = createIssuesHTML(res)
       issues.innerHTML = allIssues
       // if previously sorted by date sort by date again
@@ -357,7 +313,6 @@ const sortDateCreated = document.getElementById("sortDateCreated")
 sortDateCreated.addEventListener("change", sortByDate)
 
 function sortByDate(e) {
-  //console.log(e.target.options.selectedIndex)
   let issues = document.getElementById("issues")
   const issuesToSort = document.querySelectorAll(".issue")
   let selected = typeof e == "number" ? e : e.target.options.selectedIndex
@@ -398,14 +353,12 @@ function sortByDate(e) {
   })
 }
 
-
 // filter by user created, user assigned to, and status
 const filterForm = document.getElementById("filterForm")
 filterForm.addEventListener("change", filterIssues)
 
 function filterIssues(e) {
   const sortIndex = document.getElementById("sortDateCreated").options.selectedIndex
-  const issues = document.getElementById("issues")
   const project = document.querySelector(".projectActive").innerHTML
   const createdBy = document.getElementById("filterCreatedBy").selectedOptions[0].value
   const assignedTo = document.getElementById("filterAssignedTo").selectedOptions[0].value
@@ -419,7 +372,6 @@ function filterIssues(e) {
     } 
     if (this.readyState == 4 && this.status == 200) {
       let res = JSON.parse(this.response)
-      //console.log(res)
       let allIssues = createIssuesHTML(res)
       issues.innerHTML = allIssues
       // if previously sorted by date sort by date again
@@ -433,7 +385,7 @@ function filterIssues(e) {
   e.preventDefault()
 }
 
-/* projects drop down list for small screen */
+// projects drop down list for small screen 
 const projectsArrow = document.querySelector(".projectsArrow")
 const projectsTitle = document.getElementById("projectsTitle")
 let width = window.innerWidth
@@ -441,7 +393,6 @@ let width = window.innerWidth
 addEventListener("resize", resetWidth)
 
 function resetWidth() {
-  //console.log(width)
   width = window.innerWidth
   if (width <= 440) {
     projectsArrow.style.display = "inline"
@@ -455,7 +406,6 @@ resetWidth()
 
 function displayProjectsList() {
   const projectNames = document.querySelectorAll(".projectName")
-  //console.log("opening list")
   projectsList.style.visibility = "visible"
   projectsList.style.height = "300px"
   projectsArrow.classList.replace("fa-chevron-down", "fa-chevron-up")
@@ -467,7 +417,6 @@ function displayProjectsList() {
 }
 
 function closeProjectsList() {
-  //console.log("closing list")
   const projectNames = document.querySelectorAll(".projectName")
   projectsList.style.visibility = "hidden"
   projectsList.style.height = "0"
