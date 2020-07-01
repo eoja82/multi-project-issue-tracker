@@ -391,14 +391,21 @@ const projectsTitle = document.getElementById("projectsTitle")
 let width = window.innerWidth
 
 addEventListener("resize", resetWidth)
+//addEventListener("deviceorientation", resetWidth)
 
 function resetWidth() {
   width = window.innerWidth
   if (width <= 440) {
     projectsArrow.style.display = "inline"
+    projectsArrow.classList.replace("fa-chevron-up", "fa-chevron-down")
+    projectsList.style.visibility = "hidden"
+    projectsList.style.height = "0"
     projectsTitle.addEventListener("click", displayProjectsList)
   } else {
     projectsArrow.style.display = "none"
+    projectsList.style.visibility = "visible"
+    projectsList.style.height = "auto"
+    projectsTitle.removeEventListener("click", displayProjectsList)
   } 
 }
 
