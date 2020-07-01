@@ -4,29 +4,34 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Project Issue Tracker</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./public/style.css">
 </head>
 <body>
   <nav>
-    <button id="login" class="navButton">Login</button>
-    <button id="createNewIssue" class="navButton">Create A New Issue</button>
-    <button id="addUser" class="navButton">Add User</button>
+    <button id="login" class="navButton">Log In</button>
   </nav>
- <!--  <div id="pageContainer"> -->
-    <div id="projectsListContainer">
-      <h2 id="projectsTitle">Projects</h2>
-      <ul id="projectsList"></ul>
-    </div>
-    <div id="projectsIssuesContainer">
-      <h2 id="issuesTitle">Issues</h2>
-      <div id="sortContainer">
-        <form id=filterForm>
+  <div id="projectsListContainer">
+    <h2 id="projectsTitle">Projects <i class="fas fa-chevron-down projectsArrow"></i></h2>
+    <ul id="projectsList"></ul>
+  </div>
+  <div id="projectsIssuesContainer">
+    <h2 id="issuesTitle">Issues</h2>
+    <button id="newIssue">Create A New Issue</button>
+    <div id="sortContainer">
+      <form id=filterForm>
+        <div class="filter">
           <label for="filterCreatedBy">Created By</label>
           <select name="filterCreatedBy" id="filterCreatedBy" class="issueFilter">
-          </select>
+        </select>
+        </div>
+        <div class="filter">
           <label for="filterAssignedTo">Assigned To</label>
           <select name="filterAssignedTo" id="filterAssignedTo" class="issueFilter">
-          </select>
+        </select>
+        </div>
+        <div class="filter">
           <label for="sortDateCreated">Date</label>
           <select name="sortDateCreated" id="sortDateCreated">
             <option value="by date" selected disabled>By Date</option>
@@ -35,18 +40,23 @@
             <option value="updatedOldest">Updated Oldest</option>
             <option value="updayedNewest">Updated Newest</option>
           </select>
+        </div>
+        <div class="filter">
           <label for="filterStatus">Status</label>
           <select name="filterStatus" id="filterStatus" class="issueFilter">
             <option value="All" selected>All</option>
             <option value="Open">Open</option>
             <option value="Closed">Closed</option>
           </select>
-          <!-- <button id="reset filterAndSort">Reset</button> -->
-        </form>
-      </div>
-      <div id="issues"></div>
+        </div>
+      </form>
     </div>
- <!--  </div> -->
+    <div id="issues"></div>
+  </div>
+  <footer>
+    <a href="/resetpassword" id="changePassword">Change Password</a>
+    <p>&#169; 2020 Erik Oja</p>
+  </footer>
 
   <!-- create a new issue modal -->
   <div id="newIssueModal">
@@ -86,7 +96,7 @@
       <form id="deleteIssueForm">
         <input type="text" hidden class="deleteInput" name="project">
         <input type="text" hidden class="deleteInput" name="id">
-        <input type="submit" name="delete" value="Delete Issue">
+        <input id="deleteIssue" type="submit" name="delete" value="Delete Issue">
       </form>
     </div>
   </div>
@@ -103,22 +113,7 @@
           <input type="password" name="password" placeholder="Password" required>
           <input id="login" type="submit" value="Login">
       </form>
-      <a id="resetPassword" href="/resetpassword">Reset Password</a>
-    </div>
-  </div>
-
-  <!-- add user modal -->
-  <div id="addUserModal">
-    <div class="modalContent">
-      <span class="close">&times</span>
-      <div class="modalHeader">
-        <h3>Add A New User</h3>
-      </div>
-      <form id="addUserForm">
-          <input type="text" name="username" placeholder="New Username" required>
-          <input type="text" name="password" placeholder="New Password" required>
-          <input id="addUser" type="submit" value="Add User">
-      </form>
+      <a id="resetPassword" href="/resetpassword">Change Password</a>
     </div>
   </div>
 
