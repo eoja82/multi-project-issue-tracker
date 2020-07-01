@@ -1,4 +1,3 @@
-//const projects = require("../public/data.js")
 const shortid = require('shortid')
 const mongoose = require("mongoose")
 const Schema = mongoose.Schema
@@ -23,7 +22,6 @@ module.exports = function(app) {
 
   app.route('/')
     .get(function (req, res) {
-      //console.log(req.session.loggedIn)
       res.sendFile(process.cwd() + '/views/index.html')
     })
 
@@ -35,12 +33,9 @@ module.exports = function(app) {
   // sends all issues data to render dynamicaly projects list and select tags options
   app.route("/pageData")
     .get(function (req, res) {
-      console.log(req.session.loggedIn)
       Project.find({}, function(err, data) {
         if (err) console.log(err)
         else {
-          //console.log(data)
-          //res.send(data)
           res.send({pageData: data, loggedIn: req.session.loggedIn})
         }
       })
@@ -81,7 +76,6 @@ module.exports = function(app) {
           console.log(err)
           res.send("Error: could not filter projects.")
         } else {
-          //console.log(data)
           data.forEach( x => {
             let issues = []
             x.issues.forEach( y => {
@@ -92,9 +86,7 @@ module.exports = function(app) {
               }
             })
             x.issues = issues
-            //console.log(issues)
           })
-          //console.log(data)
           res.send(data)
         }
       })
@@ -108,7 +100,6 @@ module.exports = function(app) {
       Project.findOne({project: req.body.project}, function(err, data) {
         if (err) console.log(err)
         if (!data) {
-          console.log("project name does not already exist")
           addNewProject()
         }
         else pushNewIssue()
@@ -116,7 +107,6 @@ module.exports = function(app) {
 
       // if project exists, push new issue
       function pushNewIssue() {
-        console.log("in push issue")
         Project.findOneAndUpdate({project: req.body.project}, 
           {$push: {
             issues: {
@@ -132,8 +122,6 @@ module.exports = function(app) {
               console.log(err)
               res.send("Error: the new issue was not created!")
             } else {
-              console.log("new project created")
-              //console.log(data)
               res.send(`New issue for ${req.body.project} was created`)
             }
         })
@@ -141,7 +129,6 @@ module.exports = function(app) {
 
       // if project does not exist, create new project and issue
       function addNewProject() {
-        console.log("in add new")
         let newProject = new Project({
           project: req.body.project,
           issues: [{
@@ -157,7 +144,6 @@ module.exports = function(app) {
             res.send("Error: the project and issue was not created!")
           } else {
             console.log("new project created")
-            //console.log(data)
             res.send(`New project and issue successfully created for ${req.body.project}!`)
           }
         })
@@ -167,7 +153,6 @@ module.exports = function(app) {
     // update an issue
     .put(function(req, res) {
       let issue = req.body
-      //console.log(typeof issue.close)
       let updates = {
         "issues.$.issue": issue.issue,
         "issues.$.createdBy": issue.createdBy,
@@ -182,12 +167,10 @@ module.exports = function(app) {
       if (Object.keys(updates).length <= 1) res.send("No input fields entered.")
       else {
         updates["issues.$.lastUpdated"] = new Date()
-        //console.log(updates)
         Project.updateOne({"issues._id": req.body.id},
           {$set: updates}, function(err, data) {
             if (err) console.log(err)
             else {
-              //console.log(data)
               res.send(`Issue with id: ${issue.id} succesfully updated!`)
             }
           }
@@ -205,12 +188,12 @@ module.exports = function(app) {
           {$pull: {issues: {_id: issueId}}}, {new: true}, function(err, data) {
           if (err) {
             console.log(err)
-            res.send(`Error: could not delete issue ${issueId}`)
+            res.send(`Error: could not delete issue ${issueId}.`)
           } else if (!data) {
             console.log("Issue to delete not found")
           } else {
-            console.log(data)
-            if (data.issues.length == 0) {   // delete project if no issues
+            // delete project if no issues
+            if (data.issues.length == 0) {   
               Project.findOneAndDelete({project: project}, function(err, data) {
                 if (err) {
                   console.log(err)

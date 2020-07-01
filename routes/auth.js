@@ -19,31 +19,28 @@ module.exports = function(app) {
 
   app.route("/login")
     .post(function(req, res) {
-      //console.log(req.body)
       const username = req.body.username
       const password = req.body.password
 
       Users.findOne({username: username}, function(err, user) {
         if (err) {
           console.log(err)
-          res.send("Error: locating username")
+          res.send("Error: locating username.")
         } else if (!user) {
           res.send(`${username} is not a valid username.`)
         } else if (user.promptPasswordChange) {
-          console.log("user needs to change password")
+          console.log(`User ${username} needs to change their password.`)
           res.status(307).send("/resetpassword")
         } else if (user.passwordIsHash) {
-          console.log("checking hash")
           if (bcrypt.compareSync(password, user.hash)) {
             req.session.loggedIn = true
-            console.log(req.session)
+            console.log(req.session._id)
             res.status(307).send("/")
           } else {
-            res.send("Incorrect Password.")
+            res.send("Incorrect password.")
           }
         }
       })
-
     })
 
     app.route("/logout")
@@ -53,7 +50,6 @@ module.exports = function(app) {
             console.log(err)
             res.send("Error: could not log out.")
           } else {
-            console.log("Logging out user.")
             res.send("Log out successful!")
           }
         })
@@ -61,13 +57,11 @@ module.exports = function(app) {
 
     app.route("/changepassword")
       .put(function(req, res) {
-        //console.log(req.body)
         const username = req.body.username
         const oldPassword = req.body.oldPassword
         const newPassword = req.body.newPassword
         const newPasswordAgain = req.body.newPasswordAgain
         const hash = bcrypt.hashSync(newPassword, 12)
-        //console.log(hash)
         const updates = {hash: hash, promptPasswordChange: false, passwordIsHash: true}
 
         if (oldPassword == newPassword) {
@@ -78,6 +72,7 @@ module.exports = function(app) {
           res.send("New passwords do not match.")
           return
         }
+
         Users.findOne({username: username}, function(err, user) {
           if (err) {
             console.log(err)
@@ -85,17 +80,13 @@ module.exports = function(app) {
           } else if (!user) {
             res.send(`Username ${username} not found.`)
           } else {
-            console.log(user)
             if (user.passwordIsHash) {
-              console.log("checking hash")
-              console.log(bcrypt.compareSync(oldPassword, user.hash))
               if (!bcrypt.compareSync(oldPassword, user.hash)) {
                 res.send("Old password is incorrect.")
                 return
               }
             }
             if (!user.passwordIsHash) {
-              console.log("checking password")
               if (oldPassword !== user.hash) {
                 res.send("Old password is incorrect.")
                 return
@@ -106,7 +97,6 @@ module.exports = function(app) {
                 console.log(err)
                 res.send(`Error: password for ${username} has not been changed.`)
               } else {
-                console.log(user)
                 res.status(307).send(`Password successfully changed for ${username}.`)
               }
             })

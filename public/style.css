@@ -4,7 +4,6 @@
   --projectsListContainer-height: 100vh;
   --projectsListContainer-position: fixed;
   --projectName-font-size: 1.2rem;
-  /* --projectsIssuesContainer-margin-top: var(--nav-margin-top); */
   --projectsIssuesContainer-margin-left: var(--projectListContainer-width);
   --projectsTitle-margin: 1.2rem auto;
   --projectsArrow-display: none;
@@ -78,11 +77,9 @@ nav {
   width: var(--projectListContainer-width);
   height: var(--projectsListContainer-height);
   position: var(--projectsListContainer-position);
-  /* z-index: 1; */
   top: 0;
   left: 0;
   overflow-x: hidden;
-  /* margin-top: var(--nav-margin-top); */
 }
 #projectsTitle {
   color: rgb(31, 201, 88);
@@ -123,18 +120,13 @@ nav {
 }
 #projectsIssuesContainer {
   background-color: rgb(74, 74, 74);
-  /* width: 80%; */
   min-height: 100vh;
-  /* margin-top: var(--projectsIssuesContainer-margin-top); */
   margin-left: var(--projectsIssuesContainer-margin-left);
   padding-bottom: 2rem;
 }
 #sortContainer {
-  /* display: flex;
-  flex-direction: column; */
   margin: 0 auto 1.5rem;
   max-width: 100%;
-  /* justify-content: start; */
 }
 #filterForm {
   display: flex;
@@ -166,7 +158,6 @@ label {
   font-size: .9rem;
   border: 2px solid rgb(0, 110, 255);
   border-radius: calc(31.1px / 2);
-  /* background-color: black; */
   background-color: rgb(0, 110, 255);
   transition: .3s;
 }
@@ -287,7 +278,6 @@ input[type=submit]:hover, input[type=submit]:focus {
 #deleteIssue:hover {
   color: rgb(190, 190, 190);
   background-color: rgb(220, 53, 69);
-  /* border: 2px solid rgb(220, 53, 69); */
 }
 #resetPassword {
   cursor: pointer;
@@ -296,10 +286,6 @@ input[type=submit]:hover, input[type=submit]:focus {
   margin: 0 auto 1rem;
   width: auto;
 }
-/* #resetPassword:hover, #resetPassword:focus {
-  cursor: pointer;
-  color: rgb(0, 193, 252);
-} */
 
 /* change password */
 #changePasswordContainer {
@@ -359,10 +345,6 @@ footer p {
     visibility: hidden;
     height: 0;
   }
-  /* #newIssueModal, #modifyModal, #loginModal {
-    padding-top: 10px;
-    height: 100vh;
-  } */
   .modalContent {
     width: 90%;
   }

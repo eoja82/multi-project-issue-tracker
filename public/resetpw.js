@@ -10,7 +10,6 @@ function changePassword(e) {
 
   let xhttp = new XMLHttpRequest()
   xhttp.onreadystatechange = function() {
-    //console.log(this.readyState + " " + this.status)
     if (this.readyState == 4 && this.status >= 400) {
       alert(this.response)
       console.log("error resetting password")
@@ -20,8 +19,6 @@ function changePassword(e) {
       noMatch.innerHTML = this.response
     }
     if (this.readyState == 4 & this.status == 307) {
-      console.log(this.response)
-      console.log(location.host)
       alert(this.response)
       location.assign("/")
     }
