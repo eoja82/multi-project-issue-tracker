@@ -391,7 +391,8 @@ const projectsTitle = document.getElementById("projectsTitle")
 let width = window.innerWidth
 
 addEventListener("resize", resetWidth)
-//addEventListener("deviceorientation", resetWidth)
+// for mobile firefox and chrome
+addEventListener("orientationchange", resetWidth)
 
 function resetWidth() {
   width = window.innerWidth
