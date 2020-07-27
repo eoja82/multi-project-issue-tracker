@@ -1,4 +1,4 @@
-# multi-project-issue-tracker
+# Multi-Project Issue Tracker
 
 Tracks issues for multiple projects.
 
