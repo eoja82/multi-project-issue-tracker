@@ -25,7 +25,7 @@ module.exports = function(app) {
       Users.findOne({username: username}, function(err, user) {
         if (err) {
           console.log(err)
-          res.send("Error: locating username.")
+          res.send(`Error locating username ${username}.`)
         } else if (!user) {
           res.send(`${username} is not a valid username.`)
         } else if (user.promptPasswordChange) {

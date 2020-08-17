@@ -130,7 +130,7 @@ function pageLoaded() {
 }
 
 function notAllowed() {
-  alert("You must be logged in to update/delele or create issues.")
+  alert("You must be logged in to create, update, or delele issues.")
 }
 
 // login user

@@ -143,7 +143,6 @@ module.exports = function(app) {
             console.log(err)
             res.send("Error: the project and issue was not created!")
           } else {
-            console.log("new project created")
             res.send(`New project and issue successfully created for ${req.body.project}!`)
           }
         })
@@ -190,7 +189,7 @@ module.exports = function(app) {
             console.log(err)
             res.send(`Error: could not delete issue ${issueId}.`)
           } else if (!data) {
-            console.log("Issue to delete not found")
+            console.log(`The requested issue to delete with id: ${issueId} was not found.`)
           } else {
             // delete project if no issues
             if (data.issues.length == 0) {   
