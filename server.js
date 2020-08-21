@@ -6,9 +6,12 @@ const session = require("express-session")
 const MongoStore = require('connect-mongo')(session)
 const apiRoutes = require("./routes/api.js")
 const auth = require("./routes/auth.js")
+const helmet = require("helmet")
 
 const app = express()
 app.use(bodyParser.urlencoded({ extended: true }))
+
+app.use(helmet())
 
 app.use("/public", express.static(process.cwd() + "/public"))
 
