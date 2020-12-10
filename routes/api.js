@@ -2,23 +2,23 @@ const shortid = require('shortid')
 const mongoose = require("mongoose")
 const Schema = mongoose.Schema
 
-module.exports = function(app) {
-
-  let projectSchema = new Schema ({
+let projectSchema = new Schema ({
+  _id: { type: String, default: shortid.generate },
+  project: { type: String, required: true },
+  issues: [{
     _id: { type: String, default: shortid.generate },
-    project: String,
-    issues: [{
-      _id: { type: String, default: shortid.generate },
-      issue: String,
-      createdBy: String,
-      assignedTo: String,
-      date: { type: Date, default: Date.now },
-      lastUpdated: { type: Date, default: Date.now },
-      open: { type: Boolean, default: true }
-    }],
-  })
+    issue: String,
+    createdBy: String,
+    assignedTo: String,
+    date: { type: Date, default: Date.now },
+    lastUpdated: { type: Date, default: Date.now },
+    open: { type: Boolean, default: true }
+  }],
+})
 
-  let Project = mongoose.model("Project", projectSchema)
+let Project = mongoose.model("Project", projectSchema)
+
+function apiRoutes(app) {
 
   app.route('/')
     .get(function (req, res) {
@@ -208,5 +208,9 @@ module.exports = function(app) {
         }
       )
     })
+}
 
+module.exports = {
+  apiRoutes,
+  Project
 }

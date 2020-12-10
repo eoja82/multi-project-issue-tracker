@@ -4,7 +4,7 @@ const bodyParser = require("body-parser")
 const mongoose = require("mongoose")
 const session = require("express-session")
 const MongoStore = require('connect-mongo')(session)
-const apiRoutes = require("./routes/api.js")
+const { apiRoutes } = require("./routes/api.js")
 const auth = require("./routes/auth.js")
 const helmet = require("helmet")
 
