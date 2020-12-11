@@ -23,5 +23,16 @@ describe("Project Schema", function() {
     })
   })
 
+  describe("defaults should be created", function() {
+    it("should set defaults: _id, issuse: [{_id, date, lastUpdated, open}]", function(done) {
+      let PS = new Project({issues: [{}]})
+      expect(PS._id).to.be.a("string")
+      expect(PS.issues[0]._id).to.be.a("string")
+      expect(PS.issues[0].date).to.be.a("date")
+      expect(PS.issues[0].lastUpdated).to.be.a("date")
+      expect(PS.issues[0].open).to.be.a("boolean")
+      done()
+    })
+  })
   
 })
