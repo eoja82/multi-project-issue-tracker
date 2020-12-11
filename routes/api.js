@@ -7,8 +7,8 @@ let projectSchema = new Schema ({
   project: { type: String, required: true },
   issues: [{
     _id: { type: String, default: shortid.generate },
-    issue: String,
-    createdBy: String,
+    issue: { type: String, required: true },
+    createdBy: { type: String, required: true },
     assignedTo: String,
     date: { type: Date, default: Date.now },
     lastUpdated: { type: Date, default: Date.now },
