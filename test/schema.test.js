@@ -1,5 +1,6 @@
 const expect = require("chai").expect,
-      { Project } = require("../routes/api.js")
+      { Project } = require("../routes/api.js"),
+      { Users } = require("../routes/auth.js")
 
 describe("Project Schema", function() {
   describe("missing required fields", function() {
@@ -33,6 +34,27 @@ describe("Project Schema", function() {
       expect(PS.issues[0].open).to.be.a("boolean")
       done()
     })
+  }) 
+})
+
+describe("Users Schema", function() {
+  describe("Missing required fields", function() {
+    it("Should be invalid if no username", function(done) {
+      let User = new Users()
+      const err = User.validateSync()
+      expect(err.errors["username"].properties.message).to.equal("Path `username` is required.")
+      done()
+    })
   })
-  
+
+  describe("Initial defaults should be set", function() {
+    it("Should set role, paswordIsHash, promptPasswordChange, userCreated", function(done) {
+      let User = new Users()
+      expect(User.role).to.equal("user")
+      expect(User.passwordIsHash).to.equal(false)
+      expect(User.promptPasswordChange).to.equal(true)
+      expect(User.userCreated).to.be.a("date")
+      done()
+    })
+  })
 })
