@@ -5,17 +5,18 @@ const bcrypt = require("bcrypt")
 // to use findOneAndUpdate
 mongoose.set("useFindAndModify", false)
 
-module.exports = function(app) {
-  let userSchema = new Schema({
-    role: {type: String, default: "user"},
-    username: {type: String, trim: true, unique: true},
-    hash: String,
-    passwordIsHash: {type: Boolean, default: false},
-    promptPasswordChange: Boolean,
-    userCreated: {type: Date, default: Date.now}
-  })
+let userSchema = new Schema({
+  role: {type: String, default: "user"},
+  username: {type: String, trim: true, unique: true, required: true},
+  hash: String,
+  passwordIsHash: {type: Boolean, default: false},
+  promptPasswordChange: {type: Boolean, default: true},
+  userCreated: {type: Date, default: Date.now}
+})
 
-  let Users = mongoose.model("Users", userSchema)
+let Users = mongoose.model("Users", userSchema)
+
+function auth(app) {
 
   app.route("/login")
     .post(function(req, res) {
@@ -104,4 +105,9 @@ module.exports = function(app) {
         })
       })
 
+}
+
+module.exports = {
+  Users,
+  auth
 }
