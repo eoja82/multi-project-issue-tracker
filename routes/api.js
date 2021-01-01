@@ -122,7 +122,7 @@ function apiRoutes(app) {
               console.log(err)
               res.send("Error: the new issue was not created!")
             } else {
-              res.send(`New issue for ${req.body.project} was created`)
+              res.send(`New issue for ${req.body.project} was created!`)
             }
         })
       }
