@@ -2,8 +2,7 @@ const chai = require("chai"),
       chaiHttp = require("chai-http"),
       expect = chai.expect,
       app = require("../server.js"),
-      { Project } = require("../routes/api.js"),
-      { Users } = require("../routes/auth.js")
+      { Project } = require("../routes/api.js")
       
 require('dotenv').config()
 
@@ -42,9 +41,6 @@ if (process.env.TEST) {
 
   after(function(done) {
     requester.close()
-    /* Project.deleteMany({}, function(err) {
-      if (err) console.log("Error deleting projects")
-    }) */
     done()
   })
   
@@ -52,7 +48,6 @@ if (process.env.TEST) {
     describe("GET routes", function() { 
       describe("GET '/pageData'", function() {
         it("should send page data", function(done) {
-          //chai.request(app)
           requester
             .get("/pageData")
             .end(function(err, res) {
@@ -129,6 +124,28 @@ if (process.env.TEST) {
               expect(res.status).to.equal(200)
               res.body.forEach( x => issueCount += x.issues.length)
               expect(issueCount).to.equal(1)
+              done()
+            })
+        })
+      })
+    })
+    describe("PUT routes", function() {
+      describe("PUT /create-or-modify-issue", function() {
+        it("should update an issue", function(done) {
+          requester
+            .put("/create-or-modify-issue")
+            .type("form")
+            .send({
+              project: projectData[0].project,
+              issue: projectData[0].issues[0].issue,
+              createdBy: projectData[0].issues[0].createdBy,
+              close: true
+            })
+            .end(function(err, res) {
+              expect(err).to.not.be.an("error")
+              expect(res.status).to.equal(200)
+              const response = res.text.slice(0, 14)
+              expect(response).to.equal("Issue with id:")
               done()
             })
         })
