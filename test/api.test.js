@@ -144,9 +144,57 @@ if (process.env.TEST) {
             .end(function(err, res) {
               expect(err).to.not.be.an("error")
               expect(res.status).to.equal(200)
-              const response = res.text.slice(0, 14)
-              expect(response).to.equal("Issue with id:")
+              const response = res.text.slice(0, 15) + res.text.slice(-8)
+              expect(response).to.equal("Issue with id: updated!")
               done()
+            })
+        })
+      })
+    })
+    describe("DELETE routes", function() {
+      describe("DELETE /create-or-modify-issue", function() {
+        let project = projectData[0].project,
+            firstIssueId,
+            secondIssueId
+        
+        it("should delete an issue", async function() {
+          await Project.find({project: project}, function(err, data) {
+            if (err) {
+              console.log(err)
+            } else {
+              firstIssueId = data[0].issues[0]._id
+              secondIssueId = data[0].issues[1]._id
+            }
+          })
+          requester
+            .delete("/create-or-modify-issue")
+            .type("form")
+            .send({
+              project: project,
+              issueId: firstIssueId
+            })
+            .then(function(res) {
+              expect(res.status).to.equal(200)
+              expect(res.text).to.equal(`Issue with id: ${firstIssueId} successfully deleted!`)
+            })
+            .catch(function(err) {
+              console.log(err)
+            })
+        })
+        it("should delete issue and project if no issues", function() {
+          requester
+            .delete("/create-or-modify-issue")
+            .type("form")
+            .send({
+              project: project,
+              issueId: secondIssueId
+            })
+            .then(function(res) {
+              expect(res.status).to.equal(200)
+              expect(res.text).to.equal(`Issue ${secondIssueId} and project ${project} were successfully deleted!`)
+            })
+            .catch(function(err) {
+              console.log(err)
             })
         })
       })
