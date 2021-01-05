@@ -183,30 +183,34 @@ function apiRoutes(app) {
       let issueId = req.body.issueId
       
       // delete issue
-      Project.findOneAndUpdate({project: project},
-          {$pull: {issues: {_id: issueId}}}, {new: true}, function(err, data) {
-          if (err) {
-            console.log(err)
-            res.send(`Error: could not delete issue ${issueId}.`)
-          } else if (!data) {
-            console.log(`The requested issue to delete with id: ${issueId} was not found.`)
-          } else {
-            // delete project if no issues
-            if (data.issues.length == 0) {   
-              Project.findOneAndDelete({project: project}, function(err, data) {
-                if (err) {
-                  console.log(err)
-                  res.send(`Error: project ${project} has no issues but could not be deleted.`)
-                } else {
-                  res.send(`Issue ${issueId} and project ${data.project} were successfully deleted!`)
-                }
-              })
+      Project.findOne({project: project}, function(err, data) {
+        if (err) {
+          console.log(err)
+          res.send(`The requested issue to delete with id: ${issueId} was not found.`)
+        } else {
+          data.issues.pull({_id: issueId})
+          data.save(function(err, data) {
+            if (err) {
+              console.log(err)
+              res.send(`Error: could not delete issue ${issueId}.`)
             } else {
-              res.send(`Issue with id: ${issueId} succesfully deleted!`)
+              // delete project if no issues
+              if (data.issues.length == 0) {   
+                Project.findOneAndDelete({project: project}, function(err, data) {
+                  if (err) {
+                    console.log(err)
+                    res.send(`Error: project ${project} has no issues but could not be deleted.`)
+                  } else {
+                    res.send(`Issue ${issueId} and project ${data.project} were successfully deleted!`)
+                  }
+                })
+              } else {
+                res.send(`Issue with id: ${issueId} successfully deleted!`)
+              }
             }
-          }
+          })
         }
-      )
+      })
     })
 }
 
