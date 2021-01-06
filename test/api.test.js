@@ -46,7 +46,31 @@ if (process.env.TEST) {
   
   describe("routes", function() {
     describe("GET routes", function() { 
-      describe("GET '/pageData'", function() {
+      describe("GET /", function() {
+        it("should get HTML", function(done) {
+          requester
+            .get("/")
+            .end(function(err, res) {
+              expect(err).to.not.be.an("error")
+              expect(res.status).to.equal(200)
+              expect(res).to.be.html
+              done()
+            })
+        })
+      })
+      describe("GET /resetpassword", function() {
+        it("should get HTML", function(done) {
+          requester
+            .get("/resetpassword")
+            .end(function(err, res) {
+              expect(err).to.not.be.an("error")
+              expect(res.status).to.equal(200)
+              expect(res).to.be.html
+              done()
+            })
+        })
+      })
+      describe("GET /pageData", function() {
         it("should send page data", function(done) {
           requester
             .get("/pageData")
@@ -58,7 +82,7 @@ if (process.env.TEST) {
             })
         })
       })
-      describe("GET '/projects/:project'", function() {
+      describe("GET /projects/:project", function() {
         it("should get one project", function(done) {
           requester
             .get(`/projects/${projectData[0].project}`)
@@ -154,7 +178,6 @@ if (process.env.TEST) {
             })
             .then(function(res) {
               expect(res.status).to.equal(200)
-              console.log(res.text)
               expect(res.text).to.equal(`Issue with id: ${issueId} succesfully updated!`)
             })
         })
