@@ -166,7 +166,7 @@ if (process.env.TEST) {
               secondIssueId = data[0].issues[1]._id
             }
           })
-          requester
+          return requester
             .delete("/create-or-modify-issue")
             .type("form")
             .send({
@@ -177,11 +177,8 @@ if (process.env.TEST) {
               expect(res.status).to.equal(200)
               expect(res.text).to.equal(`Issue with id: ${firstIssueId} successfully deleted!`)
             })
-            .catch(function(err) {
-              console.log(err)
-            })
         })
-        it("should delete issue and project if no issues", function() {
+        it("should delete issue and project if no issues", function(done) {
           requester
             .delete("/create-or-modify-issue")
             .type("form")
@@ -189,12 +186,11 @@ if (process.env.TEST) {
               project: project,
               issueId: secondIssueId
             })
-            .then(function(res) {
+            .end(function(err, res) {
+              expect(err).to.not.be.an("error")
               expect(res.status).to.equal(200)
               expect(res.text).to.equal(`Issue ${secondIssueId} and project ${project} were successfully deleted!`)
-            })
-            .catch(function(err) {
-              console.log(err)
+              done()
             })
         })
       })
