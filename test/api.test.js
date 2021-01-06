@@ -131,22 +131,31 @@ if (process.env.TEST) {
     })
     describe("PUT routes", function() {
       describe("PUT /create-or-modify-issue", function() {
-        it("should update an issue", function(done) {
-          requester
+        it("should update an issue", async function() {
+          let issueId
+
+          await Project.find({project: projectData[0].project}, function(err, data) {
+            if (err) {
+              console.log(err)
+            } else {
+              issueId = data[0].issues[0]._id
+            }
+          })
+          
+          return requester
             .put("/create-or-modify-issue")
             .type("form")
             .send({
               project: projectData[0].project,
               issue: projectData[0].issues[0].issue,
               createdBy: projectData[0].issues[0].createdBy,
+              id: issueId,
               close: true
             })
-            .end(function(err, res) {
-              expect(err).to.not.be.an("error")
+            .then(function(res) {
               expect(res.status).to.equal(200)
-              const response = res.text.slice(0, 15) + res.text.slice(-8)
-              expect(response).to.equal("Issue with id: updated!")
-              done()
+              console.log(res.text)
+              expect(res.text).to.equal(`Issue with id: ${issueId} succesfully updated!`)
             })
         })
       })
