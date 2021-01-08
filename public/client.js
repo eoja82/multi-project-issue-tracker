@@ -147,10 +147,9 @@ function loginUser(e) {
       console.log("error logging in")
     } 
     if (this.readyState == 4 && this.status == 200) {
-      console.log(this.getAllResponseHeaders())
       alert(this.response)
     }
-    if (this.readyState == 4 && this.status == 307) {
+    if (this.readyState == 4 && this.status == 201) {
       location.assign(`${this.response}`)
     }
   }
