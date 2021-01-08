@@ -12,13 +12,13 @@ function changePassword(e) {
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status >= 400) {
       alert(this.response)
-      console.log("error resetting password")
+      console.log("Error resetting password.")
     } 
     if (this.readyState == 4 && this.status == 200) {
       console.log(this.response)
       noMatch.innerHTML = this.response
     }
-    if (this.readyState == 4 & this.status == 307) {
+    if (this.readyState == 4 & this.status == 201) {
       alert(this.response)
       location.assign("/")
     }
