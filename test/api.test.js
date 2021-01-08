@@ -30,9 +30,9 @@ if (process.env.TEST) {
 
   before(function(done) {
     projectData.forEach( data => {
-      project = new Project(data)
-      project.save(function(err, data) {
-        if (err) console.log("Error saving project",err)
+      let project = new Project(data)
+      project.save(function(err) {
+        if (err) console.log("Error saving project", err)
       })
     })
     requester = chai.request(app).keepOpen()
@@ -44,7 +44,7 @@ if (process.env.TEST) {
     done()
   })
   
-  describe("routes", function() {
+  describe("api routes", function() {
     describe("GET routes", function() { 
       describe("GET /", function() {
         it("should get HTML", function(done) {
