@@ -214,7 +214,7 @@ if (process.env.TEST) {
             done()
           })
       })
-      it("should log in", function(done) {
+      it("should log in user", function() {
         agent
           .post("/login")
           .type("form")
@@ -222,11 +222,27 @@ if (process.env.TEST) {
             username: valid.username,
             password: valid.hash
           })
-          .end(function(err, res) {
-            expect(err).to.not.be.an("error")
+          .then(function(res) {
             expect(res.status).to.equal(201)
             expect(res.text).to.equal("/")
-            done()
+            return agent.get(res.text)
+              .then(function(res) {
+                expect(res.request).to.have.cookie("connect.sid")
+              })
+          })
+      })
+    })
+    describe("GET /logout", function() {
+      it("should logout user", function() {
+        agent
+          .get("/logout")
+          .then(function(res) {
+            expect(res.status).to.equal(200)
+            expect(res.text).to.equal("/")
+            return agent.get(res.text)
+              .then(function(res) {
+                expect(res.request).to.not.have.cookie("connect.sid")
+              })
           })
       })
     })
