@@ -55,7 +55,7 @@ function auth(app) {
             console.log(err)
             res.send("Error: could not log out.")
           } else {
-            res.send("Log out successful!")
+            res.send("/")
           }
         })
       })
