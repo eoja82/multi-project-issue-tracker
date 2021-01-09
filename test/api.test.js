@@ -54,6 +54,7 @@ if (process.env.TEST) {
               expect(err).to.not.be.an("error")
               expect(res.status).to.equal(200)
               expect(res).to.be.html
+              expect(res.request).to.not.have.cookie("connect.sid")
               done()
             })
         })
