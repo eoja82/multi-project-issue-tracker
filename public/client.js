@@ -168,8 +168,7 @@ function logoutUser(e) {
       console.log("error logging out")
     } 
     if (this.readyState == 4 && this.status == 200) {
-      alert(this.response)
-      location.assign("/")
+      location.assign(this.response)
     }
   }
   xhttp.open("GET", "/logout", true)
