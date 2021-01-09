@@ -8,7 +8,7 @@ require('dotenv').config()
 
 const valid = {username: "username", hash: "password"}
 const notValid = {username: "Bad Name", hash: "notValid"}
-newPassword = "newPassword"
+const newPassword = "newPassword"
 
 chai.use(chaiHttp)
 
