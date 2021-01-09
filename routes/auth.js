@@ -5,17 +5,18 @@ const bcrypt = require("bcrypt")
 // to use findOneAndUpdate
 mongoose.set("useFindAndModify", false)
 
-module.exports = function(app) {
-  let userSchema = new Schema({
-    role: {type: String, default: "user"},
-    username: {type: String, trim: true, unique: true},
-    hash: String,
-    passwordIsHash: {type: Boolean, default: false},
-    promptPasswordChange: Boolean,
-    userCreated: {type: Date, default: Date.now}
-  })
+let userSchema = new Schema({
+  role: {type: String, default: "user"},
+  username: {type: String, trim: true, unique: true, required: true},
+  hash: String,
+  passwordIsHash: {type: Boolean, default: false},
+  promptPasswordChange: {type: Boolean, default: true},
+  userCreated: {type: Date, default: Date.now}
+})
 
-  let Users = mongoose.model("Users", userSchema)
+let Users = mongoose.model("Users", userSchema)
+
+function auth(app) {
 
   app.route("/login")
     .post(function(req, res) {
@@ -29,13 +30,17 @@ module.exports = function(app) {
         } else if (!user) {
           res.send(`${username} is not a valid username.`)
         } else if (user.promptPasswordChange) {
-          console.log(`User ${username} needs to change their password.`)
-          res.status(307).send("/resetpassword")
+          if (user.hash === password) {
+            console.log(`User ${username} needs to change their password.`)
+            res.status(201).send("/resetpassword")
+          } else {
+            res.send("Incorrect password.")
+          }   
         } else if (user.passwordIsHash) {
           if (bcrypt.compareSync(password, user.hash)) {
             req.session.loggedIn = true
             console.log(req.session._id)
-            res.status(307).send("/")
+            res.status(201).send("/")
           } else {
             res.send("Incorrect password.")
           }
@@ -50,7 +55,7 @@ module.exports = function(app) {
             console.log(err)
             res.send("Error: could not log out.")
           } else {
-            res.send("Log out successful!")
+            res.send("/")
           }
         })
       })
@@ -97,11 +102,16 @@ module.exports = function(app) {
                 console.log(err)
                 res.send(`Error: password for ${username} has not been changed.`)
               } else {
-                res.status(307).send(`Password successfully changed for ${username}.`)
+                res.status(201).send(`Password successfully changed for ${username}.`)
               }
             })
           }
         })
       })
 
+}
+
+module.exports = {
+  Users,
+  auth
 }

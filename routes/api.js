@@ -2,23 +2,23 @@ const shortid = require('shortid')
 const mongoose = require("mongoose")
 const Schema = mongoose.Schema
 
-module.exports = function(app) {
-
-  let projectSchema = new Schema ({
+let projectSchema = new Schema ({
+  _id: { type: String, default: shortid.generate },
+  project: { type: String, required: true },
+  issues: [{
     _id: { type: String, default: shortid.generate },
-    project: String,
-    issues: [{
-      _id: { type: String, default: shortid.generate },
-      issue: String,
-      createdBy: String,
-      assignedTo: String,
-      date: { type: Date, default: Date.now },
-      lastUpdated: { type: Date, default: Date.now },
-      open: { type: Boolean, default: true }
-    }],
-  })
+    issue: { type: String, required: true },
+    createdBy: { type: String, required: true },
+    assignedTo: String,
+    date: { type: Date, default: Date.now },
+    lastUpdated: { type: Date, default: Date.now },
+    open: { type: Boolean, default: true }
+  }],
+})
 
-  let Project = mongoose.model("Project", projectSchema)
+let Project = mongoose.model("Project", projectSchema)
+
+function apiRoutes(app) {
 
   app.route('/')
     .get(function (req, res) {
@@ -122,7 +122,7 @@ module.exports = function(app) {
               console.log(err)
               res.send("Error: the new issue was not created!")
             } else {
-              res.send(`New issue for ${req.body.project} was created`)
+              res.send(`New issue for ${req.body.project} was created!`)
             }
         })
       }
@@ -183,30 +183,38 @@ module.exports = function(app) {
       let issueId = req.body.issueId
       
       // delete issue
-      Project.findOneAndUpdate({project: project},
-          {$pull: {issues: {_id: issueId}}}, {new: true}, function(err, data) {
-          if (err) {
-            console.log(err)
-            res.send(`Error: could not delete issue ${issueId}.`)
-          } else if (!data) {
-            console.log(`The requested issue to delete with id: ${issueId} was not found.`)
-          } else {
-            // delete project if no issues
-            if (data.issues.length == 0) {   
-              Project.findOneAndDelete({project: project}, function(err, data) {
-                if (err) {
-                  console.log(err)
-                  res.send(`Error: project ${project} has no issues but could not be deleted.`)
-                } else {
-                  res.send(`Issue ${issueId} and project ${data.project} were successfully deleted!`)
-                }
-              })
+      Project.findOne({project: project}, function(err, data) {
+        if (err) {
+          console.log(err)
+          res.send(`The requested issue to delete with id: ${issueId} was not found.`)
+        } else {
+          data.issues.pull({_id: issueId})
+          data.save(function(err, data) {
+            if (err) {
+              console.log(err)
+              res.send(`Error: could not delete issue ${issueId}.`)
             } else {
-              res.send(`Issue with id: ${issueId} succesfully deleted!`)
+              // delete project if no issues
+              if (data.issues.length == 0) {   
+                Project.findOneAndDelete({project: project}, function(err, data) {
+                  if (err) {
+                    console.log(err)
+                    res.send(`Error: project ${project} has no issues but could not be deleted.`)
+                  } else {
+                    res.send(`Issue ${issueId} and project ${data.project} were successfully deleted!`)
+                  }
+                })
+              } else {
+                res.send(`Issue with id: ${issueId} successfully deleted!`)
+              }
             }
-          }
+          })
         }
-      )
+      })
     })
+}
 
+module.exports = {
+  apiRoutes,
+  Project
 }

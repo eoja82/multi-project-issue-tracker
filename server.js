@@ -4,26 +4,51 @@ const bodyParser = require("body-parser")
 const mongoose = require("mongoose")
 const session = require("express-session")
 const MongoStore = require('connect-mongo')(session)
-const apiRoutes = require("./routes/api.js")
-const auth = require("./routes/auth.js")
+const { apiRoutes } = require("./routes/api.js")
+const { auth } = require("./routes/auth.js")
 const helmet = require("helmet")
+const { MongoMemoryServer } = require("mongodb-memory-server")
 
 const app = express()
 app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use(helmet())
 
-app.use("/public", express.static(process.cwd() + "/public"))
+app.use("/public", express.static(process.cwd() + "/public")) 
 
-mongoose.connect(process.env.DATABASE, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true }).
+let URI, 
+    mongoServer
+const mongooseOptions = { 
+  useNewUrlParser: true, 
+  useUnifiedTopology: true, 
+  useCreateIndex: true
+} 
+
+async function getURI() {
+  if (process.env.TEST) {
+    console.log("*** DEVELOPMENT ***")
+    mongoServer = new MongoMemoryServer()
+    URI = await mongoServer.getUri()
+    connect()
+  } else {
+    console.log("*** PRODUCTION ***")
+    URI = process.env.DATABASE
+    connect()
+  }
+}
+getURI()
+
+function connect() {
+  mongoose.connect(URI, mongooseOptions).
   catch (err => console.log(err))
 
-mongoose.connection.on("connected", () => {
-  console.log("Connected to database!")
-})
+  mongoose.connection.on("connected", () => {
+    console.log("Connected to database!")
+  })
+}
 
 // handle errors after initial connection
-mongoose.connection.on('error', (err) => {
+mongoose.connection.on("error", (err) => {
   console.log(err)
 })
 
@@ -53,5 +78,7 @@ app.use(function(req, res) {
 })
 
 app.listen(process.env.PORT, () => {
-  console.log("app is listening")
+  console.log("App is listening...")
 })
+
+module.exports = app
