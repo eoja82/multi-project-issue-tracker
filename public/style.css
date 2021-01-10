@@ -175,6 +175,7 @@ label {
   padding: 1.5rem;
   width: var(--issue-width);
   margin: .25rem;
+  border-radius: 5px;
 }
 .issue h3 {
   text-align: center;
