@@ -9,13 +9,23 @@
   --projectsArrow-display: none;
   --projectList-visability: visible;
   --projectsList-height: auto;
+  --sortContainer-width: 1000px;
+  --filter-flex-basis: calc(25% - 16px);
   --issue-width: 200px;
+}
+@media only screen and (max-width: 1220px) {
+  :root {
+    --sortContainer-width: 500px;
+    --filter-flex-basis: calc(50% - 16px);
+  }
 }
 @media only screen and (max-width: 840px) {
   :root {
     --projectListContainer-width: 180px;
     --projectName-font-size: 1rem;
     --issue-width: 180px;
+    --sortContainer-width: 250px;
+    --filter-flex-basis: calc(100% - 16px);
   }
 }
 @media only screen and (max-width: 440px) {
@@ -50,6 +60,8 @@ nav {
   display: flex;
   align-items: center;
   border-radius: 0 0 0 8px;
+  border-left: 1px solid rgb(31, 201, 88);
+  border-bottom: 1px solid rgb(31, 201, 88);
 }
 .navButton {
   cursor: pointer;
@@ -69,7 +81,7 @@ nav {
 #projectsTitle, #issuesTitle {
   text-align: center;
   font-size: 2rem;
-  font-weight: 300;
+  /* font-weight: 300; */
 }
 #projectsListContainer {
   background-color: rgb(40, 40, 40);
@@ -119,62 +131,81 @@ nav {
   color: rgb(31, 201, 88);
 }
 #projectsIssuesContainer {
-  background-color: rgb(74, 74, 74);
+  background-color: rgb(227, 227, 227);
   min-height: 100vh;
   margin-left: var(--projectsIssuesContainer-margin-left);
   padding-bottom: 2rem;
 }
 #sortContainer {
   margin: 0 auto 1.5rem;
-  max-width: 100%;
+  width: var(--sortContainer-width);
+  border-radius: 5px;
+  background-color: rgb(40,40,40);
 }
 #filterForm {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  width: 95%;
+  width: 100%;
   margin: 0 auto;
   justify-content: center;
 }
-label {
-  /* color: rgb(242, 242, 242); */
-  color: rgb(41, 41, 41);
-  /* margin-top: .75rem; */
-}
 .filter {
-  /* margin: .2rem; */
-  width: 25%;
-  padding: .3rem;
-  background-color: rgb(204, 204, 204);
+  flex-basis: var(--filter-flex-basis);
+  /* width: calc(25% - 16px); */
+  padding: 6px 8px 10px 8px;
+  color: rgb(190, 190, 190);
   display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  /* flex-wrap: nowrap; */
+}
+label {
+  margin-bottom: 0;
+  font-size: smaller;
+}
+.selectContainer {
+  position: relative;
+  background-color: rgb(190, 190, 190);
+  color: black;
+  /* color: rgb(190, 190, 190); */
 }
 select {
-  line-height: 1.6;
-  border: none;
-  background: inherit;
-  color: blue;
+  cursor: pointer;
+  line-height: 1;
+  font-weight: 400;
   font-size: 1rem;
+  position: relative;
+  width: 100%;
+  /* border: 2px inset gray; */
   -moz-appearance: none;
 	-webkit-appearance: none;
 	appearance: none;
+  padding: 3px;
+  z-index: 1;
+  background-color: transparent;
+  outline: none;
 }
-span {
-  font-size: 1rem;
-  width: 15px;
-  height: 15px;
-  display: inline;
-  color: black;
+.selectArrow {
+  position: absolute;
+  top: 5px;
+  right: 9px;
+}
+#newIssue {
+  width: 100%;
+  border: none;
+  padding: 8px;
+  font-weight: 400;
+  font-size: .9rem;
+  border-radius: 0 0 5px 5px;
+  cursor: pointer;
 }
 #issuesTitle {
   color: rgb(31, 201, 88);
   margin: 0 auto 1.2rem;
-  padding-top: 1.25rem;
+  padding: 1.25rem 0 1.25rem 0;
+  background-color: rgb(40, 40, 40);
 }
-#newIssue, .updateDelete {
+.updateDelete {  /* #newIssue,  */
   cursor: pointer;
   display: flex;
   min-width: 180px;

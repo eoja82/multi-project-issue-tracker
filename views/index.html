@@ -18,41 +18,52 @@
   </div>
   <div id="projectsIssuesContainer">
     <h2 id="issuesTitle">Issues</h2>
-    <button id="newIssue">Create A New Issue</button>
+    <!-- <button id="newIssue">Create A New Issue</button> -->
     <div id="sortContainer">
       <form id=filterForm>
         <div class="filter">
           <label for="filterCreatedBy">Created By</label>
-          <div>
+          <div class="selectContainer">
             <select name="filterCreatedBy" id="filterCreatedBy" class="issueFilter">
+              Text in select
             </select>
+            <i class="fas fa-chevron-down selectArrow"></i>
           </div>
-          
         </div>
         <div class="filter">
           <label for="filterAssignedTo">Assigned To</label>
-          <select name="filterAssignedTo" id="filterAssignedTo" class="issueFilter">
-          </select>
+          <div class="selectContainer">
+            <select name="filterAssignedTo" id="filterAssignedTo" class="issueFilter">
+            </select>
+            <i class="fas fa-chevron-down selectArrow"></i>
+          </div>
         </div>
         <div class="filter">
           <label for="sortDateCreated">Date</label>
-          <select name="sortDateCreated" id="sortDateCreated">
-            <option value="by date" selected disabled>By Date</option>
-            <option value="createdOldest">Created Oldest</option>
-            <option value="createdNewest">Created Newest</option>
-            <option value="updatedOldest">Updated Oldest</option>
-            <option value="updayedNewest">Updated Newest</option>
-          </select>
+          <div class="selectContainer">
+            <select name="sortDateCreated" id="sortDateCreated">
+              <option value="by date" selected disabled>By Date</option>
+              <option value="createdOldest">Created Oldest</option>
+              <option value="createdNewest">Created Newest</option>
+              <option value="updatedOldest">Updated Oldest</option>
+              <option value="updayedNewest">Updated Newest</option>
+            </select>
+            <i class="fas fa-chevron-down selectArrow"></i>
+          </div>
         </div>
         <div class="filter">
           <label for="filterStatus">Status</label>
-          <select name="filterStatus" id="filterStatus" class="issueFilter">
-            <option value="All" selected>All</option>
-            <option value="Open">Open</option>
-            <option value="Closed">Closed</option>
-          </select>
+          <div class="selectContainer">
+            <select name="filterStatus" id="filterStatus" class="issueFilter">
+              <option value="All" selected>All</option>
+              <option value="Open">Open</option>
+              <option value="Closed">Closed</option>
+            </select>
+            <i class="fas fa-chevron-down selectArrow"></i>
+          </div>
         </div>
       </form>
+      <button id="newIssue">New Issue</button>
     </div>
     <div id="issues"></div>
   </div>
