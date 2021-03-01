@@ -12,6 +12,8 @@
   --sortContainer-width: 1000px;
   --filter-flex-basis: calc(25% - 16px);
   --issue-width: 200px;
+  --button-color: rgb(50, 110, 255);
+  --button-color-hover: rgb(16, 98, 206);
 }
 @media only screen and (max-width: 1220px) {
   :root {
@@ -50,7 +52,7 @@ body {
   font-weight: 300;
 }
 nav {
-  z-index: 1;
+  z-index: 99;
   position: fixed;
   top: 0;
   right: 0;
@@ -141,6 +143,7 @@ nav {
   width: var(--sortContainer-width);
   border-radius: 5px;
   background-color: rgb(40,40,40);
+  box-shadow: 3px 3px 5px gray;
 }
 #filterForm {
   display: flex;
@@ -199,7 +202,11 @@ select {
   border-radius: 0 0 5px 5px;
   cursor: pointer;
   color: white;
-  background-color: rgb(0, 110, 255);
+  background-color: var(--button-color);
+  transition: .3s;
+}
+#newIssue:hover {
+  background-color: var(--button-color-hover);
 }
 #issuesTitle {
   color: rgb(31, 201, 88);
@@ -216,10 +223,14 @@ select {
   justify-content: center;
   color: white;
   font-size: .9rem;
-  border: 2px solid rgb(0, 110, 255);
+  border: 2px solid var(--button-color);
   border-radius: calc(31.1px / 2);
-  background-color: rgb(0, 110, 255);
+  background-color: var(--button-color);
   transition: .3s;
+}
+.updateDelete:hover {
+  background-color: var(--button-color-hover);
+  border: 2px solid var(--button-color-hover);
 }
 #issues {
   display: flex;
@@ -235,6 +246,7 @@ select {
   width: var(--issue-width);
   margin: .25rem;
   border-radius: 5px;
+  box-shadow: 3px 3px 5px gray;
 }
 .issue h3 {
   text-align: center;
