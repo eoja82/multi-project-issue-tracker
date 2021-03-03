@@ -230,6 +230,7 @@ select {
 #newIssue {
   width: 100%;
   border: none;
+  margin: 0;
   padding: 8px;
   font-weight: 400;
   font-size: .9rem;
