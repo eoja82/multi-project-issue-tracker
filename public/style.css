@@ -215,7 +215,9 @@ select {
   -moz-appearance: none;
 	-webkit-appearance: none;
 	appearance: none;
+  margin: 0;
   padding: 3px;
+  border-radius: 0;
   z-index: 1;
   background-color: transparent;
   outline: none;
