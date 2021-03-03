@@ -1,19 +1,34 @@
 :root {
+  --nav-position: fixed;
+  --nav-width: 100px;
+  --nav-text-align: inherit;
   --nav-margin-top: 35px;
+  --nav-border-radius: 0 0 0 8px;
+  --nav-border-left: 1px solid rgb(31, 201, 88);
+  --title-font-size: 2rem;
   --projectListContainer-width: 200px;
   --projectsListContainer-height: 100vh;
   --projectsListContainer-position: fixed;
   --projectName-font-size: 1.2rem;
   --projectsIssuesContainer-margin-left: var(--projectListContainer-width);
   --projectsTitle-margin: 1.2rem auto;
+  --projectsTitle-padding: 0;
+  --projectsTitle-border-bottom: none;
   --projectsArrow-display: none;
   --projectList-visability: visible;
   --projectsList-height: auto;
+  --projectsList-border-bottom: none;
   --sortContainer-width: 1000px;
   --filter-flex-basis: calc(25% - 16px);
   --issue-width: 200px;
+  --issuesTitle-padding: 1.25rem 0;
   --button-color: rgb(50, 110, 255);
   --button-color-hover: rgb(16, 98, 206);
+  --modal-padding-top: 100px;
+  --modalContent-width: 80%;
+  --modalHeader-font-size: 1.6rem;
+  --input-text-password-font-size: 1rem;
+  --input-submit-font-size: 1.2rem;
 }
 @media only screen and (max-width: 1220px) {
   :root {
@@ -28,19 +43,36 @@
     --issue-width: 180px;
     --sortContainer-width: 250px;
     --filter-flex-basis: calc(100% - 16px);
+    --modal-padding-top: 10px;
   }
 }
 @media only screen and (max-width: 440px) {
   :root {
+    --nav-width: 100%;
+    --nav-position: relative;
+    --nav-text-align: center;
+    --nav-border-radius: 0;
+    --nav-border-left: none;
+    --title-font-size: 1.5rem;
     --projectListContainer-width: 100%;
     --projectsListContainer-height: auto;
     --projectsListContainer-position: relative;
+    --projectList-visability: hidden;
+    --projectsList-height: 0;
+    --projectsList-border-bottom: 1px solid rgb(31,201,88);
     --projectsIssuesContainer-margin-top: 0;
     --projectsIssuesContainer-margin-left: 0;
-    --projectsTitle-margin: .2rem auto;
+    --projectsTitle-margin: 0 auto;
+    --projectsTitle-padding: .2rem 0;
+    --projectsTitle-border-bottom: 1px solid rgb(31, 201, 88);
     --projectsArrow-display: inline;
     --projectList-visability: hidden;
     --projectsList-height: 0;
+    --issuesTitle-padding: .2rem 0;
+    --modalContent-width: 90%;
+    --modalHeader-font-size: 1.1rem;
+    --input-text-password-font-size: .8rem;
+    --input-submit-font-size: .9rem;
   }
 }
 body {
@@ -53,16 +85,17 @@ body {
 }
 nav {
   z-index: 99;
-  position: fixed;
+  position: var(--nav-position);
   top: 0;
   right: 0;
   background-color: black;
-  width: 100px;
+  width: var(--nav-width);
   height: 35px;
+  text-align: var(--nav-text-align);
   display: flex;
   align-items: center;
-  border-radius: 0 0 0 8px;
-  border-left: 1px solid rgb(31, 201, 88);
+  border-radius: var(--nav-border-radius);
+  border-left: var(--nav-border-left);
   border-bottom: 1px solid rgb(31, 201, 88);
 }
 .navButton {
@@ -82,8 +115,7 @@ nav {
 }
 #projectsTitle, #issuesTitle {
   text-align: center;
-  font-size: 2rem;
-  /* font-weight: 300; */
+  font-size: var(--title-font-size);
 }
 #projectsListContainer {
   background-color: rgb(40, 40, 40);
@@ -98,6 +130,8 @@ nav {
 #projectsTitle {
   color: rgb(31, 201, 88);
   margin: var(--projectsTitle-margin);
+  padding: var(--projectsTitle-padding);
+  border-bottom: var(--projectsTitle-border-bottom);
   position: relative;
 }
 .projectsArrow {
@@ -106,14 +140,15 @@ nav {
   font-size: 1.5rem;
   position: absolute;
   right: 15px;
-  top: 8px;
+  top: 5px;
 }
 #projectsList {
   padding: 0;
   text-align: center;
   margin: 0;
-  visibility: visible;
-  height: auto;
+  visibility: var(--projectList-visability);
+  height: var(--projectsList-height);
+  border-bottom: var(--projectsList-border-bottom);
   transition: .4s;
 }
 .projectName {
@@ -155,22 +190,20 @@ nav {
 }
 .filter {
   flex-basis: var(--filter-flex-basis);
-  /* width: calc(25% - 16px); */
   padding: 6px 8px 10px 8px;
   color: rgb(190, 190, 190);
   display: flex;
   flex-direction: column;
-  /* flex-wrap: nowrap; */
 }
 label {
   margin-bottom: 0;
   font-size: smaller;
+  text-align: left;
 }
 .selectContainer {
   position: relative;
   background-color: rgb(227, 227, 227);
   color: black;
-  /* color: rgb(190, 190, 190); */
 }
 select {
   cursor: pointer;
@@ -179,7 +212,6 @@ select {
   font-size: 1rem;
   position: relative;
   width: 100%;
-  /* border: 2px inset gray; */
   -moz-appearance: none;
 	-webkit-appearance: none;
 	appearance: none;
@@ -211,10 +243,10 @@ select {
 #issuesTitle {
   color: rgb(31, 201, 88);
   margin: 0 auto 1.2rem;
-  padding: 1.25rem 0;
+  padding: var(--issuesTitle-padding);
   background-color: rgb(40, 40, 40);
 }
-.updateDelete {  /* #newIssue,  */
+.updateDelete {
   cursor: pointer;
   display: flex;
   min-width: 180px;
@@ -266,7 +298,7 @@ select {
   display: none;
   position: fixed;
   z-index: 100;
-  padding-top: 100px;
+  padding-top: var(--modal-padding-top);
   left: 0;
   top: 0;
   width: 100%;
@@ -284,7 +316,7 @@ select {
   text-align: center;
   margin: auto;
   padding: 0;
-  width: 80%;
+  width: var(--modalContent-width);
   border: 1px solid black;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
   animation-name: animatetop;
@@ -312,13 +344,14 @@ select {
 .close:hover {
   cursor: pointer;
 }
-.modalHeader {
-  font-size: 1.6rem;
+.modalHeader h3 {
+  font-size: var(--modalHeader-font-size);
+  margin: 2rem 0 1rem 0;
 }
 input[type=text], input[type=password] {
   width: 250px;
   height: 2rem;
-  font-size: 1rem;
+  font-size: var(--input-text-password-font-size);
   color: whitesmoke;
   background-color: rgb(40, 40, 40);
   border: none;
@@ -335,12 +368,12 @@ input[type=submit] {
   width: 250px;
   height: 30px;
   margin: .75rem 0 1.1rem;
-  font-size: 1.2rem;
+  font-size: var(--input-submit-font-size);
   background-color: rgb(31, 201, 88);
   border: 2px solid rgb(31, 201, 88);
   border-radius: 15px;
   transition: .3s;
-  /* below so background color corrent on mobile */
+  /* below so background color correct on mobile */
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -350,10 +383,14 @@ input[type=submit]:hover, input[type=submit]:focus {
   background-color: rgb(0, 193, 252);
   border: 2px solid rgb(0, 193, 252);
 }
+#createNewIssue {
+  margin-bottom: 2rem;
+}
 #deleteIssue {
   color: rgb(220, 53, 69);
   background-color: transparent;
   border: 2px solid rgb(220, 53, 69);
+  margin: 0 0 2rem 0;
 }
 #deleteIssue:hover {
   color: rgb(190, 190, 190);
@@ -363,7 +400,7 @@ input[type=submit]:hover, input[type=submit]:focus {
   cursor: pointer;
   color: rgb(31, 201, 88);
   text-decoration: none;
-  margin: 0 auto 1rem;
+  margin: 0 auto 2rem;
   width: auto;
 }
 
@@ -406,58 +443,4 @@ footer a:hover {
 }
 footer p {
   margin-bottom: 0;
-}
-@media only screen and (max-width: 900px) {
-  #newIssueModal, #modifyModal, #loginModal {
-    padding-top: 10px;
-  }
-}
-@media only screen and (max-width: 440px) {
-  #filterForm {
-    flex-direction: column;
-    text-align: center;
-  }
-  nav {
-    position: relative;
-    width: 100%;
-    text-align: center;
-    border-radius: 0;
-    border-left: none;
-  }
-  #projectsTitle {
-    border-bottom: 1px solid rgb(31, 201, 88);
-    margin: 0 auto;
-    padding: .2rem 0;
-  }
-  #projectsList {
-    visibility: hidden;
-    height: 0;
-    border-bottom: 1px solid rgb(31,201,88);
-  }
-  #issuesTitle {
-    padding: .2rem 0;
-  }
-  label {
-    text-align: left;
-  }
-  .modalContent {
-    width: 90%;
-  }
-  .modalHeader {
-    font-size: 1.1rem;
-  }
-  input[type=text], input[type=password] {
-    width: 250px;
-    height: 2rem;
-    font-size: .8rem;
-    margin-top: .7rem;
-    padding-left: .4rem;
-  }
-  input[type=submit] {
-    width: 250px;
-    height: 30px;
-    margin: 1rem 0 1.1rem;
-    font-size: .8rem;
-    border-radius: 15px;
-  }
 }
