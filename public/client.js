@@ -114,14 +114,12 @@ function pageLoaded() {
   const deleteIssueNotAllowed = document.getElementById("deleteIssue")
   if (loggedIn) {
     login.innerHTML = "Log Out"
-    login.style.color = "rgb(190, 190, 190)"
     login.addEventListener("click", logoutUser)
     newIssueForm.addEventListener("submit", addNewIssue)
     modifyIssueForm.addEventListener("submit", modifyIssue)
     deleteIssueForm.addEventListener("submit", deleteIssue)
   } else {
     login.innerHTML = "Log In"
-    login.style.color = "rgb(31, 201, 88)"
     login.addEventListener("click", displayModal)
     createNewIssueNotAllowed.addEventListener("click", notAllowed)
     modifyIssueNotAllowed.addEventListener("click", notAllowed)
