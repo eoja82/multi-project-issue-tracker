@@ -83,35 +83,11 @@ body {
   font-family: "Roboto", Arial, Helvetica, sans-serif;
   font-weight: 300;
 }
-nav {
-  z-index: 99;
-  position: var(--nav-position);
-  top: 0;
-  right: 0;
-  background-color: black;
-  width: var(--nav-width);
-  height: 35px;
-  text-align: var(--nav-text-align);
-  display: flex;
-  align-items: center;
-  border-radius: var(--nav-border-radius);
-  border-left: var(--nav-border-left);
-  border-bottom: 1px solid rgb(31, 201, 88);
+.pawLeft {
+  transform: translate(0, -3px) rotate(90deg);
 }
-.navButton {
-  cursor: pointer;
-  background-color: transparent;
-  border: none;
-  font-size: 1rem;
-  color: rgb(190, 190, 190);
-  margin: auto;
-}
-.navButton:hover {
-  color: rgb(31, 201, 88);
-}
-.navButton a {
-  text-decoration: none;
-  color: unset;
+.pawRight {
+  transform: translate(0, 3px) rotate(90deg);
 }
 #projectsTitle, #issuesTitle {
   text-align: center;
@@ -123,7 +99,7 @@ nav {
   width: var(--projectListContainer-width);
   height: var(--projectsListContainer-height);
   position: var(--projectsListContainer-position);
-  top: 0;
+  top: 40px;
   left: 0;
   overflow-x: hidden;
 }
@@ -172,6 +148,7 @@ nav {
   min-height: 100vh;
   margin-left: var(--projectsIssuesContainer-margin-left);
   padding-bottom: 2rem;
+  margin-top: 40px;
 }
 #sortContainer {
   margin: 0 auto 1.5rem;
