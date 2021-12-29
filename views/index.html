@@ -21,16 +21,11 @@
       <button id="login" class="btn btn-outline-light">Log In</button>
     </div>
   </nav>
-  <div class="container" id="filters">
-    <div class="row">
+  <form class="container" id="filterForm">
+    <div class="row" id="filtersRow">
       <div class="filter col-md-auto col-lg-auto">
-        <label for="selectProject" class="text-light">Project</label>
-        <select id="selectProject" class="form-select form-select-sm" aria-label="Default select example">
-          <option selected>Open this select menu</option>
-          <option value="1">One</option>
-          <option value="2">Two</option>
-          <option value="3">Three</option>
-        </select>
+        <label for="filterProject" class="text-light">Project</label>
+        <select id="filterProject" class="form-select form-select-sm" aria-label="Default select example"></select>
       </div>
       <div class="filter col-md-auto col-lg-auto">
         <label for="filterCreatedBy" class="text-light">Created By</label>
@@ -62,57 +57,10 @@
         </select>
       </div>
     </div>
-  </div>
-  <div id="projectsListContainer">
-    <h2 id="projectsTitle">Projects <i class="fas fa-chevron-down projectsArrow"></i></h2>
-    <ul id="projectsList"></ul>
-  </div>
+  </form>
   <div id="projectsIssuesContainer">
-    <h2 id="issuesTitle">Issues Bootstrap</h2>
+    <h2 id="issuesTitle">Issues</h2>
     <div id="sortContainer">
-      <form id=filterForm>
-        <!-- <div class="filter">
-          <label for="filterCreatedBy">Created By</label>
-          <div class="selectContainer">
-            <select name="filterCreatedBy" id="filterCreatedBy" class="issueFilter">
-              Text in select
-            </select>
-            <i class="fas fa-chevron-down selectArrow"></i>
-          </div>
-        </div> -->
-        <!-- <div class="filter">
-          <label for="filterAssignedTo">Assigned To</label>
-          <div class="selectContainer">
-            <select name="filterAssignedTo" id="filterAssignedTo" class="issueFilter">
-            </select>
-            <i class="fas fa-chevron-down selectArrow"></i>
-          </div>
-        </div> -->
-        <!-- <div class="filter">
-          <label for="sortDateCreated">Date</label>
-          <div class="selectContainer">
-            <select name="sortDateCreated" id="sortDateCreated">
-              <option value="by date" selected disabled>By Date</option>
-              <option value="createdOldest">Created Oldest</option>
-              <option value="createdNewest">Created Newest</option>
-              <option value="updatedOldest">Updated Oldest</option>
-              <option value="updayedNewest">Updated Newest</option>
-            </select>
-            <i class="fas fa-chevron-down selectArrow"></i>
-          </div>
-        </div> -->
-        <!-- <div class="filter">
-          <label for="filterStatus">Status</label>
-          <div class="selectContainer">
-            <select name="filterStatus" id="filterStatus" class="issueFilter">
-              <option value="All" selected>All</option>
-              <option value="Open">Open</option>
-              <option value="Closed">Closed</option>
-            </select>
-            <i class="fas fa-chevron-down selectArrow"></i>
-          </div>
-        </div> -->
-      </form>
       <button id="newIssue">New Issue</button>
     </div>
     <div id="issues"></div>
