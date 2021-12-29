@@ -1,17 +1,16 @@
 :root {
-  --nav-position: fixed;
+  /* --nav-position: fixed;
   --nav-width: 100px;
   --nav-text-align: inherit;
   --nav-margin-top: 35px;
   --nav-border-radius: 0 0 0 8px;
-  --nav-border-left: 1px solid rgb(31, 201, 88);
+  --nav-border-left: 1px solid rgb(31, 201, 88); */
   --title-font-size: 2rem;
   --projectsIssuesContainer-margin-left: var(--projectListContainer-width);
   --projectsTitle-margin: 1.2rem auto;
   --projectsTitle-padding: 0;
   --projectsTitle-border-bottom: none;
   --projectsArrow-display: none;
-  --sortContainer-width: 1000px;
   --filter-flex-basis: calc(25% - 16px);
   --issue-width: 200px;
   --issuesTitle-padding: 1.25rem 0;
@@ -25,25 +24,23 @@
 }
 @media only screen and (max-width: 1220px) {
   :root {
-    --sortContainer-width: 500px;
     --filter-flex-basis: calc(50% - 16px);
   }
 }
 @media only screen and (max-width: 840px) {
   :root {
     --issue-width: 180px;
-    --sortContainer-width: 250px;
     --filter-flex-basis: calc(100% - 16px);
     --modal-padding-top: 10px;
   }
 }
 @media only screen and (max-width: 440px) {
   :root {
-    --nav-width: 100%;
+    /* --nav-width: 100%;
     --nav-position: relative;
     --nav-text-align: center;
     --nav-border-radius: 0;
-    --nav-border-left: none;
+    --nav-border-left: none; */
     --title-font-size: 1.5rem;
     --issuesTitle-padding: .2rem 0;
     --modalContent-width: 90%;
@@ -84,9 +81,8 @@ label {
   display: flex;
   flex-direction: column;
 }
-#issuesTitle {
-  text-align: center;
-  font-size: var(--title-font-size);
+#filterReset {
+  margin-top: 20px;
 }
 #projectsIssuesContainer {
   background-color: rgb(227, 227, 227);
@@ -94,13 +90,6 @@ label {
   margin-left: var(--projectsIssuesContainer-margin-left);
   padding-bottom: 2rem;
   /* margin-top: 200px; */
-}
-#sortContainer {
-  margin: 0 auto 1.5rem;
-  width: var(--sortContainer-width);
-  border-radius: 5px;
-  background-color: rgb(40,40,40);
-  box-shadow: 3px 3px 5px gray;
 }
 #issuesTitle {
   color: rgb(31, 201, 88);

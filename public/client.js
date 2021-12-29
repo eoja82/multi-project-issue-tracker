@@ -3,6 +3,7 @@ const login = document.getElementById("login")
 const filterProject = document.getElementById("filterProject")
 const filterCreatedBy = document.getElementById("filterCreatedBy")
 const filterAssignedTo = document.getElementById("filterAssignedTo")
+const filterReset = document.getElementById("filterReset")
 const issues = document.getElementById("issues")
 const filterStatus = document.getElementById("filterStatus")
 
@@ -343,3 +344,6 @@ function filterIssues(e) {
   xhttp.send(`project=${project}&createdBy=${createdBy}&assignedTo=${assignedTo}&status=${status}`)
   e.preventDefault()
 }
+
+// reset all filters
+filterReset.addEventListener("click", loadData)

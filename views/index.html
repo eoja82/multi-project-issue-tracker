@@ -59,10 +59,13 @@
           <option value="Closed">Closed</option>
         </select>
       </div>
+      <div class="filter col-md-auto col-lg-2">
+        <button id="filterReset" type="reset" class="btn btn-light btn-sm">Clear Filters</button>
+      </div>
     </div>
   </form>
-  <div id="projectsIssuesContainer">
-    <div id="issues"></div>
+  <div id="projectsIssuesContainer" class="container">
+    <div id="issues" class="row"></div>
   </div>
   <footer>
     <a href="/resetpassword" id="changePassword">Change Password</a>
