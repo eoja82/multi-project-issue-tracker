@@ -66,8 +66,11 @@ body {
 .pawRight {
   transform: translate(0, 3px) rotate(90deg);
 }
+#login {
+  margin-left: 6px;
+}
 #filterForm {
-  margin-top: 60px;
+  margin: 60px auto 8px;
 }
 #filtersRow {
   justify-content: space-evenly;
@@ -90,7 +93,7 @@ label {
   min-height: 100vh;
   margin-left: var(--projectsIssuesContainer-margin-left);
   padding-bottom: 2rem;
-  margin-top: 200px;
+  /* margin-top: 200px; */
 }
 #sortContainer {
   margin: 0 auto 1.5rem;
@@ -98,22 +101,6 @@ label {
   border-radius: 5px;
   background-color: rgb(40,40,40);
   box-shadow: 3px 3px 5px gray;
-}
-#newIssue {
-  width: 100%;
-  border: none;
-  margin: 0;
-  padding: 8px;
-  font-weight: 400;
-  font-size: .9rem;
-  border-radius: 0 0 5px 5px;
-  cursor: pointer;
-  color: white;
-  background-color: var(--button-color);
-  transition: .3s;
-}
-#newIssue:hover {
-  background-color: var(--button-color-hover);
 }
 #issuesTitle {
   color: rgb(31, 201, 88);
