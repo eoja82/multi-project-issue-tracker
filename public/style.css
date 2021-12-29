@@ -1,10 +1,4 @@
 :root {
-  /* --nav-position: fixed;
-  --nav-width: 100px;
-  --nav-text-align: inherit;
-  --nav-margin-top: 35px;
-  --nav-border-radius: 0 0 0 8px;
-  --nav-border-left: 1px solid rgb(31, 201, 88); */
   --title-font-size: 2rem;
   --projectsIssuesContainer-margin-left: var(--projectListContainer-width);
   --projectsTitle-margin: 1.2rem auto;
@@ -36,11 +30,6 @@
 }
 @media only screen and (max-width: 440px) {
   :root {
-    /* --nav-width: 100%;
-    --nav-position: relative;
-    --nav-text-align: center;
-    --nav-border-radius: 0;
-    --nav-border-left: none; */
     --title-font-size: 1.5rem;
     --issuesTitle-padding: .2rem 0;
     --modalContent-width: 90%;
@@ -89,7 +78,6 @@ label {
   min-height: 100vh;
   margin-left: var(--projectsIssuesContainer-margin-left);
   padding-bottom: 2rem;
-  /* margin-top: 200px; */
 }
 #issuesTitle {
   color: rgb(31, 201, 88);
