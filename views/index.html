@@ -6,8 +6,8 @@
   <title>Project Issue Tracker</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
   <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./public/style.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <link rel="stylesheet" href="./public/style.css">
 </head>
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
@@ -21,6 +21,48 @@
       <button id="login" class="btn btn-outline-light">Log In</button>
     </div>
   </nav>
+  <div class="container" id="filters">
+    <div class="row">
+      <div class="filter col-md-auto col-lg-2">
+        <label for="selectProject" class="text-light">Project</label>
+        <select id="selectProject" class="form-select form-select-sm" aria-label="Default select example">
+          <option selected>Open this select menu</option>
+          <option value="1">One</option>
+          <option value="2">Two</option>
+          <option value="3">Three</option>
+        </select>
+      </div>
+      <div class="filter col-md-auto col-lg-2">
+        <label for="filterCreatedBy" class="text-light">Created By</label>
+        <select name="filterCreatedBy" id="filterCreatedBy" class="form-select form-select-sm" aria-label="Default select example">
+          Text in select
+        </select>
+      </div>
+      <div class="filter col-md-auto col-lg-2">
+        <label for="filterAssignedTo" class="text-light">Assigned To</label>
+        <select name="filterAssignedTo" id="filterAssignedTo" class="form-select form-select-sm" aria-label="">
+        </select>
+      </div>
+      <div class="filter col-md-auto col-lg-2">
+        <label for="sortDateCreated" class="text-light">Sort</label>
+        <select name="sortDateCreated" id="sortDateCreated" class="form-select form-select-sm" aria-label="">
+          <option value="by date" selected disabled>By Date</option>
+          <option value="createdOldest">Created Oldest</option>
+          <option value="createdNewest">Created Newest</option>
+          <option value="updatedOldest">Updated Oldest</option>
+          <option value="updayedNewest">Updated Newest</option>
+        </select>
+      </div>
+      <div class="filter col-md-auto col-lg-2">
+        <label for="filterStatus" class="text-light">Status</label>
+        <select name="filterStatus" id="filterStatus" class="form-select form-select-sm" aria-label="">
+          <option value="All" selected>All</option>
+          <option value="Open">Open</option>
+          <option value="Closed">Closed</option>
+        </select>
+      </div>
+    </div>
+  </div>
   <div id="projectsListContainer">
     <h2 id="projectsTitle">Projects <i class="fas fa-chevron-down projectsArrow"></i></h2>
     <ul id="projectsList"></ul>
@@ -29,7 +71,7 @@
     <h2 id="issuesTitle">Issues Bootstrap</h2>
     <div id="sortContainer">
       <form id=filterForm>
-        <div class="filter">
+        <!-- <div class="filter">
           <label for="filterCreatedBy">Created By</label>
           <div class="selectContainer">
             <select name="filterCreatedBy" id="filterCreatedBy" class="issueFilter">
@@ -37,16 +79,16 @@
             </select>
             <i class="fas fa-chevron-down selectArrow"></i>
           </div>
-        </div>
-        <div class="filter">
+        </div> -->
+        <!-- <div class="filter">
           <label for="filterAssignedTo">Assigned To</label>
           <div class="selectContainer">
             <select name="filterAssignedTo" id="filterAssignedTo" class="issueFilter">
             </select>
             <i class="fas fa-chevron-down selectArrow"></i>
           </div>
-        </div>
-        <div class="filter">
+        </div> -->
+        <!-- <div class="filter">
           <label for="sortDateCreated">Date</label>
           <div class="selectContainer">
             <select name="sortDateCreated" id="sortDateCreated">
@@ -58,8 +100,8 @@
             </select>
             <i class="fas fa-chevron-down selectArrow"></i>
           </div>
-        </div>
-        <div class="filter">
+        </div> -->
+        <!-- <div class="filter">
           <label for="filterStatus">Status</label>
           <div class="selectContainer">
             <select name="filterStatus" id="filterStatus" class="issueFilter">
@@ -69,7 +111,7 @@
             </select>
             <i class="fas fa-chevron-down selectArrow"></i>
           </div>
-        </div>
+        </div> -->
       </form>
       <button id="newIssue">New Issue</button>
     </div>
