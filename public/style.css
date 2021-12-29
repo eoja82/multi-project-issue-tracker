@@ -6,18 +6,11 @@
   --nav-border-radius: 0 0 0 8px;
   --nav-border-left: 1px solid rgb(31, 201, 88);
   --title-font-size: 2rem;
-  --projectListContainer-width: 200px;
-  --projectsListContainer-height: 100vh;
-  --projectsListContainer-position: fixed;
-  --projectName-font-size: 1.2rem;
   --projectsIssuesContainer-margin-left: var(--projectListContainer-width);
   --projectsTitle-margin: 1.2rem auto;
   --projectsTitle-padding: 0;
   --projectsTitle-border-bottom: none;
   --projectsArrow-display: none;
-  --projectList-visability: visible;
-  --projectsList-height: auto;
-  --projectsList-border-bottom: none;
   --sortContainer-width: 1000px;
   --filter-flex-basis: calc(25% - 16px);
   --issue-width: 200px;
@@ -38,8 +31,6 @@
 }
 @media only screen and (max-width: 840px) {
   :root {
-    --projectListContainer-width: 180px;
-    --projectName-font-size: 1rem;
     --issue-width: 180px;
     --sortContainer-width: 250px;
     --filter-flex-basis: calc(100% - 16px);
@@ -54,20 +45,6 @@
     --nav-border-radius: 0;
     --nav-border-left: none;
     --title-font-size: 1.5rem;
-    --projectListContainer-width: 100%;
-    --projectsListContainer-height: auto;
-    --projectsListContainer-position: relative;
-    --projectList-visability: hidden;
-    --projectsList-height: 0;
-    --projectsList-border-bottom: 1px solid rgb(31,201,88);
-    --projectsIssuesContainer-margin-top: 0;
-    --projectsIssuesContainer-margin-left: 0;
-    --projectsTitle-margin: 0 auto;
-    --projectsTitle-padding: .2rem 0;
-    --projectsTitle-border-bottom: 1px solid rgb(31, 201, 88);
-    --projectsArrow-display: inline;
-    --projectList-visability: hidden;
-    --projectsList-height: 0;
     --issuesTitle-padding: .2rem 0;
     --modalContent-width: 90%;
     --modalHeader-font-size: 1.1rem;
@@ -89,8 +66,11 @@ body {
 .pawRight {
   transform: translate(0, 3px) rotate(90deg);
 }
-#filters {
+#filterForm {
   margin-top: 60px;
+}
+#filtersRow {
+  justify-content: space-evenly;
 }
 label {
   margin-bottom: 0;
@@ -101,59 +81,9 @@ label {
   display: flex;
   flex-direction: column;
 }
-#projectsTitle, #issuesTitle {
+#issuesTitle {
   text-align: center;
   font-size: var(--title-font-size);
-}
-#projectsListContainer {
-  background-color: rgb(40, 40, 40);
-  color: rgb(190, 190, 190);
-  width: var(--projectListContainer-width);
-  height: var(--projectsListContainer-height);
-  position: var(--projectsListContainer-position);
-  top: 200px;
-  left: 0;
-  overflow-x: hidden;
-}
-#projectsTitle {
-  color: rgb(31, 201, 88);
-  margin: var(--projectsTitle-margin);
-  padding: var(--projectsTitle-padding);
-  border-bottom: var(--projectsTitle-border-bottom);
-  position: relative;
-}
-.projectsArrow {
-  display: none;
-  color: rgb(190, 190, 190);
-  font-size: 1.5rem;
-  position: absolute;
-  right: 15px;
-  top: 5px;
-}
-#projectsList {
-  padding: 0;
-  text-align: center;
-  margin: 0;
-  visibility: var(--projectList-visability);
-  height: var(--projectsList-height);
-  border-bottom: var(--projectsList-border-bottom);
-  transition: .4s;
-}
-.projectName {
-  font-weight: 300;
-  list-style-type: none;
-  padding: .3rem 0;
-  margin: .25rem 1rem;
-  transition: .2s;
-  width: auto;
-  font-size: var(--projectName-font-size);
-}
-.projectName:hover {
-  cursor: pointer;
-  color: rgb(31, 201, 88);
-}
-.projectActive {
-  color: rgb(31, 201, 88);
 }
 #projectsIssuesContainer {
   background-color: rgb(227, 227, 227);
@@ -169,53 +99,6 @@ label {
   background-color: rgb(40,40,40);
   box-shadow: 3px 3px 5px gray;
 }
-#filterForm {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  width: 100%;
-  margin: 0 auto;
-  justify-content: center;
-}
-/* .filter {
-  flex-basis: var(--filter-flex-basis);
-  padding: 6px 8px 10px 8px;
-  color: rgb(190, 190, 190);
-  display: flex;
-  flex-direction: column;
-} */
-/* label {
-  margin-bottom: 0;
-  font-size: smaller;
-  text-align: left;
-}
-.selectContainer {
-  position: relative;
-  background-color: rgb(227, 227, 227);
-  color: black;
-} */
-/* select {
-  cursor: pointer;
-  line-height: 1;
-  font-weight: 400;
-  font-size: 1rem;
-  position: relative;
-  width: 100%;
-  -moz-appearance: none;
-	-webkit-appearance: none;
-	appearance: none;
-  margin: 0;
-  padding: 3px;
-  border-radius: 0;
-  z-index: 1;
-  background-color: transparent;
-  outline: none;
-}
-.selectArrow {
-  position: absolute;
-  top: 5px;
-  right: 9px;
-} */
 #newIssue {
   width: 100%;
   border: none;
