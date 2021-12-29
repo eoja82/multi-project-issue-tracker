@@ -1,6 +1,6 @@
 let loggedIn
 const login = document.getElementById("login")
-const projectsList = document.getElementById("projectsList")
+const filterProject = document.getElementById("filterProject")
 const filterCreatedBy = document.getElementById("filterCreatedBy")
 const filterAssignedTo = document.getElementById("filterAssignedTo")
 const issues = document.getElementById("issues")
@@ -11,13 +11,14 @@ addEventListener("DOMContentLoaded", loadData)
 
 async function loadData() {
   // need to remove element children if any so lists don't append onto existing element children
-  const listsToReset = [filterCreatedBy, filterAssignedTo, projectsList]
+  const listsToReset = [filterCreatedBy, filterAssignedTo, filterProject]
   listsToReset.forEach( x => {
     while (x.firstElementChild) x.firstElementChild.remove()
   })
 
   await loadPageData()
   pageLoaded()
+  filterProject.selectedIndex = 0
   filterCreatedBy.selectedIndex = 0
   filterAssignedTo.selectedIndex = 0
   filterStatus.selectedIndex = 0
@@ -49,6 +50,7 @@ function loadPageData() {
         let createdBy = []
         let assignedTo = []
         let listOfProjects = []
+
         pageData.forEach ( x => {
           listOfProjects.push(x.project)
           x.issues.forEach( y => {
@@ -56,23 +58,21 @@ function loadPageData() {
             if (assignedTo.indexOf(y.assignedTo) < 0) assignedTo.push(y.assignedTo)
           })
         })
+
         listOfProjects.sort( (a, b) => a > b)
         listOfProjects.unshift("All")
-        createdBy.unshift("All")
-        assignedTo.unshift("All")
         listOfProjects.forEach( x => {
-          let li = document.createElement("li")
-          li.textContent = x
-          li.className = "projectName"
-          if (x == "All") li.classList.add("projectActive")
-          projectsList.appendChild(li)
+          let option = createOption(x)
+          filterProject.appendChild(option)
         })
-        
+
+        createdBy.unshift("All")
         createdBy.forEach( x => {
           let option = createOption(x)
           filterCreatedBy.appendChild(option)
         })
 
+        assignedTo.unshift("All")
         assignedTo.forEach( x => {
           if (x == "") x = "Nobody"
           let option = createOption(x)
@@ -94,13 +94,7 @@ function loadPageData() {
 }
 
 // page should now be loaded and can query DOM elements
-function pageLoaded() {
-  // filter issues by project name
-  const projects = document.querySelectorAll(".projectName")
-  projects.forEach( x => {
-    x.addEventListener("click", filterByProjectName)
-  })
-  
+function pageLoaded() {  
   // add event listener to update / delete button
   const updateDelete = document.querySelectorAll(".updateDelete")
   updateDelete.forEach( x => x.addEventListener("click", displayModal))
@@ -241,37 +235,6 @@ function deleteIssue(e) {
   e.preventDefault()
 }
 
-// filters project issues by project
-function filterByProjectName(e) {
-  const projectNames = document.querySelectorAll(".projectName")
-  projectNames.forEach( x => {
-    x.classList.remove("projectActive")
-  })
-  e.target.classList.add("projectActive")
-
-  const sortIndex = document.getElementById("sortDateCreated").options.selectedIndex
-
-  let xhttp = new XMLHttpRequest()
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status >= 400) {
-      alert(this.response)
-    } 
-    if (this.readyState == 4 && this.status == 200) {
-      let res = JSON.parse(this.response)
-      let allIssues = createIssuesHTML(res)
-      issues.innerHTML = allIssues
-      // if previously sorted by date sort by date again
-      if (sortIndex > 0) sortByDate(sortIndex)
-      pageLoaded()
-      document.getElementById("filterCreatedBy").selectedIndex = 0
-      document.getElementById("filterAssignedTo").selectedIndex = 0
-      document.getElementById("filterStatus").selectedIndex = 0
-    }
-  }
-  xhttp.open("GET", `/projects/${e.target.innerHTML}`, true)
-  xhttp.send()
-}
-
 // creates the HTML for the issues
 function createIssuesHTML(res) {
   let allIssues = []
@@ -349,16 +312,16 @@ function sortByDate(e) {
   })
 }
 
-// filter by user created, user assigned to, and status
+// filter by project, user created, user assigned to, and status
 const filterForm = document.getElementById("filterForm")
 filterForm.addEventListener("change", filterIssues)
 
 function filterIssues(e) {
   const sortIndex = document.getElementById("sortDateCreated").options.selectedIndex
-  const project = document.querySelector(".projectActive").innerHTML
-  const createdBy = document.getElementById("filterCreatedBy").selectedOptions[0].value
-  const assignedTo = document.getElementById("filterAssignedTo").selectedOptions[0].value
-  const status = document.getElementById("filterStatus").selectedOptions[0].value
+  const project = filterProject.selectedOptions[0].value
+  const createdBy = filterCreatedBy.selectedOptions[0].value
+  const assignedTo = filterAssignedTo.selectedOptions[0].value
+  const status = filterStatus.selectedOptions[0].value
 
   let xhttp = new XMLHttpRequest()
   xhttp.onreadystatechange = function() {
@@ -380,55 +343,3 @@ function filterIssues(e) {
   xhttp.send(`project=${project}&createdBy=${createdBy}&assignedTo=${assignedTo}&status=${status}`)
   e.preventDefault()
 }
-
-// projects drop down list for small screen 
-const projectsArrow = document.querySelector(".projectsArrow")
-const projectsTitle = document.getElementById("projectsTitle")
-let width = window.innerWidth
-
-addEventListener("resize", resetWidth)
-// for mobile firefox and chrome
-addEventListener("orientationchange", resetWidth)
-
-function resetWidth() {
-  width = window.innerWidth
-  if (width <= 440) {
-    projectsArrow.style.display = "inline"
-    projectsArrow.classList.replace("fa-chevron-up", "fa-chevron-down")
-    projectsList.style.visibility = "hidden"
-    projectsList.style.height = "0"
-    projectsTitle.addEventListener("click", displayProjectsList)
-  } else {
-    projectsArrow.style.display = "none"
-    projectsList.style.visibility = "visible"
-    projectsList.style.height = "auto"
-    projectsTitle.removeEventListener("click", displayProjectsList)
-  } 
-}
-
-resetWidth()
-
-function displayProjectsList() {
-  const projectNames = document.querySelectorAll(".projectName")
-  projectsList.style.visibility = "visible"
-  projectsList.style.height = "300px"
-  projectsArrow.classList.replace("fa-chevron-down", "fa-chevron-up")
-  projectsTitle.removeEventListener("click", displayProjectsList)
-  projectsTitle.addEventListener("click", closeProjectsList)
-  projectNames.forEach( x => {
-    x.addEventListener("click", closeProjectsList)
-  })
-}
-
-function closeProjectsList() {
-  const projectNames = document.querySelectorAll(".projectName")
-  projectsList.style.visibility = "hidden"
-  projectsList.style.height = "0"
-  projectsArrow.classList.replace("fa-chevron-up", "fa-chevron-down")
-  projectsTitle.removeEventListener("click", closeProjectsList)
-  projectNames.forEach( x => {
-    x.removeEventListener("click", closeProjectsList)
-  })
-  projectsTitle.addEventListener("click", displayProjectsList)
-}
-
