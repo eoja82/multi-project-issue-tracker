@@ -74,8 +74,12 @@ label {
 .issue {
   background-color: rgb(245, 245, 245);
   padding: 0;
+  border: none;
 }
-.closed {
+.issue h5 {
+  background-color: rgb(31, 201, 88);
+}
+.closed, .closed h5 {
   background-color: rgb(167, 167, 167);
 }
 .card-footer {
