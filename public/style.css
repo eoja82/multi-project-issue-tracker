@@ -1,10 +1,8 @@
 :root {
   --title-font-size: 2rem;
-  --projectsIssuesContainer-margin-left: var(--projectListContainer-width);
   --projectsTitle-margin: 1.2rem auto;
   --projectsTitle-padding: 0;
   --projectsTitle-border-bottom: none;
-  --projectsArrow-display: none;
   --filter-flex-basis: calc(25% - 16px);
   --issue-width: 200px;
   --issuesTitle-padding: 1.25rem 0;
@@ -73,63 +71,19 @@ label {
 #filterReset {
   margin-top: 20px;
 }
-#projectsIssuesContainer {
-  background-color: rgb(227, 227, 227);
-  min-height: 100vh;
-  margin-left: var(--projectsIssuesContainer-margin-left);
-  padding-bottom: 2rem;
-}
-#issuesTitle {
-  color: rgb(31, 201, 88);
-  margin: 0 auto 1.2rem;
-  padding: var(--issuesTitle-padding);
-  background-color: rgb(40, 40, 40);
-}
-.updateDelete {
-  cursor: pointer;
-  display: flex;
-  min-width: 180px;
-  margin: 0 auto 1rem;
-  padding: .3rem .5rem;
-  justify-content: center;
-  color: white;
-  font-size: .9rem;
-  border: 2px solid var(--button-color);
-  border-radius: calc(31.1px / 2);
-  background-color: var(--button-color);
-  transition: .3s;
-}
-.updateDelete:hover {
-  background-color: var(--button-color-hover);
-  border: 2px solid var(--button-color-hover);
-}
-#issues {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  width: 95%;
-  margin: 0 auto;
-  justify-content: space-evenly;
-}
 .issue {
-  background-color: rgb(31, 201, 88);
-  padding: 1.5rem;
-  width: var(--issue-width);
-  margin: .25rem;
-  border-radius: 5px;
-  box-shadow: 3px 3px 5px gray;
-}
-.issue h3 {
-  text-align: center;
-}
-.issue h5 {
-  margin-bottom: .2rem;
-}
-.issue p {
-  margin-top: 0;
+  background-color: rgb(245, 245, 245);
+  padding: 0;
 }
 .closed {
   background-color: rgb(167, 167, 167);
+}
+.card-footer {
+  display: flex;
+  justify-content: space-evenly;
+}
+.btn-primary, .btn-danger {
+  min-width: 75px;
 }
 
 /* modal styling */
