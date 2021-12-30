@@ -51,7 +51,7 @@
           <option value="updayedNewest">Updated Newest</option>
         </select>
       </div>
-      <div class="filter col-md-auto col-lg-2">
+      <div class="filter col-md-auto col-lg-auto">
         <label for="filterStatus" class="text-light">Status</label>
         <select name="filterStatus" id="filterStatus" class="form-select form-select-sm" aria-label="">
           <option value="All" selected>All</option>
@@ -59,13 +59,13 @@
           <option value="Closed">Closed</option>
         </select>
       </div>
-      <div class="filter col-md-auto col-lg-2">
+      <div class="filter col-md-auto col-lg-auto">
         <button id="filterReset" type="reset" class="btn btn-light btn-sm">Clear Filters</button>
       </div>
     </div>
   </form>
   <div id="projectsIssuesContainer" class="container">
-    <div id="issues" class="row"></div>
+    <div id="issues" class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4"></div>
   </div>
   <footer>
     <a href="/resetpassword" id="changePassword">Change Password</a>
@@ -120,7 +120,7 @@
     <div class="modalContent">
       <span class="close">&times</span>
       <div class="modalHeader">
-        <h3>Login</h3>
+        <h3>Log In</h3>
       </div>
       <form id="loginForm">
           <input type="text" name="username" placeholder="Username" required>
