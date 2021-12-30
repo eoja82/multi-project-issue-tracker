@@ -244,7 +244,7 @@ function createIssuesHTML(res) {
     x.issues.forEach( y => {
       let status = y.open ? "Open" : "Closed"
       let statusClass = y.open ? "" : "closed"
-      issues.push(`<div class="issue ${statusClass}">
+      /* issues.push(`<div class="issue ${statusClass}">
                     <h3>${x.project}</h3>
                     <h5>Issue:</h5>
                     <p>${y.issue}</p>
@@ -261,6 +261,31 @@ function createIssuesHTML(res) {
                     <h5>Issue Id:</h5>
                     <p>${y._id}</p>
                     <button class="updateDelete">Update / Delete</button>
+                  </div>`) */
+      issues.push(`<div class="col">
+                    <div class="issue ${statusClass} card h-100">
+                      <h5 class="card-header">${x.project}</h5>
+                      <div class="card-body">
+                        <h6 class="card-title">Issue</h6>
+                        <p class="card-text">${y.issue}</p>
+                        <h6 class="card-title">Created By</h6>
+                        <p class="card-text">${y.createdBy}</p>
+                        <h6 class="card-title">Assigned To</h6>
+                        <p class="card-text">${y.assignedTo}</p>
+                        <h6 class="card-title">Date Created</h6>
+                        <p class="card-text">${y.date}</p>
+                        <h6 class="card-title">Last Updated</h6>
+                        <p class="card-text">${y.lastUpdated}</p>
+                        <h6 class="card-title">Status</h6>
+                        <p class="card-text">${status}</p>
+                        <h6 class="card-title">Issue Id</h6>
+                        <p class="card-text">${y._id}</p>
+                      </div>
+                      <div class="card-footer">
+                        <button class="btn btn-primary">Update</button>
+                        <button class="btn btn-danger">Delete</button>
+                      </div>
+                    </div>
                   </div>`)
     })
     allIssues.push(issues.join(""))
@@ -273,8 +298,10 @@ const sortDateCreated = document.getElementById("sortDateCreated")
 sortDateCreated.addEventListener("change", sortByDate)
 
 function sortByDate(e) {
+  //console.log(e.target)
   let issues = document.getElementById("issues")
   const issuesToSort = document.querySelectorAll(".issue")
+  //console.log(issuesToSort[0].childNodes)
   let selected = typeof e == "number" ? e : e.target.options.selectedIndex
   let sortBy = selected <= 2 ? "dateCreated" : "dateUpdated"
   let dates = []
