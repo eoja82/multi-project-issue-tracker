@@ -244,26 +244,8 @@ function createIssuesHTML(res) {
     x.issues.forEach( y => {
       let status = y.open ? "Open" : "Closed"
       let statusClass = y.open ? "" : "closed"
-      /* issues.push(`<div class="issue ${statusClass}">
-                    <h3>${x.project}</h3>
-                    <h5>Issue:</h5>
-                    <p>${y.issue}</p>
-                    <h5>Created by:</h5>
-                    <p>${y.createdBy}</p>
-                    <h5>Assigned To:</h5>
-                    <p>${y.assignedTo}</p>
-                    <h5>Date Created:</h5>
-                    <p>${y.date}</p>
-                    <h5>Last Updated:</h5>
-                    <p>${y.lastUpdated}</p>
-                    <h5>Status:</h5>
-                    <p>${status}</p>
-                    <h5>Issue Id:</h5>
-                    <p>${y._id}</p>
-                    <button class="updateDelete">Update / Delete</button>
-                  </div>`) */
-      issues.push(`<div class="col">
-                    <div class="issue ${statusClass} card h-100">
+      issues.push(`<div class="col issue">
+                    <div class="issueCard ${statusClass} card h-100">
                       <h5 class="card-header">${x.project}</h5>
                       <div class="card-body">
                         <h6 class="card-title">Issue</h6>
@@ -294,23 +276,22 @@ function createIssuesHTML(res) {
 }
 
 // sort issues
-const sortDateCreated = document.getElementById("sortDateCreated")
+/* const sortDateCreated = document.getElementById("sortDateCreated") */
 sortDateCreated.addEventListener("change", sortByDate)
 
 function sortByDate(e) {
-  //console.log(e.target)
   let issues = document.getElementById("issues")
   const issuesToSort = document.querySelectorAll(".issue")
-  //console.log(issuesToSort[0].childNodes)
   let selected = typeof e == "number" ? e : e.target.options.selectedIndex
   let sortBy = selected <= 2 ? "dateCreated" : "dateUpdated"
   let dates = []
   let sortedIssues = []
 
   issuesToSort.forEach( x => {
-    // if the schema of the issue is changed this line needs to change also
-    if (sortBy == "dateCreated") dates.push(x.childNodes[17].innerHTML)
-    if (sortBy == "dateUpdated") dates.push(x.childNodes[21].innerHTML)
+    // if the schema or HTML for the issue is changed these lines needs to change
+    // and in the for loop populating sortedIssues
+    if (sortBy == "dateCreated") dates.push(x.childNodes[1].childNodes[3].children[7].innerHTML)
+    if (sortBy == "dateUpdated") dates.push(x.childNodes[1].childNodes[3].children[9].innerHTML)
   })
  
   if (selected == 1 || selected == 3) dates.sort( (a, b) => new Date(a) - new Date(b))
@@ -323,12 +304,12 @@ function sortByDate(e) {
   for (let i = 0; i < dates.length; i++) {
     issuesToSort.forEach( x => {
       if (sortBy == "dateCreated") {
-        if (x.childNodes[17].innerHTML == dates[i]) {
+        if (x.childNodes[1].childNodes[3].children[7].innerHTML == dates[i]) {
           sortedIssues.push(x)
         }
       }
       if (sortBy == "dateUpdated") {
-        if (x.childNodes[21].innerHTML == dates[i]) {
+        if (x.childNodes[1].childNodes[3].children[9].innerHTML == dates[i]) {
           sortedIssues.push(x)
         }
       }
@@ -373,4 +354,11 @@ function filterIssues(e) {
 }
 
 // reset all filters
-filterReset.addEventListener("click", loadData)
+filterReset.addEventListener("click", () => {
+  filterProject.selectedIndex = 0
+  filterCreatedBy.selectedIndex = 0
+  filterAssignedTo.selectedIndex = 0
+  filterStatus.selectedIndex = 0
+  sortDateCreated.selectedIndex = 0
+  filterIssues()
+})
