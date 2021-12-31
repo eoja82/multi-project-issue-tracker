@@ -40,7 +40,6 @@ body {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  background-color: black;
   font-family: "Roboto", Arial, Helvetica, sans-serif;
   font-weight: 300;
 }
@@ -54,7 +53,7 @@ body {
   margin-left: 6px;
 }
 #filterForm {
-  margin: 60px auto 8px;
+  margin: 80px auto 0;
 }
 #filtersRow {
   justify-content: space-evenly;
@@ -71,6 +70,10 @@ label {
 #filterReset {
   margin-top: 20px;
 }
+#projectsIssuesContainer {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
 .issue {
   background-color: rgb(245, 245, 245);
   padding: 0;
@@ -79,12 +82,13 @@ label {
 .issue h5 {
   background-color: rgb(31, 201, 88);
 }
-.closed, .closed h5 {
-  background-color: rgb(167, 167, 167);
+.closed, .closed h5, .closed .card-footer {
+  background-color: rgb(200, 200, 200);
 }
 .card-footer {
   display: flex;
   justify-content: space-evenly;
+  background-color: rgb(245, 245, 245);
 }
 .btn-primary, .btn-danger {
   min-width: 75px;
@@ -230,7 +234,6 @@ footer {
   color: rgb(190, 190, 190);
   text-align: center;
   padding: 2rem 0;
-  margin-left: var(--projectsIssuesContainer-margin-left);
 }
 footer a {
   color: rgb(190, 190, 190);
