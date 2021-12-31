@@ -74,12 +74,12 @@ label {
   margin-top: 2rem;
   margin-bottom: 2rem;
 }
-.issue {
+.issueCard{
   background-color: rgb(245, 245, 245);
   padding: 0;
   border: none;
 }
-.issue h5 {
+.issueCard h5 {
   background-color: rgb(31, 201, 88);
 }
 .closed, .closed h5, .closed .card-footer {
