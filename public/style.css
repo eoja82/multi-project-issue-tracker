@@ -80,10 +80,10 @@ label {
   border: none;
 }
 .issueCard h5 {
-  background-color: rgb(31, 201, 88);
+  background-color: rgb(0, 193, 252);
 }
 .closed, .closed h5, .closed .card-footer {
-  background-color: rgb(200, 200, 200);
+  background-color: rgb(210, 210, 210);
 }
 .card-footer {
   display: flex;
