@@ -103,21 +103,21 @@ function pageLoaded() {
   // add event listener to log in and log out, set button text
   const newIssueForm = document.getElementById("newIssueForm")
   const createNewIssueNotAllowed = document.getElementById("createNewIssue")
-  const modifyIssueForm = document.getElementById("modifyIssueForm")
-  const modifyIssueNotAllowed = document.getElementById("modifyIssue")
+  const updateIssueForm = document.getElementById("updateIssueForm")
+  const updateIssueSubmit = document.getElementById("updateIssueSubmit")
   const deleteIssueForm = document.getElementById("deleteIssueForm")
   const deleteIssueNotAllowed = document.getElementById("deleteIssue")
   if (loggedIn) {
     login.innerHTML = "Log Out"
     login.addEventListener("click", logoutUser)
     newIssueForm.addEventListener("submit", addNewIssue)
-    modifyIssueForm.addEventListener("submit", modifyIssue)
+    updateIssueForm.addEventListener("submit", updateIssue)
     deleteIssueForm.addEventListener("submit", deleteIssue)
   } else {
     login.innerHTML = "Log In"
     login.addEventListener("click", displayModal)
     createNewIssueNotAllowed.addEventListener("click", notAllowed)
-    modifyIssueNotAllowed.addEventListener("click", notAllowed)
+    updateIssueSubmit.addEventListener("click", notAllowed)
     deleteIssueNotAllowed.addEventListener("click", notAllowed)
   }
 }
@@ -193,9 +193,15 @@ function addNewIssue(e) {
 }
 
 // update an issue
-function modifyIssue(e) {
-  const data = e.target.children
-
+function updateIssue(e) {
+  const data = e.target.children[1].childNodes
+  const project = data[1].childNodes[3].value.trim()
+  const issue = data[3].childNodes[3].value.trim()
+  const createdBy = data[5].childNodes[3].value.trim()
+  const assignedTo = data[7].childNodes[3].value.trim()
+  const id = data[9].childNodes[3].value
+  const closed = data[11].childNodes[1].checked
+  
   let xhttp = new XMLHttpRequest()
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status >= 400) {
@@ -203,14 +209,14 @@ function modifyIssue(e) {
       console.log("Error updating issue.")
     } 
     if (this.readyState == 4 && this.status == 200) {
-      modifyModal.style.display = "none"
+      document.getElementById("closeUpdate").click()
       alert(this.response)
       loadData()
     }
   }
   xhttp.open("PUT", "/create-or-modify-issue", true)
-  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xhttp.send(`project=${data[0].value.trim()}&issue=${data[1].value}&createdBy=${data[2].value.trim()}&assignedTo=${data[3].value.trim()}&id=${data[4].value}&close=${data[5].firstElementChild.checked}`)
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
+  xhttp.send(`project=${project}&issue=${issue}&createdBy=${createdBy}&assignedTo=${assignedTo}&id=${id}&close=${closed}`)
   e.preventDefault()
 }
 
