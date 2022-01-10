@@ -192,6 +192,27 @@ function addNewIssue(e) {
   e.preventDefault()
 }
 
+// populate update issue modal
+const updateModal = document.getElementById("updateModal")
+updateModal.addEventListener("show.bs.modal", populateUpdateInputs)
+
+function populateUpdateInputs(e) {
+  const data = e.relatedTarget.offsetParent.childNodes,
+        project = data[1].innerText,
+        issue = data[3].childNodes[3].innerText,
+        createdBy = data[3].childNodes[7].innerText,
+        assignedTo = data[3].childNodes[11].innerText,
+        id = data[3].childNodes[27].innerText,
+        closed = data[3].childNodes[23].innerText === "Closed" ? true : false
+
+  document.getElementById("updateProject").value = project
+  document.getElementById("updateIssue").value = issue
+  document.getElementById("updateCreatedBy").value = createdBy
+  document.getElementById("updateAssignedTo").value = assignedTo
+  document.getElementById("updateId").value = id
+  document.getElementById("updateClose").checked = closed
+}
+
 // update an issue
 function updateIssue(e) {
   const data = e.target.children[1].childNodes
@@ -224,7 +245,7 @@ function updateIssue(e) {
 function deleteIssue(e) {
   const data = e.target.children
 
-  let xhttp = new XMLHttpRequest()
+  /* let xhttp = new XMLHttpRequest()
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status >= 400) {
       alert(this.response)
@@ -238,7 +259,7 @@ function deleteIssue(e) {
   }
   xhttp.open("DELETE", "/create-or-modify-issue", true)
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xhttp.send(`project=${data[0].value}&issueId=${data[1].value}`)
+  xhttp.send(`project=${data[0].value}&issueId=${data[1].value}`) */
   e.preventDefault()
 }
 
@@ -270,7 +291,8 @@ function createIssuesHTML(res) {
                         <p class="card-text">${y._id}</p>
                       </div>
                       <div class="card-footer">
-                        <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#updateModal" updateDelete" type="button">Update / Delete</button>
+                        <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#updateModal" type="button">Update</button>
+                        <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#deleteModal" type="button">Delete</button>
                       </div>
                     </div>
                   </div>`)
@@ -367,25 +389,3 @@ filterReset.addEventListener("click", () => {
   sortDateCreated.selectedIndex = 0
   filterIssues()
 })
-
-// update issue modal
-const updateModal = document.getElementById("updateModal")
-updateModal.addEventListener("show.bs.modal", populateInputs)
-
-function populateInputs(e) {
-  const data = e.relatedTarget.offsetParent.childNodes,
-        project = data[1].innerText,
-        issue = data[3].childNodes[3].innerText,
-        createdBy = data[3].childNodes[7].innerText,
-        assignedTo = data[3].childNodes[11].innerText,
-        id = data[3].childNodes[27].innerText,
-        closed = data[3].childNodes[23].innerText === "Closed" ? true : false
-  //console.log(data)
-  //console.log(project, issue, createdBy, assignedTo, status)
-  document.getElementById("updateProject").value = project
-  document.getElementById("updateIssue").value = issue
-  document.getElementById("updateCreatedBy").value = createdBy
-  document.getElementById("updateAssignedTo").value = assignedTo
-  document.getElementById("updateId").value = id
-  document.getElementById("updateClose").checked = closed
-}
