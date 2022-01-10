@@ -264,8 +264,7 @@ function createIssuesHTML(res) {
                         <p class="card-text">${y._id}</p>
                       </div>
                       <div class="card-footer">
-                        <button class="btn btn-primary">Update</button>
-                        <button class="btn btn-danger">Delete</button>
+                        <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#updateModal" updateDelete" type="button">Update / Delete</button>
                       </div>
                     </div>
                   </div>`)
@@ -362,3 +361,25 @@ filterReset.addEventListener("click", () => {
   sortDateCreated.selectedIndex = 0
   filterIssues()
 })
+
+// update issue modal
+const updateModal = document.getElementById("updateModal")
+updateModal.addEventListener("show.bs.modal", populateInputs)
+
+function populateInputs(e) {
+  const data = e.relatedTarget.offsetParent.childNodes,
+        project = data[1].innerText,
+        issue = data[3].childNodes[3].innerText,
+        createdBy = data[3].childNodes[7].innerText,
+        assignedTo = data[3].childNodes[11].innerText,
+        id = data[3].childNodes[27].innerText,
+        closed = data[3].childNodes[23].innerText === "Closed" ? true : false
+  //console.log(data)
+  //console.log(project, issue, createdBy, assignedTo, status)
+  document.getElementById("updateProject").value = project
+  document.getElementById("updateIssue").value = issue
+  document.getElementById("updateCreatedBy").value = createdBy
+  document.getElementById("updateAssignedTo").value = assignedTo
+  document.getElementById("updateId").value = id
+  document.getElementById("updateClose").checked = closed
+}
