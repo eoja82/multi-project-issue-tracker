@@ -93,47 +93,68 @@
     </div>
   </div>
 
-  <!-- bootstrap update modal -->
-<div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable">
-    <form class="modal-content" id="updateIssueForm">
-      <div class="modal-header" id="updateModalHeader">
-        <h5 class="modal-title" id="updateModalLabel">Update Issue</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="mb-3">
-          <label for="updateProject" class="form-label">Project</label>
-          <input type="text" class="form-control" id="updateProject" required aria-required="true">
+  <!-- update modal -->
+  <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+      <form class="modal-content" id="updateIssueForm">
+        <div class="modal-header" id="updateModalHeader">
+          <h5 class="modal-title" id="updateModalLabel">Update Issue</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="mb-3">
-          <label for="updateIssue" class="form-label">Issue</label>
-          <textarea class="form-control" id="updateIssue" rows="3" required aria-required="true"></textarea>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="updateProject" class="form-label">Project</label>
+            <input type="text" class="form-control" id="updateProject" required aria-required="true">
+          </div>
+          <div class="mb-3">
+            <label for="updateIssue" class="form-label">Issue</label>
+            <textarea class="form-control" id="updateIssue" rows="3" required aria-required="true"></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="updateCreatedBy" class="form-label">Created By</label>
+            <input type="text" class="form-control" id="updateCreatedBy" required aria-required="true">
+          </div>
+          <div class="mb-3">
+            <label for="updateAssignedTo" class="form-label">Assigned To</label>
+            <input type="text" class="form-control" id="updateAssignedTo">
+          </div>
+          <div class="mb-3">
+            <label for="updateId" class="form-label">Issue Id</label>
+            <input type="text" class="form-control" id="updateId" disabled aria-disabled="true">
+          </div>
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" name="" id="updateClose">
+            <label for="" class="form-check-label">Close Issue</label>
+          </div>
         </div>
-        <div class="mb-3">
-          <label for="updateCreatedBy" class="form-label">Created By</label>
-          <input type="text" class="form-control" id="updateCreatedBy" required aria-required="true">
+        <div class="modal-footer">
+          <button type="button" id="closeUpdate" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button id="updateIssueSubmit" type="submit" class="btn btn-primary">Save Changes</button>
         </div>
-        <div class="mb-3">
-          <label for="updateAssignedTo" class="form-label">Assigned To</label>
-          <input type="text" class="form-control" id="updateAssignedTo">
-        </div>
-        <div class="mb-3">
-          <label for="updateId" class="form-label">Issue Id</label>
-          <input type="text" class="form-control" id="updateId" disabled aria-disabled="true">
-        </div>
-        <div class="form-check">
-          <input type="checkbox" class="form-check-input" name="" id="updateClose">
-          <label for="" class="form-check-label">Close Issue</label>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" id="closeUpdate" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-        <button id="updateIssueSubmit" type="submit" class="btn btn-primary">Save Changes</button>
-      </div>
-    </form>
+      </form>
+    </div>
   </div>
-</div>
+
+  <!-- delete modal -->
+  <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+      <form class="modal-content" id="deleteIssueForm">
+        <div class="modal-header bg-danger" id="deleteModalHeader">
+          <h5 class="modal-title" id="deleteModalLabel">Delete Issue</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p id="deleteMessage"></p>
+          <input id="deleteProject" type="text" hidden class="deleteInput" name="project">
+          <input id="deleteId" type="text" hidden class="deleteInput" name="id">
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="closeDelete" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button id="deleteIssueSubmit" type="submit" class="btn btn-danger">Delete Issue</button>
+        </div>
+      </form>
+    </div>
+  </div>
 
   <!-- update or delete modal -->
   <div id="modifyModal">
