@@ -156,32 +156,6 @@
     </div>
   </div>
 
-  <!-- update or delete modal -->
-  <div id="modifyModal">
-    <div class="modalContent">
-      <span class="close">&times</span>
-      <div class="modalHeader">
-        <h3>Update Or Delete An Issue</h3>
-      </div>
-      <form id="modifyIssueForm">
-        <input type="text" name="project" placeholder="Project" class="modifyInput">
-        <input type="text" name="issue" placeholder="Issue" class="modifyInput">
-        <input type="text" name="createdBy" placeholder="Created By" class="modifyInput">
-        <input type="text" name="assignedTo" placeholder="Assigned To" class="modifyInput">
-        <input type="text" name="id" placeholder="Issue Id" class="modifyInput" required disabled>
-        <label for="close">Close Issue 
-          <input type="checkbox" name="close" id="closeIssue">
-        </label>
-        <input id="modifyIssue" name="update" type="submit" value="Update Issue">
-      </form>
-      <form id="deleteIssueForm">
-        <input type="text" hidden class="deleteInput" name="project">
-        <input type="text" hidden class="deleteInput" name="id">
-        <input id="deleteIssue" type="submit" name="delete" value="Delete Issue">
-      </form>
-    </div>
-  </div>
-
   <!-- login modal -->
   <div id="loginModal">
     <div class="modalContent">
