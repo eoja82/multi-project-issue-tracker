@@ -241,25 +241,45 @@ function updateIssue(e) {
   e.preventDefault()
 }
 
+// populate delete modal inputs and message
+const deleteModal = document.getElementById("deleteModal")
+deleteModal.addEventListener("show.bs.modal", populateDeleteInputs)
+
+function populateDeleteInputs(e) {
+  const deleteProject = document.getElementById("deleteProject")
+  const deleteId = document.getElementById("deleteId")
+  const deleteMessage = document.getElementById("deleteMessage")
+  const data = e.relatedTarget.offsetParent.childNodes[3].childNodes
+  const project = data[1].parentElement.previousElementSibling.innerText
+  const id = data[27].innerHTML
+  const message = `You are about to delete an issue for ${project} with id: ${id}.`
+  
+  deleteProject.value = project
+  deleteId.value = id
+  deleteMessage.innerText = message
+}
+
 // delete an issue
 function deleteIssue(e) {
-  const data = e.target.children
-
-  /* let xhttp = new XMLHttpRequest()
+  const data = e.target.childNodes[3].childNodes
+  const project = data[3].value
+  const id = data[5].value
+  
+  let xhttp = new XMLHttpRequest()
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status >= 400) {
       alert(this.response)
       console.log("error updating issue")
     } 
     if (this.readyState == 4 && this.status == 200) {
-      modifyModal.style.display = "none"
+      document.getElementById("closeDelete").click()
       alert(this.response)
       loadData()
     }
   }
   xhttp.open("DELETE", "/create-or-modify-issue", true)
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xhttp.send(`project=${data[0].value}&issueId=${data[1].value}`) */
+  xhttp.send(`project=${project}&issueId=${id}`)
   e.preventDefault()
 }
 
@@ -303,7 +323,6 @@ function createIssuesHTML(res) {
 }
 
 // sort issues
-/* const sortDateCreated = document.getElementById("sortDateCreated") */
 sortDateCreated.addEventListener("change", sortByDate)
 
 function sortByDate(e) {
@@ -377,7 +396,7 @@ function filterIssues(e) {
   xhttp.open("POST", "/issues/filter", true)
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhttp.send(`project=${project}&createdBy=${createdBy}&assignedTo=${assignedTo}&status=${status}`)
-  e.preventDefault()
+  if (e) e.preventDefault()
 }
 
 // reset all filters
