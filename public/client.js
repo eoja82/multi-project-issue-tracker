@@ -106,7 +106,7 @@ function pageLoaded() {
   const updateIssueForm = document.getElementById("updateIssueForm")
   const updateIssueSubmit = document.getElementById("updateIssueSubmit")
   const deleteIssueForm = document.getElementById("deleteIssueForm")
-  const deleteIssueNotAllowed = document.getElementById("deleteIssue")
+  const deleteIssueNotAllowed = document.getElementById("deleteIssueSubmit")
   if (loggedIn) {
     login.innerHTML = "Log Out"
     login.addEventListener("click", logoutUser)
