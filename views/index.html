@@ -22,7 +22,7 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarButtons">
-        <button id="newIssue" class="btn btn-outline-light">New Issue</button>
+        <button id="newIssue" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#newIssueModal">New Issue</button>
         <button id="login" class="btn btn-outline-light">Log In</button>
       </div>
     </div>
@@ -76,19 +76,36 @@
     <p>&#169; 2021 Erik Oja.  All rights reserved.</p>
   </footer>
 
-  <!-- create a new issue modal -->
-  <div id="newIssueModal">
-    <div class="modalContent">
-      <span class="close">&times</span>
-      <div class="modalHeader">
-        <h3>Create A New Issue</h3>
-      </div>
-      <form id="newIssueForm">
-          <input type="text" name="project" placeholder="Project" required>
-          <input type="text" name="issue" placeholder="Issue" required>
-          <input type="text" name="createdBy" placeholder="Created By" required>
-          <input type="text" name="assignedTo" placeholder="Assigned To">
-          <input id="createNewIssue" type="submit" value="Create Issue">
+  <!-- new issue modal -->
+  <div id="newIssueModal" class="modal fade">
+    <div class="modal-dialog modal-dialog-scrollable">
+      <form class="modal-content">
+        <div class="modal-header" id="newIssueModalHeader">
+          <h5 class="modal-title" id="newIssueModalLabel">New Issue</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="newProject" class="form-label">Project</label>
+            <input id="newProject" class="form-control" type="text" name="project" required aria-required="true">
+          </div>
+          <div class="mb-3">
+            <label for="newIssue" class="form-label">Issue</label>
+            <textarea id="newIssue" class="form-control" rows="3" type="text" name="issue" required aria-required="true"></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="newCreatedBy" class="form-label">Created By</label>
+            <input id="newCreatedBy" class="form-control" type="text" name="createdBy" required aria-required="true">
+          </div>
+          <div class="mb-3">
+            <label for="newAssignedTo" class="form-label">Assigned To</label>
+            <input id="newAssignedTo" class="form-control" type="text" name="assignedTo">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="closeUpdate" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button id="newIssueSubmit" type="submit" class="btn btn-primary">Save</button>
+        </div>
       </form>
     </div>
   </div>
