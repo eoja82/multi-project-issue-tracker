@@ -5,6 +5,14 @@ body {
   font-family: "Roboto", Arial, Helvetica, sans-serif;
   font-weight: 300;
 }
+.navbar-brand {
+  font-size: 1.5rem;
+}
+@media only screen and (max-width: 440px) {
+  .navbar-brand {
+    font-size: 1.25rem;
+  }
+}
 .pawLeft {
   transform: translate(0, -3px) rotate(90deg);
 }
@@ -17,26 +25,11 @@ body {
 #loginButton {
   display: none;
 }
-#filterForm {
-  margin: 80px auto 0;
-}
-#filtersRow {
-  justify-content: space-evenly;
+#filterButtonContainer {
+  margin-top: 6px;
 }
 #navbarButtons {
   justify-content: end;
-}
-label {
-  margin-bottom: 0;
-  font-size: smaller;
-  text-align: left;
-}
-.filter {
-  display: flex;
-  flex-direction: column;
-}
-#filterReset {
-  margin-top: 20px;
 }
 #projectsIssuesContainer {
   margin-top: 2rem;
@@ -61,7 +54,10 @@ label {
 .btn-primary, .btn-danger {
   min-width: 75px;
 }
-#loginModalHeader, #updateModalHeader, #newIssueModalHeader {
+#filterFormHeader,
+#loginModalHeader, 
+#updateModalHeader, 
+#newIssueModalHeader {
   background-color: rgb(0, 193, 252);
 }
 #deleteModalHeader {
