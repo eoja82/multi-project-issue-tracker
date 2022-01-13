@@ -200,13 +200,13 @@ const updateModal = document.getElementById("updateModal")
 updateModal.addEventListener("show.bs.modal", populateUpdateInputs)
 
 function populateUpdateInputs(e) {
-  const data = e.relatedTarget.offsetParent.childNodes,
-        project = data[1].innerText,
-        issue = data[3].childNodes[3].innerText,
-        createdBy = data[3].childNodes[7].innerText,
-        assignedTo = data[3].childNodes[11].innerText,
-        id = data[3].childNodes[27].innerText,
-        closed = data[3].childNodes[23].innerText === "Closed" ? true : false
+  const data = e.relatedTarget.offsetParent.childNodes
+  const project = data[1].innerText
+  const issue = data[3].childNodes[3].innerText
+  const createdBy = data[3].childNodes[7].innerText
+  const assignedTo = data[3].childNodes[11].innerText
+  const id = data[3].childNodes[27].innerText
+  const closed = data[3].childNodes[23].innerText === "Closed" ? true : false
 
   document.getElementById("updateProject").value = project
   document.getElementById("updateIssue").value = issue
