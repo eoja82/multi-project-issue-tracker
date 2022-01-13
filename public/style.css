@@ -1,41 +1,3 @@
-:root {
-  --title-font-size: 2rem;
-  --projectsTitle-margin: 1.2rem auto;
-  --projectsTitle-padding: 0;
-  --projectsTitle-border-bottom: none;
-  --filter-flex-basis: calc(25% - 16px);
-  --issue-width: 200px;
-  --issuesTitle-padding: 1.25rem 0;
-  --button-color: rgb(50, 110, 255);
-  --button-color-hover: rgb(16, 98, 206);
-  --modal-padding-top: 100px;
-  --modalContent-width: 80%;
-  --modalHeader-font-size: 1.6rem;
-  --input-text-password-font-size: 1rem;
-  --input-submit-font-size: 1.2rem;
-}
-@media only screen and (max-width: 1220px) {
-  :root {
-    --filter-flex-basis: calc(50% - 16px);
-  }
-}
-@media only screen and (max-width: 840px) {
-  :root {
-    --issue-width: 180px;
-    --filter-flex-basis: calc(100% - 16px);
-    --modal-padding-top: 10px;
-  }
-}
-@media only screen and (max-width: 440px) {
-  :root {
-    --title-font-size: 1.5rem;
-    --issuesTitle-padding: .2rem 0;
-    --modalContent-width: 90%;
-    --modalHeader-font-size: 1.1rem;
-    --input-text-password-font-size: .8rem;
-    --input-submit-font-size: .9rem;
-  }
-}
 body {
   box-sizing: border-box;
   margin: 0;
@@ -49,14 +11,20 @@ body {
 .pawRight {
   transform: translate(0, 3px) rotate(90deg);
 }
-#login {
+#loginButton, #logoutButton {
   margin-left: 6px;
+}
+#loginButton {
+  display: none;
 }
 #filterForm {
   margin: 80px auto 0;
 }
 #filtersRow {
   justify-content: space-evenly;
+}
+#navbarButtons {
+  justify-content: end;
 }
 label {
   margin-bottom: 0;
@@ -93,110 +61,13 @@ label {
 .btn-primary, .btn-danger {
   min-width: 75px;
 }
-
-/* modal styling */
-#newIssueModal, #modifyModal, #loginModal {
-  display: none;
-  position: fixed;
-  z-index: 100;
-  padding-top: var(--modal-padding-top);
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto; /* scroll if needed */
-  background-color: rgb(0, 0, 0, .4);
-  color: rgb(190, 190, 190);
-}
-.modalContent {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  background-color: rgb(40, 40, 40);
-  text-align: center;
-  margin: auto;
-  padding: 0;
-  width: var(--modalContent-width);
-  border: 1px solid black;
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
-  animation-name: animatetop;
-  animation-duration: .4s;
-}
-@keyframes animatetop {
-  from {top: -300px; opacity: 0}
-  to {top: 0; opacity: 1}
-}
-#newIssueForm, #modifyIssueForm, #loginForm {
-  display: flex;
-  flex-direction: column;
-  max-width: 100%;
-  margin: 0 auto;
-  align-items: center;
-}
-.close {
-  position: absolute;
-  top: 0;
-  right: .5rem;
-  color: rgb(190, 190, 190);
-  font-size: 28px;
-  font-weight: bold;
-}
-.close:hover {
-  cursor: pointer;
-}
-.modalHeader h3 {
-  font-size: var(--modalHeader-font-size);
-  margin: 2rem 0 1rem 0;
-}
-input[type=text], input[type=password] {
-  width: 250px;
-  height: 2rem;
-  font-size: var(--input-text-password-font-size);
-  color: whitesmoke;
-  background-color: rgb(40, 40, 40);
-  border: none;
-  border-radius: 0;
-  border-bottom: 1px solid rgb(31, 201, 88);
-  margin-top: .7rem;
-  padding-left: .4rem;
-  outline: none;
-}
-input[type=text]:focus, input[type=password]:focus {
-  border-bottom: 1px solid rgb(0, 193, 252);
-}
-input[type=submit] {
-  width: 250px;
-  height: 30px;
-  margin: .75rem 0 1.1rem;
-  font-size: var(--input-submit-font-size);
-  background-color: rgb(31, 201, 88);
-  border: 2px solid rgb(31, 201, 88);
-  border-radius: 15px;
-  transition: .3s;
-  /* below so background color correct on mobile */
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-}
-input[type=submit]:hover, input[type=submit]:focus {
-  cursor: pointer;
+#loginModalHeader, #updateModalHeader, #newIssueModalHeader {
   background-color: rgb(0, 193, 252);
-  border: 2px solid rgb(0, 193, 252);
 }
-#createNewIssue {
-  margin-bottom: 2rem;
+#deleteModalHeader {
+  color: white;
 }
-#deleteIssue {
-  color: rgb(220, 53, 69);
-  background-color: transparent;
-  border: 2px solid rgb(220, 53, 69);
-  margin: 0 0 2rem 0;
-}
-#deleteIssue:hover {
-  color: rgb(190, 190, 190);
-  background-color: rgb(220, 53, 69);
-}
+
 #resetPassword {
   cursor: pointer;
   color: rgb(31, 201, 88);
