@@ -100,7 +100,10 @@ function pageLoaded() {
   const updateDelete = document.querySelectorAll(".updateDelete")
   updateDelete.forEach( x => x.addEventListener("click", displayModal))
 
-  // add event listener to log in and log out, set button text
+  // add event listeners to update and delete forms for logged in vs logged out
+  // show and hide log in and log out buttons add event listener to log out
+  const loginButton = document.getElementById("loginButton")
+  const logoutButton = document.getElementById("logoutButton")
   const newIssueForm = document.getElementById("newIssueForm")
   const newIssueSubmit = document.getElementById("newIssueSubmit")
   const updateIssueForm = document.getElementById("updateIssueForm")
@@ -108,14 +111,15 @@ function pageLoaded() {
   const deleteIssueForm = document.getElementById("deleteIssueForm")
   const deleteIssueNotAllowed = document.getElementById("deleteIssueSubmit")
   if (loggedIn) {
-    login.innerHTML = "Log Out"
-    login.addEventListener("click", logoutUser)
+    loginButton.style.display = "none"
+    logoutButton.style.display = "block"
+    logoutButton.addEventListener("click", logoutUser)
     newIssueForm.addEventListener("submit", addNewIssue)
     updateIssueForm.addEventListener("submit", updateIssue)
     deleteIssueForm.addEventListener("submit", deleteIssue)
   } else {
-    login.innerHTML = "Log In"
-    login.addEventListener("click", displayModal)
+    loginButton.style.display = "block"
+    logoutButton.style.display = "none"
     newIssueSubmit.addEventListener("click", notAllowed)
     updateIssueSubmit.addEventListener("click", notAllowed)
     deleteIssueNotAllowed.addEventListener("click", notAllowed)
@@ -131,8 +135,8 @@ const loginForm = document.getElementById("loginForm")
 loginForm.addEventListener("submit", loginUser, true)
 
 function loginUser(e) {
-  const username = e.target.elements[0].value
-  const password = e.target.elements[1].value
+  const username = document.getElementById("loginUsername").value
+  const password = document.getElementById("loginPassword").value
   const xhttp = new XMLHttpRequest()
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status >= 400) {
@@ -218,13 +222,12 @@ function populateUpdateInputs(e) {
 
 // update an issue
 function updateIssue(e) {
-  const data = e.target.children[1].childNodes
-  const project = data[1].childNodes[3].value.trim()
-  const issue = data[3].childNodes[3].value.trim()
-  const createdBy = data[5].childNodes[3].value.trim()
-  const assignedTo = data[7].childNodes[3].value.trim()
-  const id = data[9].childNodes[3].value
-  const closed = data[11].childNodes[1].checked
+  const project = document.getElementById("updateProject").value.trim()
+  const issue = document.getElementById("updateIssue").value.trim()
+  const createdBy = document.getElementById("updateCreatedBy").value.trim()
+  const assignedTo = document.getElementById("updateAssignedTo").value.trim()
+  const id = document.getElementById("updateId").value
+  const closed = document.getElementById("updateClose").checked
   
   let xhttp = new XMLHttpRequest()
   xhttp.onreadystatechange = function() {
@@ -264,9 +267,8 @@ function populateDeleteInputs(e) {
 
 // delete an issue
 function deleteIssue(e) {
-  const data = e.target.childNodes[3].childNodes
-  const project = data[3].value
-  const id = data[5].value
+  const project = document.getElementById("deleteProject").value
+  const id = document.getElementById("deleteId").value
   
   let xhttp = new XMLHttpRequest()
   xhttp.onreadystatechange = function() {
