@@ -102,7 +102,7 @@ function pageLoaded() {
 
   // add event listener to log in and log out, set button text
   const newIssueForm = document.getElementById("newIssueForm")
-  const createNewIssueNotAllowed = document.getElementById("createNewIssue")
+  const newIssueSubmit = document.getElementById("newIssueSubmit")
   const updateIssueForm = document.getElementById("updateIssueForm")
   const updateIssueSubmit = document.getElementById("updateIssueSubmit")
   const deleteIssueForm = document.getElementById("deleteIssueForm")
@@ -116,7 +116,7 @@ function pageLoaded() {
   } else {
     login.innerHTML = "Log In"
     login.addEventListener("click", displayModal)
-    createNewIssueNotAllowed.addEventListener("click", notAllowed)
+    newIssueSubmit.addEventListener("click", notAllowed)
     updateIssueSubmit.addEventListener("click", notAllowed)
     deleteIssueNotAllowed.addEventListener("click", notAllowed)
   }
@@ -171,8 +171,11 @@ function logoutUser(e) {
 
 // create a new issue
 function addNewIssue(e) {
-  const data = e.target.children
-
+  const project = document.getElementById("newProject").value.trim()
+  const issue = document.getElementById("newIssue").value
+  const createdBy = document.getElementById("newCreatedBy").value.trim()
+  const assignedTo = document.getElementById("newAssignedTo").value.trim()
+  
   let xhttp = new XMLHttpRequest()
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status >= 400) {
@@ -180,15 +183,15 @@ function addNewIssue(e) {
       console.log("Error creating new issue.")
     } 
     if (this.readyState == 4 && this.status == 200) {
-      newIssueModal.style.display = "none"
+      newIssueForm.reset()
+      document.getElementById("closeNewIssue").click()
       alert(this.response)
       loadData()
-      newIssueForm.reset()
     }
   }
   xhttp.open("POST", "/create-or-modify-issue", true)
   xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xhttp.send(`project=${data[0].value.trim()}&issue=${data[1].value}&createdBy=${data[2].value.trim()}&assignedTo=${data[3].value.trim()}`)
+  xhttp.send(`project=${project}&issue=${issue}&createdBy=${createdBy}&assignedTo=${assignedTo}`)
   e.preventDefault()
 }
 
