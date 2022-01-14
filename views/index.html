@@ -10,64 +10,63 @@
   <link rel="stylesheet" href="./public/style.css">
 </head>
 <body class="bg-dark">
-  <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+  <nav class="navbar navbar-dark bg-dark">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">
+      <a class="navbar-brand" style="color: rgb(0, 193, 252)" href="#">
         <i class="fas fa-paw pawLeft"></i>
         <i class="fas fa-paw pawRight"></i>
         <i class="fas fa-paw pawLeft"></i>
         Issue Tracker
       </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarButtons" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarButtons">
-        <button id="newIssueButton" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#newIssueModal">New Issue</button>
+      <div id="navbarButtons">
         <button id="loginButton" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#loginModal">Log In</button>
         <button id="logoutButton" class="btn btn-outline-light">Log Out</button>
       </div>
     </div>
   </nav>
-  <form class="container" id="filterForm">
-    <div class="row" id="filtersRow">
-      <div class="filter col-md-auto col-lg-auto">
-        <label for="filterProject" class="text-light">Project</label>
+  <div id="filterAndSortContainer" class="container bg-dark">
+    <button id="filterMenuButton" class="btn btn-outline-light" type="button" data-bs-toggle="offcanvas" data-bs-target="#filters" aria-controls="filters"><i class="fas fa-bars"></i> Filter</button>
+    <button id="newIssueButton" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#newIssueModal">New Issue</button>
+    <select name="sortDateCreated" id="sortDateCreated" aria-label="">
+      <option value="by date" selected disabled>Sort</option>
+      <option value="createdOldest">Created Oldest</option>
+      <option value="createdNewest">Created Newest</option>
+      <option value="updatedOldest">Updated Oldest</option>
+      <option value="updayedNewest">Updated Newest</option>
+    </select>
+  </div>
+  <!-- offcanvas filters -->
+  <div id="filters" class="offcanvas offcanvas-start" tabindex="-1" aria-labelledby="filtersLabel">
+    <div class="offcanvas-header" id="filterFormHeader">
+      <h5 class="offcanvas-title" id="filtersLabel">Filter</h5>
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <form id="filterForm" class="offcanvas-body">
+      <div class="mb-3">
+        <label for="filterProject" class="form-label">Project</label>
         <select id="filterProject" class="form-select form-select-sm" aria-label="Default select example"></select>
       </div>
-      <div class="filter col-md-auto col-lg-auto">
-        <label for="filterCreatedBy" class="text-light">Created By</label>
-        <select name="filterCreatedBy" id="filterCreatedBy" class="form-select form-select-sm" aria-label="Default select example">
-          Text in select
-        </select>
+      <div class="mb-3">
+        <label for="filterCreatedBy" class="form-label">Created By</label>
+        <select name="filterCreatedBy" id="filterCreatedBy" class="form-select form-select-sm" aria-label="Default select example"></select>
       </div>
-      <div class="filter col-md-auto col-lg-auto">
-        <label for="filterAssignedTo" class="text-light">Assigned To</label>
-        <select name="filterAssignedTo" id="filterAssignedTo" class="form-select form-select-sm" aria-label="">
-        </select>
+      <div class="mb-3">
+        <label for="filterAssignedTo" class="form-label">Assigned To</label>
+        <select name="filterAssignedTo" id="filterAssignedTo" class="form-select form-select-sm" aria-label=""></select>
       </div>
-      <div class="filter col-md-auto col-lg-auto">
-        <label for="sortDateCreated" class="text-light">Sort</label>
-        <select name="sortDateCreated" id="sortDateCreated" class="form-select form-select-sm" aria-label="">
-          <option value="by date" selected disabled>By Date</option>
-          <option value="createdOldest">Created Oldest</option>
-          <option value="createdNewest">Created Newest</option>
-          <option value="updatedOldest">Updated Oldest</option>
-          <option value="updayedNewest">Updated Newest</option>
-        </select>
-      </div>
-      <div class="filter col-md-auto col-lg-auto">
-        <label for="filterStatus" class="text-light">Status</label>
+      <div class="mb-3">
+        <label for="filterStatus" class="form-label">Status</label>
         <select name="filterStatus" id="filterStatus" class="form-select form-select-sm" aria-label="">
           <option value="All" selected>All</option>
           <option value="Open">Open</option>
           <option value="Closed">Closed</option>
         </select>
       </div>
-      <div class="filter col-md-auto col-lg-auto">
-        <button id="filterReset" type="reset" class="btn btn-light btn-sm">Clear Filters</button>
+      <div class="mb-3">
+        <button id="filterReset" type="reset" class="btn btn-dark btn-sm">Clear Filters</button>
       </div>
-    </div>
-  </form>
+    </form>
+  </div>
 
   <div id="projectsIssuesContainer" class="container">
     <div id="issues" class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4"></div>
