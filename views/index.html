@@ -39,7 +39,7 @@
   <div id="filters" class="offcanvas offcanvas-start" tabindex="-1" aria-labelledby="filtersLabel">
     <div class="offcanvas-header" id="filterFormHeader">
       <h5 class="offcanvas-title" id="filtersLabel">Filter</h5>
-      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      <button type="button" id="closeFilters" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <form id="filterForm" class="offcanvas-body">
       <div class="mb-3">
@@ -63,6 +63,7 @@
         </select>
       </div>
       <div class="mb-3">
+        <button id="filterApply" type="submit" class="btn btn-dark btn-sm">Apply</button>
         <button id="filterReset" type="reset" class="btn btn-dark btn-sm">Clear Filters</button>
       </div>
     </form>

@@ -374,7 +374,7 @@ function sortByDate(e) {
 
 // filter by project, user created, user assigned to, and status
 const filterForm = document.getElementById("filterForm")
-filterForm.addEventListener("change", filterIssues)
+filterForm.addEventListener("submit", filterIssues)
 
 function filterIssues(e) {
   const sortIndex = document.getElementById("sortDateCreated").options.selectedIndex
@@ -387,9 +387,10 @@ function filterIssues(e) {
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status >= 400) {
       alert(this.response)
-      console.log("error updating issue")
+      console.log("error applying filters")
     } 
     if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("closeFilters").click()
       let res = JSON.parse(this.response)
       let allIssues = createIssuesHTML(res)
       issues.innerHTML = allIssues
