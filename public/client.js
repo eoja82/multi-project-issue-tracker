@@ -102,6 +102,7 @@ function pageLoaded() {
 
   // add event listeners to update and delete forms for logged in vs logged out
   // show and hide log in and log out buttons add event listener to log out
+  const accountDropdown = document.getElementById("accountDropdown")
   const loginButton = document.getElementById("loginButton")
   const logoutButton = document.getElementById("logoutButton")
   const newIssueForm = document.getElementById("newIssueForm")
@@ -112,14 +113,14 @@ function pageLoaded() {
   const deleteIssueNotAllowed = document.getElementById("deleteIssueSubmit")
   if (loggedIn) {
     loginButton.style.display = "none"
-    logoutButton.style.display = "block"
+    accountDropdown.style.display = "block"
     logoutButton.addEventListener("click", logoutUser)
     newIssueForm.addEventListener("submit", addNewIssue)
     updateIssueForm.addEventListener("submit", updateIssue)
     deleteIssueForm.addEventListener("submit", deleteIssue)
   } else {
     loginButton.style.display = "block"
-    logoutButton.style.display = "none"
+    accountDropdown.style.display = "none"
     newIssueSubmit.addEventListener("click", notAllowed)
     updateIssueSubmit.addEventListener("click", notAllowed)
     deleteIssueNotAllowed.addEventListener("click", notAllowed)
