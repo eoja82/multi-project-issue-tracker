@@ -87,13 +87,13 @@ function auth(app) {
           } else {
             if (user.passwordIsHash) {
               if (!bcrypt.compareSync(oldPassword, user.hash)) {
-                res.send("Old password is incorrect.")
+                res.send("Current password is incorrect.")
                 return
               }
             }
             if (!user.passwordIsHash) {
               if (oldPassword !== user.hash) {
-                res.send("Old password is incorrect.")
+                res.send("Current password is incorrect.")
                 return
               }
             }
