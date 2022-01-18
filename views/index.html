@@ -81,7 +81,6 @@
     <div id="issues" class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4"></div>
   </div>
   <footer>
-    <!-- <a href="/resetpassword" id="changePassword">Change Password</a> -->
     <p>&#169; 2021 Erik Oja.  All rights reserved.</p>
   </footer>
 
@@ -227,16 +226,17 @@
           </div>
           <div class="mb-3">
             <label for="newPassword" class="form-label">New Password</label>
-            <input type="password" id="newPassword" class="form-control" required aria-required="true">
+            <input type="password" id="newPassword" class="form-control newPassword" required aria-required="true">
           </div>
-          <div class="mb-3">
+          <div>
             <label for="confirmPassword" class="form-label">Confirm Password</label>
-            <input type="password" id="confirmPassword" class="form-control">
+            <input type="password" id="confirmPassword" class="form-control newPassword" required aria-required="true">
           </div>
+          <div id="noMatch">New password does not match.</div>
         </div>
         <div class="modal-footer">
-          <button type="button" id="closelogin" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          <button id="changePasswordSubmit" type="submit" class="btn btn-primary">Save</button>
+          <button type="button" id="closeChangePasssword" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button id="changePasswordSubmit" type="submit" class="btn btn-primary" disabled>Save</button>
         </div>
       </form>
     </div>

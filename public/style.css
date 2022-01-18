@@ -88,23 +88,27 @@ body {
 #filterFormHeader,
 #loginModalHeader, 
 #updateModalHeader, 
-#newIssueModalHeader {
+#newIssueModalHeader,
+#changePasswordModalHeader {
   background-color: rgb(0, 193, 252);
 }
 #deleteModalHeader {
   color: white;
 }
-
-#resetPassword {
+#noMatch {
+  color: red;
+  visibility: hidden;
+}
+/* #resetPassword {
   cursor: pointer;
   color: rgb(31, 201, 88);
   text-decoration: none;
   margin: 0 auto 2rem;
   width: auto;
-}
+} */
 
 /* change password */
-#changePasswordContainer {
+/* #changePasswordContainer {
   display: flex;
   flex-direction: column;
   margin: 0 auto;
@@ -126,7 +130,7 @@ body {
 #noMatch {
   color: red;
   width: 250px;
-}
+} */
 footer {
   background-color: rgb(40, 40, 40);
   color: rgb(190, 190, 190);
