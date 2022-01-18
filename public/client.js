@@ -174,6 +174,57 @@ function logoutUser(e) {
   e.preventDefault()
 }
 
+// change user password
+const noMatch = document.getElementById("noMatch")
+const changePasswordSubmit = document.getElementById("changePasswordSubmit")
+const newPassword = document.getElementById("newPassword")
+const confirmPassword = document.getElementById("confirmPassword")
+const newPasswords = document.querySelectorAll(".newPassword")
+newPasswords.forEach( x => x.addEventListener("input", checkNewPasswords))
+
+function checkNewPasswords(e) {
+  if (newPassword.value === confirmPassword.value) {
+    changePasswordSubmit.disabled = false
+    noMatch.style.visibility = "hidden"
+  } else {
+    changePasswordSubmit.disabled = true
+    noMatch.style.visibility = "visible"
+    noMatch.innerHTML = "New password does not match."
+  }
+}
+
+const changePasswordForm = document.getElementById("changePasswordForm")
+changePasswordForm.addEventListener("submit", changePassword)
+
+function changePassword(e) {
+  const noMatch = document.getElementById("noMatch")
+  const username = document.getElementById("changePasswordUsername").value
+  const currentPassword = document.getElementById("currentPassword").value
+  const newPassword = document.getElementById("newPassword").value
+  const confirmPassword = document.getElementById("confirmPassword").value
+  
+  let xhttp = new XMLHttpRequest()
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status >= 400) {
+      alert(this.response)
+      console.log("Error resetting password.")
+    } 
+    if (this.readyState == 4 && this.status == 200) {
+      console.log(this.response)
+      noMatch.style.visibility = "visible"
+      noMatch.innerHTML = this.response
+    }
+    if (this.readyState == 4 & this.status == 201) {
+      alert(this.response)
+      document.getElementById("closeChangePasssword").click()
+    }
+  }
+  xhttp.open("PUT", "/changepassword", true)
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send(`username=${username}&oldPassword=${currentPassword}&newPassword=${newPassword}&newPasswordAgain=${confirmPassword}`)
+  e.preventDefault()
+}
+
 // create a new issue
 function addNewIssue(e) {
   const project = document.getElementById("newProject").value.trim()
