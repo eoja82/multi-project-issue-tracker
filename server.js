@@ -12,7 +12,17 @@ const { MongoMemoryServer } = require("mongodb-memory-server")
 const app = express()
 app.use(bodyParser.urlencoded({ extended: true }))
 
-app.use(helmet())
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      useDefaults: true,
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"]
+      }
+    }
+  })
+)
 
 app.use("/public", express.static(process.cwd() + "/public")) 
 
