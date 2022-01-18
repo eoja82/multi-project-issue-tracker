@@ -54,6 +54,10 @@ body {
   right: 1.5rem;
   width: auto;
 }
+#projectsIssuesContainer {
+  margin-bottom: 2rem;
+  min-height: calc(100vh - 200px);
+}
 @media only screen and (max-width: 350px) {
   #filterAndSortContainer {
     flex-direction: column;
@@ -63,9 +67,9 @@ body {
     position: unset;
     right: unset;
   }
-}
-#projectsIssuesContainer {
-  margin-bottom: 2rem;
+  #projectsIssuesContainer {
+    min-height: calc(100vh - 260px);
+  }
 }
 .issueCard{
   background-color: rgb(245, 245, 245);
@@ -101,17 +105,9 @@ body {
   visibility: hidden;
 }
 footer {
-  background-color: rgb(40, 40, 40);
   color: rgb(190, 190, 190);
   text-align: center;
   padding: 2rem 0;
-}
-footer a {
-  color: rgb(190, 190, 190);
-  text-decoration: none;
-}
-footer a:hover {
-  color: rgb(31, 201, 88);
 }
 footer p {
   margin-bottom: 0;
