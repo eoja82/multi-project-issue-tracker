@@ -127,8 +127,9 @@ function pageLoaded() {
   }
 }
 
-function notAllowed() {
+function notAllowed(e) {
   alert("You must be logged in to create, update, or delele issues.")
+  e.preventDefault()
 }
 
 // login user
