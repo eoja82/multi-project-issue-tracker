@@ -142,7 +142,7 @@ if (process.env.TEST) {
           .end(function(err, res) {
             expect(err).to.not.be.an("error")
             expect(res.status).to.equal(200)
-            expect(res.text).to.equal("Old password is incorrect.")
+            expect(res.text).to.equal("Current password is incorrect.")
             done()
           })
       })
@@ -176,7 +176,7 @@ if (process.env.TEST) {
           .end(function(err, res) {
             expect(err).to.not.be.an("error")
             expect(res.status).to.equal(200)
-            expect(res.text).to.equal("Old password is incorrect.")
+            expect(res.text).to.equal("Current password is incorrect.")
             done()
           })
       })
