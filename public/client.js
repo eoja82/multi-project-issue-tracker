@@ -464,6 +464,5 @@ filterReset.addEventListener("click", () => {
   filterCreatedBy.selectedIndex = 0
   filterAssignedTo.selectedIndex = 0
   filterStatus.selectedIndex = 0
-  sortDateCreated.selectedIndex = 0
   filterIssues()
 })
