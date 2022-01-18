@@ -57,6 +57,7 @@ body {
 @media only screen and (max-width: 350px) {
   #filterAndSortContainer {
     flex-direction: column;
+    justify-content: start;
   }
   #sortDateCreated {
     position: unset;
@@ -99,38 +100,6 @@ body {
   color: red;
   visibility: hidden;
 }
-/* #resetPassword {
-  cursor: pointer;
-  color: rgb(31, 201, 88);
-  text-decoration: none;
-  margin: 0 auto 2rem;
-  width: auto;
-} */
-
-/* change password */
-/* #changePasswordContainer {
-  display: flex;
-  flex-direction: column;
-  margin: 0 auto;
-  max-width: 100%;
-  justify-content: center;
-  margin-top: 80px;
-}
-#passwordHeader {
-  text-align: center;
-  color: rgb(190, 190, 190);
-}
-#passwordChangeForm {
-  display: flex;
-  flex-direction: column;
-  max-width: 100%;
-  margin: 0 auto;
-  align-items: center;
-}
-#noMatch {
-  color: red;
-  width: 250px;
-} */
 footer {
   background-color: rgb(40, 40, 40);
   color: rgb(190, 190, 190);
