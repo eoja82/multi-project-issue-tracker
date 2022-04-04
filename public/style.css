@@ -90,6 +90,10 @@ body {
 .btn-primary, .btn-danger {
   min-width: 75px;
 }
+#loginMessage {
+  color: red;
+  margin: 0;
+}
 #filterFormHeader,
 #loginModalHeader, 
 #updateModalHeader, 
