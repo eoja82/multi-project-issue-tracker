@@ -25,12 +25,7 @@ function apiRoutes(app) {
       res.sendFile(process.cwd() + '/views/index.html')
     })
 
-  app.route("/resetpassword")
-    .get(function (req, res) {
-      res.sendFile(process.cwd() + "/views/resetpw.html")
-    })
-
-  // sends all issues data to render dynamicaly projects list and select tags options
+  // sends all issues data to render dynamically projects list and select tags options
   app.route("/pageData")
     .get(function (req, res) {
       Project.find({}, function(err, data) {
