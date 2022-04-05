@@ -141,15 +141,23 @@ function loginUser(e) {
   const password = document.getElementById("loginPassword").value
   const xhttp = new XMLHttpRequest()
   xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status >= 400) {
-      alert(this.response)
+    // response will be JSON object with one of the following:
+    // "message", redirect", or "changePasswordPrompt"
+    if (this.readyState == 4 && this.status >= 500) {
+      alert(JSON.parse(this.response))
       console.log("error logging in")
     } 
     if (this.readyState == 4 && this.status == 200) {
-      alert(this.response)
-    }
-    if (this.readyState == 4 && this.status == 201) {
-      location.assign(`${this.response}`)
+      const res = JSON.parse(this.response)
+      if (res.message) {
+        document.getElementById("loginMessage").innerText = res.message
+      } else if (res.redirect) {
+        location.assign(res.redirect)
+      } else if (res.changePasswordPrompt) {
+        document.getElementById("closelogin").click()
+        alert(res.changePasswordPrompt)
+        document.getElementById("changePasswordButton").click()
+      }
     }
   }
   xhttp.open("POST", "/login", true)
