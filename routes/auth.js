@@ -24,25 +24,26 @@ function auth(app) {
       const password = req.body.password
 
       Users.findOne({username: username}, function(err, user) {
+        // json response must be one of "message", "redirect", or "changePasswordPrompt"
+        // to be handled by client.js
         if (err) {
           console.log(err)
-          res.send(`Error locating username ${username}.`)
+          res.status(500).json({"message": `Error locating username ${username}.  Please try again.`})
         } else if (!user) {
-          res.send(`${username} is not a valid username.`)
+          res.json({"message": `${username} is not a valid username.`})
         } else if (user.promptPasswordChange) {
           if (user.hash === password) {
             console.log(`User ${username} needs to change their password.`)
-            res.status(201).send("/resetpassword")
+            res.json({"changePasswordPrompt": "You must change your password before logging in."})
           } else {
-            res.send("Incorrect password.")
+            res.json({"message": "Incorrect password."})
           }   
         } else if (user.passwordIsHash) {
           if (bcrypt.compareSync(password, user.hash)) {
             req.session.loggedIn = true
-            console.log(req.session._id)
-            res.status(201).send("/")
+            res.json({"redirect": "/"})
           } else {
-            res.send("Incorrect password.")
+            res.json({"message": "Incorrect password."})
           }
         }
       })
@@ -70,7 +71,7 @@ function auth(app) {
         const updates = {hash: hash, promptPasswordChange: false, passwordIsHash: true}
 
         if (oldPassword == newPassword) {
-          res.send("New password must be different from old password.")
+          res.send("New password must be different than old password.")
           return
         }
         if (newPassword !== newPasswordAgain) {
