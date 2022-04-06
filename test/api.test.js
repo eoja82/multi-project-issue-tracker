@@ -59,18 +59,6 @@ if (process.env.TEST) {
             })
         })
       })
-      describe("GET /resetpassword", function() {
-        it("should get HTML", function(done) {
-          requester
-            .get("/resetpassword")
-            .end(function(err, res) {
-              expect(err).to.not.be.an("error")
-              expect(res.status).to.equal(200)
-              expect(res).to.be.html
-              done()
-            })
-        })
-      })
       describe("GET /pageData", function() {
         it("should send page data", function(done) {
           requester
