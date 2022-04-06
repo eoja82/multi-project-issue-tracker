@@ -42,7 +42,8 @@ if (process.env.TEST) {
           .end(function(err, res) {
             expect(err).to.not.be.an("error")
             expect(res.status).to.equal(200)
-            expect(res.text).to.equal(`${notValid.username} is not a valid username.`)
+            expect(res).to.be.json
+            expect(res.text).to.equal(`{"message":"${notValid.username} is not a valid username."}`)
             done()
           })
       })
@@ -56,8 +57,9 @@ if (process.env.TEST) {
           })
           .end(function(err, res) {
             expect(err).to.not.be.an("error")
-            expect(res.status).to.equal(201)
-            expect(res.text).to.equal("/resetpassword")
+            expect(res.status).to.equal(200)
+            expect(res).to.be.json
+            expect(res.text).to.equal('{"changePasswordPrompt":"You must change your password before logging in."}')
             done()
           })
       })
@@ -72,7 +74,8 @@ if (process.env.TEST) {
           .end(function(err, res) {
             expect(err).to.not.be.an("error")
             expect(res.status).to.equal(200)
-            expect(res.text).to.equal("Incorrect password.")
+            expect(res).to.be.json
+            expect(res.text).to.equal('{"message":"Incorrect password."}')
             done()
           })
       })
@@ -91,7 +94,7 @@ if (process.env.TEST) {
           .end(function(err, res) {
             expect(err).to.not.be.an("error")
             expect(res.status).to.equal(200)
-            expect(res.text).to.equal("New password must be different from old password.")
+            expect(res.text).to.equal("New password must be different than old password.")
             done()
           })
       })
@@ -210,7 +213,8 @@ if (process.env.TEST) {
           .end(function(err, res) {
             expect(err).to.not.be.an("error")
             expect(res.status).to.equal(200)
-            expect(res.text).to.equal("Incorrect password.")
+            expect(res).to.be.json
+            expect(res.text).to.equal('{"message":"Incorrect password."}')
             done()
           })
       })
